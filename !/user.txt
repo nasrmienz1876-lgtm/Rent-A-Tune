@@ -43,3 +43,8 @@ Task:
 	- Make "Forgot username/password?" style to something else that the best
 	- Make "Admin Login" option under "Forgot User and Pass". Admin will only can login there.
 		- Make new page layout for admin to log in
+
+Task:
+- In login.html#login,
+	- Make "Admin Login" below center with the login
+	- Make "Forgot username/password?" like in the firebase authentication templates password reset

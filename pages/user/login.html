@@ -448,6 +448,7 @@ input:focus {
 .admin-link-wrapper {
     padding-top: 16px;
     border-top: 1px solid var(--surface-container-low);
+    text-align: center;
 }
 
 .admin-link {
@@ -478,6 +479,79 @@ input:focus {
     font-weight: 600;
     text-align: center;
     display: none;
+}
+
+/* Forgot Password Modal (styled after the Firebase Authentication password-reset template) */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 28, 48, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--surface-container-lowest);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    text-align: center;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--outline);
+}
+
+.modal-close:hover {
+    color: var(--on-surface);
+}
+
+.modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--surface-container-low);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.modal-title {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    margin-bottom: 24px;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
 }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet" />
@@ -582,7 +656,7 @@ input:focus {
                     </div>
 
                     <div class="admin-link-wrapper">
-                        <a class="admin-link" href="admin-login.html">
+                        <a class="admin-link" href="/pages/admin/admin-login.html">
                             <span class="material-symbols-outlined" style="font-size: 16px;">shield_person</span>
                             Admin Login
                         </a>
@@ -650,6 +724,42 @@ input:focus {
         </section>
 
     </main>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal-overlay" id="forgotModalOverlay">
+        <div class="modal-card">
+            <button type="button" class="modal-close" id="forgotModalCloseBtn" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <!-- Step 1: Request reset -->
+            <div id="forgotStepRequest">
+                <div class="modal-icon">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock_reset</span>
+                </div>
+                <h2 class="modal-title">Reset your password</h2>
+                <p class="modal-subtitle">Enter the username on your account and we'll email a password reset link to the address on file.</p>
+
+                <form class="modal-form" id="forgotForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input id="forgotUsernameInput" placeholder="ali123" required type="text" />
+                    </div>
+                    <button class="submit-btn" type="submit">Send reset email</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Confirmation -->
+            <div id="forgotStepDone" style="display:none;">
+                <div class="modal-icon">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mark_email_read</span>
+                </div>
+                <h2 class="modal-title">Check your email</h2>
+                <p class="modal-subtitle">If an account matches that username, we've sent password reset instructions to the email address on file. Follow the link in that email to choose a new password.</p>
+                <button class="submit-btn" type="button" id="forgotDoneBtn">Back to Login</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
@@ -839,20 +949,49 @@ input:focus {
             }
         });
 
-        /* ---------- Forgot password ---------- */
-        document.getElementById('forgotPasswordLink').addEventListener('click', async function (e) {
+        /* ---------- Forgot password modal ---------- */
+        const forgotModalOverlay = document.getElementById('forgotModalOverlay');
+        const forgotStepRequest = document.getElementById('forgotStepRequest');
+        const forgotStepDone = document.getElementById('forgotStepDone');
+        const forgotUsernameInput = document.getElementById('forgotUsernameInput');
+
+        function openForgotModal() {
+            forgotStepRequest.style.display = '';
+            forgotStepDone.style.display = 'none';
+            forgotUsernameInput.value = document.getElementById('loginUsername').value.trim();
+            forgotModalOverlay.classList.add('open');
+        }
+
+        function closeForgotModal() {
+            forgotModalOverlay.classList.remove('open');
+        }
+
+        document.getElementById('forgotPasswordLink').addEventListener('click', function (e) {
             e.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
-            if (!username) {
-                showToast('Enter your username above first, then click this link.');
-                return;
-            }
+            openForgotModal();
+        });
+
+        document.getElementById('forgotModalCloseBtn').addEventListener('click', closeForgotModal);
+        document.getElementById('forgotDoneBtn').addEventListener('click', closeForgotModal);
+        forgotModalOverlay.addEventListener('click', function (e) {
+            if (e.target === forgotModalOverlay) closeForgotModal();
+        });
+
+        document.getElementById('forgotForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = forgotUsernameInput.value.trim();
+            if (!username) return;
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.disabled = true;
             try {
                 await resetPassword(username);
-                showToast('If an account matches that username, a reset link has been sent.');
             } catch (err) {
-                showToast('If an account matches that username, a reset link has been sent.');
+                // Same confirmation regardless of outcome — mirrors Firebase's own reset flow,
+                // which never reveals whether a given account actually exists.
             }
+            submitBtn.disabled = false;
+            forgotStepRequest.style.display = 'none';
+            forgotStepDone.style.display = '';
         });
     </script>
 </body>
