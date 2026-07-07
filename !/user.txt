@@ -70,3 +70,11 @@ Task:
 	- Remove chat box
 	- Make bottom nav bar same as "home.html" style and layout
 	- Make file attachments for chat function
+
+Task:
+- In user folder:
+	- All the pages have "profile" on top nav bar at right
+	- Make changes to follow these scenario:
+		1. If user didn't Login, change the profile to button Login/SignUp
+		2. If user already Login, the profile will have at top nav bar
+			- Make the profile where user can click and view their profile details, edit some details, add profile photo, and etc

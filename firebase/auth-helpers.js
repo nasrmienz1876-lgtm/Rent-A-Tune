@@ -125,9 +125,10 @@ export function requireAuth(allowedRoles, redirectTo = '../user/login.html') {
 }
 
 /**
- * For public pages: swaps the header profile link between "go to login" (signed out)
- * and a small "name + logout" dropdown (signed in). Expects the profile <a> to have
- * the given id and to be reachable relative to the current page as 'login.html'.
+ * For public pages: swaps the header profile link between a "Login / Sign Up" button
+ * (signed out) and the user's avatar + a "view profile / logout" dropdown (signed in).
+ * Expects the profile <a> to have the given id and to be reachable relative to the
+ * current page as 'login.html' (and 'profile.html', for the "View Profile" option).
  */
 export function renderAuthNav(profileLinkId = 'profileLink') {
   const link = document.getElementById(profileLinkId);
@@ -136,20 +137,36 @@ export function renderAuthNav(profileLinkId = 'profileLink') {
   onAuthStateChanged(auth, async (user) => {
     const existingMenu = document.getElementById('profileMenu');
     if (existingMenu) existingMenu.remove();
+    link.innerHTML = '';
 
     if (!user) {
       link.setAttribute('href', 'login.html');
       link.onclick = null;
+      const loginBtn = document.createElement('span');
+      loginBtn.textContent = 'Login / Sign Up';
+      loginBtn.style.cssText = 'display:inline-block; padding:8px 16px; background-color:var(--primary); color:var(--on-primary, #ffffff); border-radius:8px; font-size:14px; font-weight:600; white-space:nowrap;';
+      link.appendChild(loginBtn);
       return;
     }
 
     let displayName = user.email;
+    let avatarUrl = '../../images/user_profile.jpg';
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
-      if (snap.exists()) displayName = snap.data().fullName || snap.data().username || displayName;
+      if (snap.exists()) {
+        const data = snap.data();
+        displayName = data.fullName || data.username || displayName;
+        if (data.avatarUrl) avatarUrl = data.avatarUrl;
+      }
     } catch (err) {
-      // keep email fallback
+      // keep defaults
     }
+
+    const img = document.createElement('img');
+    img.alt = 'Profile';
+    img.className = 'user-profile';
+    img.src = avatarUrl;
+    link.appendChild(img);
 
     link.removeAttribute('href');
     link.style.cursor = 'pointer';
@@ -170,15 +187,35 @@ function toggleProfileMenu(anchorEl, displayName) {
   const menu = document.createElement('div');
   menu.id = 'profileMenu';
   menu.style.cssText = 'position:absolute; right:0; top:calc(100% + 8px); min-width:180px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;';
-  menu.innerHTML =
-    '<p style="font-weight:600; font-size:14px; margin-bottom:8px; word-break:break-word;">' + displayName + '</p>' +
-    '<button type="button" id="profileMenuLogoutBtn" style="width:100%; text-align:left; background:none; border:none; cursor:pointer; color:var(--on-surface-variant); font-size:13px; padding:6px 0;">Logout</button>';
+
+  const nameEl = document.createElement('p');
+  nameEl.style.cssText = 'font-weight:600; font-size:14px; margin-bottom:8px; word-break:break-word;';
+  nameEl.textContent = displayName;
+  menu.appendChild(nameEl);
+
+  const viewProfileBtn = document.createElement('button');
+  viewProfileBtn.type = 'button';
+  viewProfileBtn.id = 'profileMenuViewBtn';
+  viewProfileBtn.textContent = 'View Profile';
+  viewProfileBtn.style.cssText = 'width:100%; text-align:left; background:none; border:none; cursor:pointer; color:var(--on-surface); font-size:13px; font-weight:600; padding:6px 0;';
+  menu.appendChild(viewProfileBtn);
+
+  const logoutBtn = document.createElement('button');
+  logoutBtn.type = 'button';
+  logoutBtn.id = 'profileMenuLogoutBtn';
+  logoutBtn.textContent = 'Logout';
+  logoutBtn.style.cssText = 'width:100%; text-align:left; background:none; border:none; cursor:pointer; color:var(--on-surface-variant); font-size:13px; padding:6px 0; margin-top:4px; border-top:1px solid var(--outline-variant);';
+  menu.appendChild(logoutBtn);
 
   const wrapper = anchorEl.parentElement;
   wrapper.style.position = 'relative';
   wrapper.appendChild(menu);
 
-  menu.querySelector('#profileMenuLogoutBtn').addEventListener('click', async () => {
+  viewProfileBtn.addEventListener('click', () => {
+    window.location.href = 'profile.html';
+  });
+
+  logoutBtn.addEventListener('click', async () => {
     await logOut();
     window.location.href = 'login.html';
   });
