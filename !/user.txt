@@ -36,3 +36,10 @@ Task:
     - Remove "Showing ... professional instruments" text
     - Make the Categories filters untick all when newly open the page
     - Make "Page 1 of 12" sync with the page that have. Means if only have 1 page then "Page 1 of 1" if 2 "Page 1 of 2". And when click right arrow will up one number and left the opposite
+
+Task:
+- In login.html#login:
+	- user | renter option is not function. Make it function like if someone name "John" is a "User", he can't log in if the "Renter" is selected
+	- Make "Forgot username/password?" style to something else that the best
+	- Make "Admin Login" option under "Forgot User and Pass". Admin will only can login there.
+		- Make new page layout for admin to log in

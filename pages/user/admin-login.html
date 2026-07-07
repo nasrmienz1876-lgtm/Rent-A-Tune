@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rent A Tune | Admin Login</title>
+    <style>
+:root {
+    --primary: #0040e0;
+    --primary-container: #2e5bff;
+    --secondary-fixed-dim: #ffba20;
+    --on-surface: #0b1c30;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #eff4ff;
+    --on-surface-variant: #434656;
+    --outline: #747688;
+    --outline-variant: #c4c5d9;
+    --error: #ba1a1a;
+
+    --font-display: 'Source Serif 4', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--on-surface);
+    line-height: 1.5;
+    min-height: 100vh;
+    background-color: var(--on-surface);
+    background-image: radial-gradient(circle at 20% 20%, rgba(46, 91, 255, 0.25), transparent 45%),
+                       radial-gradient(circle at 80% 80%, rgba(255, 186, 32, 0.12), transparent 45%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.portal-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--surface-container-lowest);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+}
+
+.portal-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.portal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--on-surface);
+    color: var(--secondary-fixed-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.portal-brand {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.portal-subtitle {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--outline);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.portal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--on-surface);
+    letter-spacing: 0.05em;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    font-family: var(--font-body);
+    font-size: 16px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: var(--on-surface);
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-message {
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--outline);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="portal-card">
+        <div class="portal-header">
+            <div class="portal-icon">
+                <span class="material-symbols-outlined" style="font-size: 28px; font-variation-settings: 'FILL' 1;">shield_person</span>
+            </div>
+            <div class="portal-brand">Rent A Tune</div>
+            <div class="portal-subtitle">Admin Portal</div>
+        </div>
+
+        <form action="#" class="portal-form" id="adminLoginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input id="adminUsername" placeholder="admin username" required type="text" />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input id="adminPassword" placeholder="••••••••" required type="password" />
+                    <button class="password-toggle" type="button" id="adminPasswordToggle">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="submit-btn" type="submit">Sign In to Admin</button>
+            <p class="form-message" id="adminFormMsg"></p>
+        </form>
+
+        <a class="back-link" href="login.html">&larr; Back to main login</a>
+    </div>
+
+    <script type="module">
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+        import { auth, db } from '../../firebase/firebase-init.js';
+        import { logIn, logOut, ROLE_HOME } from '../../firebase/auth-helpers.js';
+
+        function showToast(msg) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        /* ---------- Redirect away if already signed in (to whatever dashboard fits their role) ---------- */
+        let redirectHandled = false;
+        onAuthStateChanged(auth, async (user) => {
+            if (!user || redirectHandled) return;
+            redirectHandled = true;
+            try {
+                const snap = await getDoc(doc(db, 'users', user.uid));
+                const role = snap.exists() ? snap.data().role : 'user';
+                window.location.href = ROLE_HOME[role] || ROLE_HOME.user;
+            } catch (err) {
+                window.location.href = ROLE_HOME.user;
+            }
+        });
+
+        /* ---------- Password visibility toggle ---------- */
+        document.getElementById('adminPasswordToggle').addEventListener('click', function () {
+            const input = document.getElementById('adminPassword');
+            const icon = this.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        });
+
+        /* ---------- Admin login submission ---------- */
+        document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const msgEl = document.getElementById('adminFormMsg');
+            const submitBtn = this.querySelector('.submit-btn');
+            if (!username || !password) {
+                showToast('Please enter your username and password.');
+                return;
+            }
+            submitBtn.disabled = true;
+            redirectHandled = true;
+            try {
+                const { role } = await logIn(username, password);
+                if (role !== 'admin') {
+                    await logOut();
+                    redirectHandled = false;
+                    submitBtn.disabled = false;
+                    msgEl.style.color = 'var(--error)';
+                    msgEl.textContent = 'This account is not an administrator account.';
+                    msgEl.style.display = 'block';
+                    return;
+                }
+                msgEl.style.color = 'var(--primary)';
+                msgEl.textContent = 'Welcome back. Redirecting to the admin dashboard...';
+                msgEl.style.display = 'block';
+                setTimeout(() => { window.location.href = '../admin/admin.html'; }, 700);
+            } catch (err) {
+                redirectHandled = false;
+                submitBtn.disabled = false;
+                showToast(err.message || 'Login failed. Please check your username and password.');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -434,6 +434,17 @@ input:focus {
     text-decoration: underline;
 }
 
+.forgot-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
 .admin-link-wrapper {
     padding-top: 16px;
     border-top: 1px solid var(--surface-container-low);
@@ -567,7 +578,14 @@ input:focus {
                     <p class="form-message" id="loginFormMsg" style="color: var(--primary);"></p>
 
                     <div class="footnotes">
-                        <a class="terms-text" href="#" id="forgotPasswordLink">Forgot username/password?</a>
+                        <a class="forgot-link" href="#" id="forgotPasswordLink">Forgot username/password?</a>
+                    </div>
+
+                    <div class="admin-link-wrapper">
+                        <a class="admin-link" href="admin-login.html">
+                            <span class="material-symbols-outlined" style="font-size: 16px;">shield_person</span>
+                            Admin Login
+                        </a>
                     </div>
                 </form>
 
@@ -637,7 +655,7 @@ input:focus {
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
         import { auth, db } from '../../firebase/firebase-init.js';
-        import { signUp, logIn, resetPassword, ROLE_HOME } from '../../firebase/auth-helpers.js';
+        import { signUp, logIn, logOut, resetPassword, ROLE_HOME } from '../../firebase/auth-helpers.js';
 
         /* ---------- Toast helper ---------- */
         function showToast(msg) {
@@ -742,12 +760,28 @@ input:focus {
             try {
                 const { role } = await logIn(username, password);
                 const selectedRole = this.querySelector('input[name="loginRole"]:checked').value === 'list' ? 'renter' : 'user';
-                msgEl.style.color = 'var(--primary)';
-                if (role !== selectedRole) {
-                    msgEl.textContent = 'This account is registered as a ' + role + '. Redirecting to your ' + role + ' dashboard...';
-                } else {
-                    msgEl.textContent = 'Login successful! Redirecting to your dashboard...';
+
+                if (role === 'admin') {
+                    await logOut();
+                    redirectHandled = false;
+                    submitBtn.disabled = false;
+                    msgEl.style.color = '#ba1a1a';
+                    msgEl.textContent = 'Admin accounts must sign in from the Admin Login page below.';
+                    msgEl.style.display = 'block';
+                    return;
                 }
+                if (role !== selectedRole) {
+                    await logOut();
+                    redirectHandled = false;
+                    submitBtn.disabled = false;
+                    msgEl.style.color = '#ba1a1a';
+                    msgEl.textContent = 'This account is registered as a ' + role + '. Please select "' + (role === 'renter' ? 'Renter' : 'User') + '" above and try again.';
+                    msgEl.style.display = 'block';
+                    return;
+                }
+
+                msgEl.style.color = 'var(--primary)';
+                msgEl.textContent = 'Login successful! Redirecting to your dashboard...';
                 msgEl.style.display = 'block';
                 showToast('Welcome back, ' + username + '!');
                 setTimeout(() => { window.location.href = ROLE_HOME[role] || ROLE_HOME.user; }, 900);
