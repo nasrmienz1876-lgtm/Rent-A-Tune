@@ -130,28 +130,6 @@ body {
     gap: 1rem;
 }
 
-.search-bar {
-    display: none;
-    align-items: center;
-    background-color: var(--surface-container-low);
-    border: 1px solid var(--outline-variant);
-    border-radius: var(--radius-full);
-    padding: 0.5rem 1rem;
-    gap: 0.5rem;
-}
-
-@media (min-width: 1024px) {
-    .search-bar { display: flex; }
-}
-
-.search-input {
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    width: 200px;
-    outline: none;
-}
-
 .user-profile {
     width: 40px;
     height: 40px;
@@ -396,7 +374,7 @@ body {
     gap: 4px;
 }
 
-.chat-actions { display: flex; gap: 0.5rem; }
+.chat-actions { display: flex; gap: 0.5rem; position: relative; }
 
 .chat-actions button {
     background: none;
@@ -408,7 +386,45 @@ body {
     transition: background 0.2s;
 }
 
-.chat-actions button:hover { background-color: var(--surface-container-highest); }
+.chat-actions > button:hover { background-color: var(--surface-container-highest); }
+
+.more-menu-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 180px;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 8px;
+    z-index: 60;
+    text-align: left;
+}
+
+.more-menu-panel.open { display: block; }
+
+.menu-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--on-surface);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.menu-option:hover { background-color: var(--surface-container-high); }
+
+.menu-option-danger { color: var(--error); }
 
 /* Listing strip pinned in chat (Carousell-style item card) */
 .listing-strip {
@@ -518,6 +534,32 @@ body {
 .message.received .message-time { color: var(--outline); }
 .message.sent .message-time { color: rgba(255,255,255,0.7); }
 
+.attachment-image {
+    display: block;
+    max-width: 220px;
+    max-height: 220px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.attachment-file {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: rgba(0,0,0,0.06);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-lg);
+}
+
+.message.sent .attachment-file { background-color: rgba(255,255,255,0.15); }
+
+.attach-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
 .input-area {
     padding: 1rem 1.5rem 1.5rem;
     border-top: 1px solid var(--outline-variant);
@@ -584,154 +626,6 @@ body {
 
 .send-btn:hover { transform: scale(1.05); }
 
-/* Right: Rental management sidebar */
-.management-sidebar {
-    width: 300px;
-    flex-shrink: 0;
-}
-
-@media (max-width: 900px) {
-    .management-sidebar { width: 100%; }
-}
-
-.management-card {
-    background-color: var(--inverse-surface);
-    color: var(--inverse-on-surface);
-    border-radius: var(--radius-xl);
-    padding: 1.5rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-}
-
-.management-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.management-header h2 {
-    font-family: var(--font-display);
-    font-size: 20px;
-}
-
-.status-box {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 1.5rem;
-}
-
-.status-label {
-    font-size: 12px;
-    color: var(--tertiary-fixed-dim);
-    margin-bottom: 0.25rem;
-}
-
-.status-value {
-    font-weight: 700;
-    font-size: 24px;
-    color: var(--secondary-fixed-dim);
-}
-
-.controls-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-.controls-section h3 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--tertiary-fixed);
-    margin-bottom: 0.25rem;
-}
-
-.btn-primary-action {
-    background-color: var(--secondary-container);
-    color: var(--on-secondary-container);
-    border: none;
-    padding: 1rem;
-    border-radius: var(--radius-xl);
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    font-family: var(--font-body);
-    font-size: 14px;
-}
-
-.btn-primary-action:hover { transform: translateY(-2px); }
-
-.btn-outline-action {
-    background: none;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 0.75rem;
-    border-radius: var(--radius-xl);
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: background 0.2s;
-    font-family: var(--font-body);
-    font-size: 14px;
-}
-
-.btn-outline-action:hover { background-color: rgba(255, 255, 255, 0.1); }
-
-.escrow-section {
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.escrow-status {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.escrow-status span:first-child {
-    font-size: 14px;
-    color: var(--tertiary-fixed-dim);
-}
-
-.escrow-section p {
-    font-size: 12px;
-    color: var(--tertiary-fixed-dim);
-    line-height: 1.6;
-}
-
-.cancel-btn {
-    margin-top: auto;
-    background: none;
-    border: none;
-    color: var(--error);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    transition: color 0.2s;
-    font-family: var(--font-body);
-}
-
-.cancel-btn:hover { color: var(--error-container); }
-
 /* Footer (unified with home.html) */
 .footer {
     background-color: var(--surface-container-high);
@@ -784,6 +678,32 @@ body {
 
 .footer-nav a:hover { color: var(--secondary); }
 
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--outline-variant);
+    background-color: var(--surface);
+    font-size: 14px;
+}
+
+.btn-send {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
 .footer-bottom {
     margin-top: 4rem;
     padding-top: 2rem;
@@ -824,10 +744,6 @@ body {
         </div>
 
         <div class="nav-actions">
-            <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
-                <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
-                <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
-            </form>
             <div style="position: relative;">
                 <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
                     <span class="material-symbols-outlined">notifications</span>
@@ -839,7 +755,7 @@ body {
                     <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
                 </div>
             </div>
-            <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer;" title="Messages">
+            <button type="button" id="chatBtn" onclick="window.location.href='chat.html'" style="background: none; border: none; cursor: pointer;" title="Messages">
                 <span class="material-symbols-outlined chat-active-icon">chat</span>
             </button>
             <a href="login.html" id="profileLink">
@@ -882,8 +798,17 @@ body {
                     </div>
                 </div>
                 <div class="chat-actions">
-                    <button id="callBtn" title="Call"><span class="material-symbols-outlined">call</span></button>
                     <button id="moreBtn" title="More"><span class="material-symbols-outlined">more_vert</span></button>
+                    <div class="more-menu-panel" id="moreMenuPanel">
+                        <button type="button" class="menu-option" id="blockUserBtn">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">block</span>
+                            Block User
+                        </button>
+                        <button type="button" class="menu-option menu-option-danger" id="reportUserBtn">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">flag</span>
+                            Report User
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -908,6 +833,7 @@ body {
                     <button class="attach-btn" id="attachBtn" title="Attach file">
                         <span class="material-symbols-outlined">attach_file</span>
                     </button>
+                    <input accept="image/*,.pdf,.doc,.docx,.txt" id="attachFileInput" style="display:none;" type="file" />
                     <input class="text-input-field" id="chatTextInput" placeholder="Type your message..." type="text"/>
                     <button class="send-btn" id="sendBtn" title="Send">
                         <span class="material-symbols-outlined">send</span>
@@ -916,46 +842,6 @@ body {
             </div>
         </div>
     </section>
-
-    <!-- Right: Rental Management -->
-    <aside class="management-sidebar">
-        <div class="management-card">
-            <div class="management-header">
-                <span class="material-symbols-outlined" style="color: var(--secondary-fixed-dim);">settings_suggest</span>
-                <h2>Rental Management</h2>
-            </div>
-            <div class="status-box">
-                <div class="status-label">Current Status</div>
-                <div class="status-value" id="rentalStatusValue">Negotiation</div>
-            </div>
-            <div class="controls-section">
-                <h3>Active Controls</h3>
-                <button class="btn-primary-action" id="triggerPaymentBtn" type="button">
-                    <span class="material-symbols-outlined">payments</span>
-                    Trigger Payment Request
-                </button>
-                <button class="btn-outline-action" id="modifyDatesBtn" type="button">
-                    <span class="material-symbols-outlined">edit_calendar</span>
-                    Modify Rental Dates
-                </button>
-                <button class="btn-outline-action" id="updateTermsBtn" type="button">
-                    <span class="material-symbols-outlined">description</span>
-                    Update Contract Terms
-                </button>
-            </div>
-            <div class="escrow-section">
-                <div class="escrow-status">
-                    <span>Escrow Secured</span>
-                    <span class="material-symbols-outlined" style="color: var(--secondary-fixed-dim); font-size: 18px; font-variation-settings: 'FILL' 1;">lock</span>
-                </div>
-                <p>Once payment is triggered, the user will be notified to authorize the deposit. Funds are held in Rent A Tune Escrow until the instrument is returned and inspected.</p>
-            </div>
-            <button class="cancel-btn" id="cancelTransactionBtn" type="button">
-                <span class="material-symbols-outlined">cancel</span>
-                Cancel Transaction
-            </button>
-        </div>
-    </aside>
 </main>
 
 <footer class="footer">
@@ -983,12 +869,11 @@ body {
                 </ul>
             </div>
             <div class="footer-nav">
-                <h5>Security</h5>
-                <div class="footer-bottom-badges" style="margin-top: 0;">
-                    <div class="badge-item">
-                        <span class="material-symbols-outlined" style="font-size: 18px;">security</span>
-                        <span>Verified Rentals</span>
-                    </div>
+                <h5>Newsletter</h5>
+                <p style="font-size: 14px; color: var(--on-surface-variant); margin-bottom: 1rem;">Get the latest gear drops and talent availability.</p>
+                <div class="newsletter-form">
+                    <input class="newsletter-input" placeholder="Email address" type="email" />
+                    <button class="btn-send" id="newsletterBtn"><span class="material-symbols-outlined">send</span></button>
                 </div>
             </div>
         </div>
@@ -1041,26 +926,38 @@ body {
         }
     });
 
-    /* ---------- Navbar search ---------- */
-    function handleNavSearch(e) {
+    /* ---------- Newsletter subscribe ---------- */
+    document.getElementById('newsletterBtn').addEventListener('click', function (e) {
         e.preventDefault();
-        const q = document.getElementById('navSearchInput').value.trim();
-        if (!q) return false;
-        window.location.href = 'marketplace.html?q=' + encodeURIComponent(q);
-        return false;
-    }
+        const input = document.querySelector('.newsletter-input');
+        const email = input.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showToast('Please enter a valid email address.');
+            return;
+        }
+        showToast('Subscribed! Watch your inbox for gear drops and talent availability.');
+        input.value = '';
+    });
 
-    /* Conversation list, messages, send/attach/call/more, view-listing, and rental-management logic now live in the module script below, since they need real-time Firestore access. */
+    /* Conversation list, messages, send/attach/more, and view-listing logic now live in the module script below, since they need real-time Firestore access. */
 </script>
 
 <script type="module">
     import { requireAuth } from '../../firebase/auth-helpers.js';
     import {
-        getMany, updateDocFields, createSubDoc, subscribeToSubQuery,
+        getOne, getMany, createDoc, updateDocFields, createSubDoc, subscribeToSubQuery,
         where, orderBy, serverTimestamp, escapeHtml
     } from '../../firebase/firestore-helpers.js';
+    import { arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+
+    const storage = getStorage();
+    const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024; // 10MB
 
     const { uid: myUid } = await requireAuth(null, '../user/login.html');
+    const myProfile = await getOne('users', myUid);
+    let myBlockedUsers = (myProfile && myProfile.blockedUsers) || [];
 
     let conversationsCache = [];
     let activeConversationId = null;
@@ -1106,8 +1003,6 @@ body {
         document.getElementById('listingImg').src = convo.listingImage || '../../images/user_profile.jpg';
         document.getElementById('listingTitle').textContent = convo.listingTitle || '';
         document.getElementById('listingPrice').textContent = convo.listingPrice ? ('RM' + convo.listingPrice) : '';
-        const status = convo.status || 'negotiation';
-        document.getElementById('rentalStatusValue').textContent = status.charAt(0).toUpperCase() + status.slice(1);
     }
 
     function renderMessages(msgs) {
@@ -1124,9 +1019,24 @@ body {
             if (!isMine) {
                 inner += '<img alt="" class="message-avatar" src="../../images/user_profile.jpg"/>';
             }
-            inner += '<div class="bubble"><p></p><span class="message-time">' + escapeHtml(time) + '</span></div>';
+            let attachmentHtml = '';
+            if (m.attachmentUrl) {
+                if ((m.attachmentType || '').startsWith('image/')) {
+                    attachmentHtml = '<a href="' + escapeHtml(m.attachmentUrl) + '" target="_blank" rel="noopener"><img alt="Attachment" class="attachment-image" src="' + escapeHtml(m.attachmentUrl) + '"/></a>';
+                } else {
+                    attachmentHtml = '<a class="attachment-file" href="' + escapeHtml(m.attachmentUrl) + '" target="_blank" rel="noopener">' +
+                        '<span class="material-symbols-outlined">description</span>' + escapeHtml(m.attachmentName || 'Attachment') +
+                        '</a>';
+                }
+            }
+            inner += '<div class="bubble">' + attachmentHtml + '<p></p><span class="message-time">' + escapeHtml(time) + '</span></div>';
             wrap.innerHTML = inner;
-            wrap.querySelector('.bubble p').textContent = m.text || '';
+            const textEl = wrap.querySelector('.bubble p');
+            if (m.text) {
+                textEl.textContent = m.text;
+            } else {
+                textEl.remove();
+            }
             area.appendChild(wrap);
         });
         area.scrollTop = area.scrollHeight;
@@ -1149,6 +1059,7 @@ body {
 
     async function loadConversations() {
         conversationsCache = await getMany('conversations', where('participantIds', 'array-contains', myUid));
+        conversationsCache = conversationsCache.filter(c => !myBlockedUsers.includes(otherParticipant(c).uid));
         conversationsCache.sort((a, b) => {
             const at = a.lastMessageAt && a.lastMessageAt.toMillis ? a.lastMessageAt.toMillis() : 0;
             const bt = b.lastMessageAt && b.lastMessageAt.toMillis ? b.lastMessageAt.toMillis() : 0;
@@ -1183,7 +1094,9 @@ body {
             await createSubDoc('conversations', activeConversationId, 'messages', {
                 senderId: myUid,
                 text,
-                attachmentUrl: null
+                attachmentUrl: null,
+                attachmentName: null,
+                attachmentType: null
             });
             await updateDocFields('conversations', activeConversationId, {
                 lastMessage: text,
@@ -1198,46 +1111,115 @@ body {
         if (e.key === 'Enter') sendMessage();
     });
 
-    /* ---------- Attach / Call / More (no file storage / calling / moderation system built yet) ---------- */
-    document.getElementById('attachBtn').addEventListener('click', function () {
-        showToast('File attachments will open your device file picker.');
-    });
-    document.getElementById('callBtn').addEventListener('click', function () {
-        showToast('Starting a secure in-app voice call...');
-    });
-    document.getElementById('moreBtn').addEventListener('click', function () {
-        showToast('Options: Block, Report, or Archive this conversation.');
-    });
-    document.getElementById('viewListingBtn').addEventListener('click', function () {
-        window.location.href = 'marketplace.html';
+    /* ---------- File attachments ---------- */
+    const attachBtn = document.getElementById('attachBtn');
+    const attachFileInput = document.getElementById('attachFileInput');
+
+    attachBtn.addEventListener('click', function () {
+        if (!activeConversationId) {
+            showToast('Open a conversation first.');
+            return;
+        }
+        attachFileInput.click();
     });
 
-    /* ---------- Rental management controls ---------- */
-    document.getElementById('triggerPaymentBtn').addEventListener('click', function () {
-        if (!activeConversationId) return;
-        showToast('Redirecting to checkout...');
-        setTimeout(() => { window.location.href = 'checkout.html?convo=' + activeConversationId; }, 600);
-    });
-    document.getElementById('modifyDatesBtn').addEventListener('click', function () {
-        showToast('Opening rental date editor...');
-    });
-    document.getElementById('updateTermsBtn').addEventListener('click', function () {
-        showToast('Opening contract terms editor...');
-    });
-    document.getElementById('cancelTransactionBtn').addEventListener('click', async function () {
-        if (!activeConversationId) return;
-        if (!confirm('Are you sure you want to cancel this transaction? This cannot be undone.')) return;
-        try {
-            await updateDocFields('conversations', activeConversationId, { status: 'cancelled' });
-            const convo = conversationsCache.find(c => c.id === activeConversationId);
-            if (convo && convo.bookingId) {
-                await updateDocFields('bookings', convo.bookingId, { bookingStatus: 'cancelled' });
-            }
-            document.getElementById('rentalStatusValue').textContent = 'Cancelled';
-            showToast('Transaction cancelled.');
-        } catch (err) {
-            showToast('Could not cancel this transaction. Please try again.');
+    attachFileInput.addEventListener('change', async function () {
+        const file = this.files[0];
+        this.value = '';
+        if (!file || !activeConversationId) return;
+        if (file.size > MAX_ATTACHMENT_BYTES) {
+            showToast('That file is too large. Max size is 10MB.');
+            return;
         }
+        attachBtn.disabled = true;
+        showToast('Uploading ' + file.name + '...');
+        try {
+            const path = 'chatAttachments/' + activeConversationId + '/' + Date.now() + '_' + file.name;
+            const fileRef = ref(storage, path);
+            await uploadBytes(fileRef, file);
+            const url = await getDownloadURL(fileRef);
+            await createSubDoc('conversations', activeConversationId, 'messages', {
+                senderId: myUid,
+                text: '',
+                attachmentUrl: url,
+                attachmentName: file.name,
+                attachmentType: file.type
+            });
+            await updateDocFields('conversations', activeConversationId, {
+                lastMessage: '📎 ' + file.name,
+                lastMessageAt: serverTimestamp()
+            });
+        } catch (err) {
+            showToast('Could not upload attachment. Please try again.');
+        } finally {
+            attachBtn.disabled = false;
+        }
+    });
+
+    /* ---------- More menu (Block / Report) ---------- */
+    const moreMenuPanel = document.getElementById('moreMenuPanel');
+    document.getElementById('moreBtn').addEventListener('click', function (e) {
+        e.stopPropagation();
+        moreMenuPanel.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+        if (moreMenuPanel.classList.contains('open') && !moreMenuPanel.contains(e.target) && e.target !== document.getElementById('moreBtn')) {
+            moreMenuPanel.classList.remove('open');
+        }
+    });
+
+    document.getElementById('blockUserBtn').addEventListener('click', async function () {
+        moreMenuPanel.classList.remove('open');
+        const convo = conversationsCache.find(c => c.id === activeConversationId);
+        if (!convo) return;
+        const other = otherParticipant(convo);
+        if (!confirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.')) return;
+        try {
+            await updateDocFields('users', myUid, { blockedUsers: arrayUnion(other.uid) });
+            myBlockedUsers.push(other.uid);
+            conversationsCache = conversationsCache.filter(c => c.id !== activeConversationId);
+            if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+            activeConversationId = null;
+            document.getElementById('messagesArea').innerHTML = '';
+            renderConversationList();
+            if (conversationsCache.length) {
+                openConversation(conversationsCache[0].id);
+            } else {
+                history.replaceState(null, '', 'chat.html');
+            }
+            showToast(other.name + ' has been blocked.');
+        } catch (err) {
+            showToast('Could not block this user. Please try again.');
+        }
+    });
+
+    document.getElementById('reportUserBtn').addEventListener('click', async function () {
+        moreMenuPanel.classList.remove('open');
+        const convo = conversationsCache.find(c => c.id === activeConversationId);
+        if (!convo) return;
+        const other = otherParticipant(convo);
+        const reason = prompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
+        if (reason === null) return;
+        if (!reason.trim()) {
+            showToast('Please enter a reason to submit a report.');
+            return;
+        }
+        try {
+            await createDoc('reports', {
+                reporterId: myUid,
+                reportedUserId: other.uid,
+                conversationId: activeConversationId,
+                reason: reason.trim(),
+                status: 'pending'
+            });
+            showToast('Report submitted. Our team will review this conversation.');
+        } catch (err) {
+            showToast('Could not submit report. Please try again.');
+        }
+    });
+
+    document.getElementById('viewListingBtn').addEventListener('click', function () {
+        window.location.href = 'marketplace.html';
     });
 
     loadConversations();

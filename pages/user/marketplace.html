@@ -1465,7 +1465,7 @@ body {
                         <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
                     </div>
                 </div>
-                <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
+                <button type="button" id="chatBtn" onclick="window.location.href='chat.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
                     <span class="material-symbols-outlined">chat</span>
                 </button>
                 <a href="login.html" id="profileLink">
@@ -1873,7 +1873,7 @@ body {
                         lastMessageAt: null
                     });
                 }
-                window.location.href = 'chatnego.html?convo=' + conversationId;
+                window.location.href = 'chat.html?convo=' + conversationId;
             } catch (err) {
                 showToast('Could not start chat. Please try again.');
             }
@@ -2275,7 +2275,7 @@ body {
         /* ================= Bundles logic ================= */
         document.getElementById('discussGalaBtn').addEventListener('click', function () {
             showToast('Opening chat with a coordinator about the Grand Gala Ensemble...');
-            setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
+            setTimeout(() => { window.location.href = 'chat.html'; }, 600);
         });
         document.getElementById('technicalRiderBtn').addEventListener('click', function () {
             showToast('Technical rider PDF will be emailed to you shortly.');
@@ -2284,7 +2284,7 @@ body {
             btn.addEventListener('click', function () {
                 const title = this.closest('.card-content').querySelector('.card-title').textContent;
                 showToast('Opening chat about "' + title + '"...');
-                setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
+                setTimeout(() => { window.location.href = 'chat.html'; }, 600);
             });
         });
         document.getElementById('scheduleConsultBtn').addEventListener('click', function () {

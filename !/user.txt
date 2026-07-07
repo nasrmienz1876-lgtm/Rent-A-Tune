@@ -59,3 +59,14 @@ Task:
 	- Make searh box at top nav bar to "Search Bands"
 - In marketplace.html#bundles:
 	- Make searh box at top nav bar to "Search Bundles"
+
+Task:
+- Change the name of "chatnego.html" to "chat.html"
+- Ensure all the button at every file is function. Didn't want any file affected because of this change
+- Now in chat.html:
+	- Remove management sidebar because this chat is only for user. They will not manage anything
+	- Remove call icon 
+	- Make 3 dotes have option: block and report. Make the block and report button function for user to block or report renter that violate rules or etc
+	- Remove chat box
+	- Make bottom nav bar same as "home.html" style and layout
+	- Make file attachments for chat function

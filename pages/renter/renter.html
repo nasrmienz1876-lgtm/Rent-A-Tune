@@ -3020,7 +3020,7 @@ header {
         });
 
         /* "Request Payment" posts a request message into the shared conversation thread —
-           it does NOT send the renter to checkout (that's the customer's action, in chatnego.html). */
+           it does NOT send the renter to checkout (that's the customer's action, in chat.html). */
         document.getElementById('requestPaymentBtn').addEventListener('click', async function () {
             if (!activeRenterConvoId) {
                 alert('Select a conversation first.');
