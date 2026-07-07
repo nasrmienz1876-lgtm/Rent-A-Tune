@@ -26,3 +26,13 @@ Task:
 - Make instrument.html, band.html, bundles.html file into one file: marketplace.html
 - Create new file name: support.html
 - Make faq.html, privacypolicy.html, termsofservice.html, contact.html file into one file: support.html
+
+Task:
+- In home.html:
+    - Remove search box
+- In marketplace.html#instrument:
+    - Remove "Rent A Tune Secure Escrow Protection" box at the top
+    - Make "Sort by:" have option Most Popular, Latest, Price: Low to High, Price: High to Low. Make the sorting function
+    - Remove "Showing ... professional instruments" text
+    - Make the Categories filters untick all when newly open the page
+    - Make "Page 1 of 12" sync with the page that have. Means if only have 1 page then "Page 1 of 1" if 2 "Page 1 of 2". And when click right arrow will up one number and left the opposite

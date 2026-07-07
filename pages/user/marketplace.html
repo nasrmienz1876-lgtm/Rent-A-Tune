@@ -339,29 +339,6 @@ body {
     padding: 2rem var(--gutter);
 }
 
-#tab-instrument .disclaimer {
-    background-color: var(--primary-container);
-    color: var(--on-primary-container);
-    padding: 1rem;
-    border-radius: var(--radius-lg);
-    border-left: 4px solid var(--secondary-container);
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-#tab-instrument .disclaimer h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
-
-#tab-instrument .disclaimer p {
-    font-size: 0.875rem;
-    opacity: 0.9;
-}
-
 #tab-instrument .content-layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -472,19 +449,9 @@ body {
 
 #tab-instrument .grid-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 2rem;
-}
-
-#tab-instrument .results-count {
-    color: var(--on-surface-variant);
-    font-size: 1rem;
-}
-
-#tab-instrument .results-count span {
-    font-weight: 700;
-    color: var(--on-surface);
 }
 
 #tab-instrument .sort-by {
@@ -1624,14 +1591,6 @@ body {
     <main>
         <!-- ============================= TAB: Instrument Rentals ============================= -->
         <div id="tab-instrument" class="market-tab active">
-            <section class="disclaimer">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_person</span>
-                <div>
-                    <h4>Rent A Tune Secure Escrow Protection</h4>
-                    <p>To protect your payments and security, never share personal contact details or settle payments outside the Rent A Tune platform. Our anti-scam policy ensures your funds are only released after a successful rental hand-off.</p>
-                </div>
-            </section>
-
             <div class="content-layout">
                 <aside>
                     <h2>Filters</h2>
@@ -1639,7 +1598,7 @@ body {
                     <div class="filter-group">
                         <span class="filter-label">Categories</span>
                         <div class="checkbox-list">
-                            <label class="checkbox-item"><input checked="" type="checkbox" /> Strings</label>
+                            <label class="checkbox-item"><input type="checkbox" /> Strings</label>
                             <label class="checkbox-item"><input type="checkbox" /> Brass</label>
                             <label class="checkbox-item"><input type="checkbox" /> Woodwinds</label>
                             <label class="checkbox-item"><input type="checkbox" /> Percussion</label>
@@ -1676,19 +1635,20 @@ body {
 
                 <section>
                     <div class="grid-header">
-                        <p class="results-count">Showing <span id="resultsCountNum">0</span> professional instruments</p>
                         <div class="sort-by">
                             <span>Sort by:</span>
                             <select id="sortBySelect">
                                 <option>Most Popular</option>
+                                <option>Latest</option>
                                 <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="instrument-grid" id="instrumentGrid">
                     </div>
-                    <p id="instrumentEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No instruments match yet — check back soon.</p>
+                    <p id="instrumentEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No instruments yet — check back soon.</p>
 
                     <div class="pagination">
                         <button class="page-btn" id="prevPageBtn" type="button"><span class="material-symbols-outlined">chevron_left</span></button>
@@ -2081,6 +2041,9 @@ body {
             card.dataset.price = listing.price;
             card.dataset.condition = listing.condition || 'Good';
             card.dataset.order = orderIndex;
+            card.dataset.rating = listing.rating || 0;
+            card.dataset.createdAt = (listing.createdAt && typeof listing.createdAt.toMillis === 'function') ? listing.createdAt.toMillis() : 0;
+            card.dataset.matchesFilter = 'true';
             card.dataset.listingId = listing.id;
 
             const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
@@ -2157,13 +2120,16 @@ body {
             const listings = await getMany('listings', where('listingType', '==', 'instrument'));
             grid.innerHTML = '';
             listings.forEach((listing, i) => grid.appendChild(renderInstrumentCard(listing, i + 1)));
-            document.getElementById('resultsCountNum').textContent = listings.length;
             document.getElementById('instrumentEmptyMsg').style.display = listings.length ? 'none' : '';
 
             // Apply a pending "?q=" search (e.g. redirected from home.html/support.html) now
             // that the real cards actually exist — running it earlier would filter an empty grid.
             const pendingQuery = new URLSearchParams(window.location.search).get('q');
-            if (pendingQuery && window.applyFilters) window.applyFilters(pendingQuery.toLowerCase());
+            if (pendingQuery && window.applyFilters) {
+                window.applyFilters(pendingQuery.toLowerCase());
+            } else if (window.renderInstrumentPage) {
+                window.renderInstrumentPage();
+            }
         }
 
         async function loadBandListings() {
@@ -2269,13 +2235,15 @@ body {
                 .map(cb => cb.parentElement.textContent.trim());
         }
 
+        const INSTRUMENT_PAGE_SIZE = 9;
+        let currentPage = 1;
+
         function applyFilters(searchTerm) {
             searchTerm = (searchTerm !== undefined ? searchTerm : document.getElementById('navSearchInput').value).toLowerCase();
             const categories = getCheckedCategories();
             const maxPrice = parseInt(document.getElementById('priceRange').value, 10);
             const condition = document.getElementById('conditionFilter').value;
             const cards = document.querySelectorAll('#tab-instrument .instrument-grid .card');
-            let visibleCount = 0;
 
             cards.forEach(card => {
                 const cat = card.dataset.category;
@@ -2289,11 +2257,11 @@ body {
                 if (condition !== 'All Conditions' && cond !== condition) show = false;
                 if (searchTerm && !title.includes(searchTerm)) show = false;
 
-                card.style.display = show ? '' : 'none';
-                if (show) visibleCount++;
+                card.dataset.matchesFilter = show ? 'true' : 'false';
             });
 
-            document.getElementById('resultsCountNum').textContent = visibleCount;
+            currentPage = 1;
+            const visibleCount = renderInstrumentPage();
             showToast('Filters applied — ' + visibleCount + ' instrument' + (visibleCount === 1 ? '' : 's') + ' found.');
         }
 
@@ -2305,38 +2273,69 @@ body {
             document.getElementById('priceCurrentValue').textContent = 'Up to RM' + this.value + '/day';
         });
 
-        document.getElementById('sortBySelect').addEventListener('change', function () {
+        function sortInstrumentCards(sortValue) {
             const grid = document.querySelector('#tab-instrument .instrument-grid');
             const cards = Array.from(grid.querySelectorAll('.card'));
-            if (this.value === 'Price: Low to High') {
+            if (sortValue === 'Price: Low to High') {
                 cards.sort((a, b) => parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10));
+            } else if (sortValue === 'Price: High to Low') {
+                cards.sort((a, b) => parseInt(b.dataset.price, 10) - parseInt(a.dataset.price, 10));
+            } else if (sortValue === 'Latest') {
+                cards.sort((a, b) => parseInt(b.dataset.createdAt, 10) - parseInt(a.dataset.createdAt, 10));
             } else {
-                cards.sort((a, b) => parseInt(a.dataset.order, 10) - parseInt(b.dataset.order, 10));
+                cards.sort((a, b) => parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating));
             }
             cards.forEach(c => grid.appendChild(c));
+        }
+
+        document.getElementById('sortBySelect').addEventListener('change', function () {
+            sortInstrumentCards(this.value);
+            currentPage = 1;
+            renderInstrumentPage();
             showToast('Sorted by "' + this.value + '".');
         });
 
         // (chat-btn clicks are now wired per-card in the module script below, since real
         // listings are rendered dynamically and need to start a real conversation)
 
-        let currentPage = 1;
-        const totalPages = 12;
-        function updatePagination() {
-            document.getElementById('pageInfo').innerHTML = 'Page <span>' + currentPage + '</span> of ' + totalPages;
+        function getInstrumentMatchingCards() {
+            return Array.from(document.querySelectorAll('#tab-instrument .instrument-grid .card'))
+                .filter(card => card.dataset.matchesFilter !== 'false');
         }
+
+        function getInstrumentTotalPages() {
+            return Math.max(1, Math.ceil(getInstrumentMatchingCards().length / INSTRUMENT_PAGE_SIZE));
+        }
+
+        /* Shows only the cards belonging to the current page among those matching the active
+           filters, and syncs "Page X of Y" so Y always reflects the real number of pages. */
+        function renderInstrumentPage() {
+            const allCards = Array.from(document.querySelectorAll('#tab-instrument .instrument-grid .card'));
+            const matching = getInstrumentMatchingCards();
+            const totalPages = getInstrumentTotalPages();
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const start = (currentPage - 1) * INSTRUMENT_PAGE_SIZE;
+            const end = start + INSTRUMENT_PAGE_SIZE;
+            allCards.forEach(card => { card.style.display = 'none'; });
+            matching.slice(start, end).forEach(card => { card.style.display = ''; });
+
+            document.getElementById('pageInfo').innerHTML = 'Page <span>' + currentPage + '</span> of ' + totalPages;
+            document.getElementById('instrumentEmptyMsg').style.display = matching.length ? 'none' : '';
+            return matching.length;
+        }
+        window.renderInstrumentPage = renderInstrumentPage;
+
         document.getElementById('prevPageBtn').addEventListener('click', function () {
             if (currentPage > 1) {
                 currentPage--;
-                updatePagination();
-                showToast('Loading page ' + currentPage + '...');
+                renderInstrumentPage();
             }
         });
         document.getElementById('nextPageBtn').addEventListener('click', function () {
-            if (currentPage < totalPages) {
+            if (currentPage < getInstrumentTotalPages()) {
                 currentPage++;
-                updatePagination();
-                showToast('Loading page ' + currentPage + '...');
+                renderInstrumentPage();
             }
         });
 
