@@ -1188,112 +1188,6 @@ body {
     width: 100%;
 }
 
-#tab-bundles .separator {
-    padding: 6rem 0;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-#tab-bundles .line {
-    height: 1px;
-    background-color: var(--outline-variant);
-    flex-grow: 1;
-}
-
-#tab-bundles .sep-icon {
-    color: var(--outline-variant);
-}
-
-#tab-bundles .cta-section {
-    background-color: var(--on-surface);
-    border-radius: 1.5rem;
-    padding: 5rem 3rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-@media (min-width: 768px) {
-    #tab-bundles .cta-section {
-        padding: 5rem;
-    }
-}
-
-#tab-bundles .cta-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, rgba(0, 64, 224, 0.1), rgba(124, 88, 0, 0.05));
-    pointer-events: none;
-}
-
-#tab-bundles .cta-title {
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--on-primary);
-    margin-bottom: 1.5rem;
-    position: relative;
-    z-index: 10;
-}
-
-@media (min-width: 768px) {
-    #tab-bundles .cta-title {
-        font-size: 48px;
-    }
-}
-
-#tab-bundles .cta-desc {
-    font-size: 18px;
-    color: var(--primary-fixed);
-    max-width: 42rem;
-    margin: 0 auto 2.5rem;
-    position: relative;
-    z-index: 10;
-}
-
-#tab-bundles .cta-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: center;
-    position: relative;
-    z-index: 10;
-}
-
-@media (min-width: 640px) {
-    #tab-bundles .cta-buttons {
-        flex-direction: row;
-    }
-}
-
-#tab-bundles .btn-pill {
-    padding: 1.25rem 2.5rem;
-    border-radius: var(--radius-full);
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-#tab-bundles .btn-gold {
-    background-color: var(--secondary-container);
-    color: var(--on-secondary-container);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-#tab-bundles .btn-gold:hover {
-    transform: scale(1.05);
-}
-
-#tab-bundles .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--primary-fixed);
-    color: var(--primary-fixed);
-}
-
-#tab-bundles .btn-ghost:hover {
-    background-color: var(--primary-fixed);
-    color: var(--on-primary-fixed);
-}
     </style>
 <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -1624,22 +1518,6 @@ body {
                     </article>
                 </section>
                 <p id="bundleEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No bundles match yet — check back soon.</p>
-
-                <div class="separator">
-                    <div class="line"></div>
-                    <span class="material-symbols-outlined sep-icon">music_note</span>
-                    <div class="line"></div>
-                </div>
-
-                <section class="cta-section">
-                    <div class="cta-gradient"></div>
-                    <h2 class="cta-title">Need a Bespoke Stage Configuration?</h2>
-                    <p class="cta-desc">Our event specialists work with touring managers and creative directors to build custom bundles tailored to your specific venue and performance requirements.</p>
-                    <div class="cta-buttons">
-                        <button class="btn btn-pill btn-gold" type="button" id="scheduleConsultBtn">Schedule Expert Consultation</button>
-                        <button class="btn btn-pill btn-ghost" type="button" id="browseAssetsBtn">Browse All Assets</button>
-                    </div>
-                </section>
             </div>
         </div>
     </main>
@@ -2218,14 +2096,6 @@ body {
                 bundleMoreFiltersPanel.classList.remove('open');
                 showToast('Sorted by "' + this.dataset.sort + '".');
             });
-        });
-
-        document.getElementById('scheduleConsultBtn').addEventListener('click', function () {
-            showToast('Consultation request received — our specialists will reach out soon!');
-        });
-        document.getElementById('browseAssetsBtn').addEventListener('click', function () {
-            activateTab('tab-instrument');
-            history.replaceState(null, '', '#instrument');
         });
 
         /* ---------- Newsletter subscribe (shared) ---------- */

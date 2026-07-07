@@ -81,3 +81,11 @@ Task:
 
 Task:
 - In chat.html, if user don't have chat with anyone then chat container will be nothing
+
+Task:
+- In "marketplace.html#bundles":
+	- Change the layout like "marketplace.html#band"
+	- Make filter bar that suit according to information in bundles
+
+Task:
+- 
