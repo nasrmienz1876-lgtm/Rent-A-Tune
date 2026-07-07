@@ -896,86 +896,9 @@ body {
     font-family: var(--font-display);
 }
 
-#tab-bundles .hero {
-    position: relative;
-    height: 614px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    background-color: var(--on-surface);
-}
-
-#tab-bundles .hero-bg {
-    position: absolute;
-    inset: 0;
-    opacity: 0.4;
-}
-
-#tab-bundles .hero-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-#tab-bundles .hero-content {
-    position: relative;
-    width: 100%;
-}
-
-#tab-bundles .hero-text {
-    max-width: 42rem;
-}
-
-#tab-bundles .badge-premium {
-    background-color: var(--secondary-container);
-    color: var(--on-secondary-container);
-    padding: 0.25rem 1rem;
-    border-radius: var(--radius-lg);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-}
-
-#tab-bundles .hero-title {
-    font-size: 48px;
-    font-weight: 700;
-    color: var(--on-primary);
-    margin-bottom: 1rem;
-    line-height: 56px;
-}
-
-#tab-bundles .hero-description {
-    font-size: 18px;
-    color: var(--primary-fixed);
-    margin-bottom: 2rem;
-    line-height: 28px;
-}
-
 #tab-bundles .main-container {
-    padding-top: 5rem;
+    padding-top: 3rem;
     padding-bottom: 5rem;
-}
-
-#tab-bundles .section-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 3rem;
-    gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-    #tab-bundles .section-header {
-        flex-direction: row;
-    }
-}
-
-#tab-bundles .section-title-group {
-    width: 100%;
 }
 
 #tab-bundles .section-title {
@@ -985,182 +908,141 @@ body {
     color: var(--on-surface);
 }
 
-#tab-bundles .title-accent {
-    width: 6rem;
-    height: 4px;
-    background-color: var(--secondary-fixed-dim);
-    border-radius: var(--radius-full);
+/* ---- Hero + filter bar (same pattern as #tab-band) ---- */
+#tab-bundles .hero-section {
+    padding-bottom: 3rem;
 }
 
-#tab-bundles .section-intro {
-    font-size: 16px;
-    color: var(--on-surface-variant);
-    max-width: 28rem;
-    text-align: right;
-}
-
-#tab-bundles .bundle-stack {
-    display: grid;
-    gap: 3rem;
-}
-
-#tab-bundles .bundle-wide {
+#tab-bundles .filter-bar {
     background-color: var(--surface-container-lowest);
+    padding: 1.5rem;
     border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--outline-variant);
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(116, 118, 136, 0.1);
-    transition: transform 0.3s;
-}
-
-#tab-bundles .bundle-wide:hover {
-    transform: scale(1.01);
+    gap: 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 1024px) {
-    #tab-bundles .bundle-wide {
+    #tab-bundles .filter-bar {
         flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 }
 
-#tab-bundles .bundle-media-large {
-    position: relative;
-    min-height: 400px;
-    flex: 1;
+#tab-bundles .genre-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
-@media (min-width: 1024px) {
-    #tab-bundles .bundle-media-large {
-        width: 50%;
-    }
+#tab-bundles .chip {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-full);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--surface-container-high);
+    color: var(--on-surface-variant);
 }
 
-#tab-bundles .bundle-media-large img {
+#tab-bundles .chip.active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+}
+
+#tab-bundles .filter-actions {
+    display: flex;
+    gap: 1rem;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-#tab-bundles .floating-badge {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background-color: var(--secondary-fixed);
-    color: var(--on-secondary-fixed);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-default);
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-#tab-bundles .bundle-content-large {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
 }
 
 @media (min-width: 1024px) {
-    #tab-bundles .bundle-content-large {
-        width: 50%;
-    }
+    #tab-bundles .filter-actions { width: auto; }
 }
 
-#tab-bundles .bundle-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-#tab-bundles .bundle-title-primary {
-    font-size: 32px;
+#tab-bundles .select-wrapper select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--outline-variant);
+    background-color: var(--surface);
     font-weight: 600;
-    color: var(--primary);
+    outline: none;
 }
 
-#tab-bundles .pricing-block {
-    text-align: right;
-}
-
-#tab-bundles .pricing-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--on-surface-variant);
-    text-transform: uppercase;
-}
-
-#tab-bundles .price {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--secondary);
-}
-
-#tab-bundles .price-sub {
-    font-size: 14px;
-    font-weight: 400;
-}
-
-#tab-bundles .bundle-desc {
-    font-size: 16px;
-    color: var(--on-surface-variant);
-    margin-bottom: 2rem;
-}
-
-#tab-bundles .bundle-includes-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--on-surface);
-    margin-bottom: 1rem;
-    text-transform: uppercase;
+#tab-bundles .btn-filter {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--on-surface);
+    color: var(--surface);
+    border-radius: var(--radius-lg);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
-#tab-bundles .includes-list {
+#tab-bundles .more-filters-wrapper {
+    position: relative;
+}
+
+#tab-bundles .more-filters-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 200px;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    z-index: 50;
+}
+
+#tab-bundles .more-filters-panel.open {
+    display: block;
+}
+
+#tab-bundles .filter-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--on-surface);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#tab-bundles .filter-option:hover {
+    background-color: var(--surface-container-high);
+}
+
+#tab-bundles .filter-option.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+#tab-bundles .marketplace-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem 1.5rem;
-    list-style: none;
-    margin-bottom: 2rem;
+    gap: var(--gutter);
+    margin-bottom: 3rem;
 }
 
-@media (min-width: 768px) {
-    #tab-bundles .includes-list {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-#tab-bundles .includes-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 16px;
-}
-
-#tab-bundles .includes-icon {
-    color: var(--secondary);
-    font-size: 18px;
-}
-
-#tab-bundles .bundle-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(116, 118, 136, 0.15);
-}
-
-@media (min-width: 640px) {
-    #tab-bundles .bundle-actions {
-        flex-direction: row;
-    }
-}
+@media (min-width: 768px) { #tab-bundles .marketplace-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { #tab-bundles .marketplace-grid { grid-template-columns: repeat(3, 1fr); } }
 
 #tab-bundles .btn {
     padding: 1rem 2rem;
@@ -1185,28 +1067,6 @@ body {
 
 #tab-bundles .btn-primary:hover {
     background-color: var(--primary-container);
-}
-
-#tab-bundles .btn-outline {
-    background-color: transparent;
-    border: 2px solid var(--on-surface);
-    color: var(--on-surface);
-}
-
-#tab-bundles .btn-outline:hover {
-    background-color: var(--surface-container-high);
-}
-
-#tab-bundles .bundle-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
-}
-
-@media (min-width: 768px) {
-    #tab-bundles .bundle-grid {
-        grid-template-columns: 1fr 1fr;
-    }
 }
 
 #tab-bundles .bundle-card {
@@ -1254,6 +1114,11 @@ body {
 #tab-bundles .badge-signature {
     background-color: var(--secondary-fixed);
     color: var(--on-secondary-fixed);
+}
+
+#tab-bundles .badge-exclusive {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
 }
 
 #tab-bundles .card-content {
@@ -1591,162 +1456,174 @@ body {
 
         <!-- ============================= TAB: Bundles ============================= -->
         <div id="tab-bundles" class="market-tab">
-            <header class="hero">
-                <div class="hero-bg">
-                    <img alt="Orchestral stage setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1F62DRsbMt4PdwpPCcOnwFmHw5Q-03xccpk2dAPQV9IMD_XeWEJf-l7XBEf1p-BFR4F5eifgB0onterMGfXSgkMnpxUI-Zr-AJYTwMNprxxTQu95FGmw13gTjzwSML0he8VdzGsDD8xUiwK6CWfx9fz6vnSh6xBbu4klpteq_bb5cumoz8XFF-l7Htv0exIvcc65ZmKaK5f-hAsDTeWDVlNx9WQZUo-vTugDbVMzp5K6vO9wJFOMM8WNZKXKwQtaApkZjfuJNvWk" />
-                </div>
-                <div class="container hero-content">
-                    <div class="hero-text">
-                        <span class="badge-premium">Premium Curation</span>
-                        <h1 class="hero-title">Elite Bundle Rentals</h1>
-                        <p class="hero-description">Curated ensembles and full-scale stage setups for world-class performances. From gala orchestras to arena rock packages.</p>
-                    </div>
-                </div>
-            </header>
-
             <div class="container main-container">
-                <div class="section-header">
-                    <div class="section-title-group">
-                        <h2 class="section-title">The Gold Standard</h2>
-                        <div class="title-accent"></div>
+                <section class="hero-section">
+                    <h1 class="section-title">Elite Bundle Rentals</h1>
+                    <div class="filter-bar">
+                        <div class="genre-chips" id="bundleCategoryChips">
+                            <button class="chip active" type="button">All Bundles</button>
+                            <button class="chip" type="button">Orchestral</button>
+                            <button class="chip" type="button">Live/Rock</button>
+                            <button class="chip" type="button">Jazz</button>
+                        </div>
+                        <div class="filter-actions">
+                            <div class="select-wrapper">
+                                <select id="bundlePriceSelect">
+                                    <option>Price Range</option>
+                                    <option>Under RM4,000</option>
+                                    <option>RM4,000 - RM8,000</option>
+                                    <option>RM8,000+</option>
+                                </select>
+                            </div>
+                            <div class="more-filters-wrapper">
+                                <button class="btn-filter" id="bundleMoreFiltersBtn" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    More Filters
+                                </button>
+                                <div class="more-filters-panel" id="bundleMoreFiltersPanel">
+                                    <button type="button" class="filter-option" data-sort="Featured">Featured</button>
+                                    <button type="button" class="filter-option" data-sort="Price: Low to High">Price: Low to High</button>
+                                    <button type="button" class="filter-option" data-sort="Price: High to Low">Price: High to Low</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p class="section-intro">All bundles include a dedicated Logistics Coordinator and white-glove setup/strike service as standard.</p>
-                </div>
+                </section>
 
-                <div class="bundle-stack">
-                    <section class="bundle-wide">
-                        <div class="bundle-media-large">
+                <section class="marketplace-grid" id="bundleGrid">
+                    <article class="bundle-card" data-category="Orchestral" data-order="1" data-price="12500">
+                        <div class="card-media">
                             <img alt="Professional chamber orchestra" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj0NJ8QVYwM6f_pmcp4IGfVyA87D7Vzp2sU6J-s_7X6oHmzuU86-Vzb9GcZV7jilFNWotofQH2tDthtnoI32uy6S5OKy82-Zp5NTYLD3zlfh44VyMDrjjDDxcXoKQYaSlt3lG7lYdCQGs-pBsdHECM2DxD2xh8olsazLFOAnpg1-rB4z6UCzf1ywrW7jvfMk9-c95q5NEarVstTxxYszyVYuZ6EdoqFF_FPylLYzwQZkymoyIy7vv1WIJlQxjQK3HLLzDkmKI9jUU" />
-                            <div class="floating-badge">Exclusive Bundle</div>
+                            <div class="card-badge badge-exclusive">Exclusive Bundle</div>
                         </div>
 
-                        <div class="bundle-content-large">
-                            <div>
-                                <div class="bundle-header-row">
-                                    <h3 class="bundle-title-primary">The Grand Gala Ensemble</h3>
-                                    <div class="pricing-block">
-                                        <p class="pricing-label">Starting At</p>
-                                        <p class="price">RM12,500 <span class="price-sub">/Event</span></p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <h3 class="card-title">The Grand Gala Ensemble</h3>
+                                <p class="card-price">RM12,500</p>
+                            </div>
+                            <p class="card-desc">A comprehensive 24-piece orchestral setup designed for prestigious corporate events, weddings, and awards ceremonies.</p>
+
+                            <div class="feature-stack">
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">piano</span>
+                                    <div>
+                                        <p class="feature-label">Steinway &amp; Sons Model D Grand</p>
+                                        <p class="feature-sub">24-Piece String &amp; Brass Section</p>
                                     </div>
                                 </div>
-                                <p class="bundle-desc">A comprehensive 24-piece orchestral setup designed for prestigious corporate events, weddings, and awards ceremonies.</p>
-
-                                <h4 class="bundle-includes-title">
-                                    <span class="material-symbols-outlined feature-icon">inventory_2</span>
-                                    What's Included
-                                </h4>
-                                <ul class="includes-list">
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> 24-Piece String &amp; Brass Section</li>
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Steinway &amp; Sons Model D Grand</li>
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> 48-Channel Digital Audio Console</li>
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Wireless In-Ear Monitoring System</li>
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Professional Stage Lighting Rig</li>
-                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> On-Site Technical Supervisor</li>
-                                </ul>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">graphic_eq</span>
+                                    <div>
+                                        <p class="feature-label">48-Channel Digital Audio Console</p>
+                                        <p class="feature-sub">Wireless In-Ear Monitoring System</p>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">light_mode</span>
+                                    <div>
+                                        <p class="feature-label">Professional Stage Lighting Rig</p>
+                                        <p class="feature-sub">On-Site Technical Supervisor</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="bundle-actions">
-                                <button class="btn btn-primary" type="button" id="discussGalaBtn">
-                                    <span class="material-symbols-outlined">forum</span>
-                                    Discuss Bundle Details
-                                </button>
-                                <button class="btn btn-outline" type="button" id="technicalRiderBtn">
-                                    View Technical Rider
-                                </button>
-                            </div>
+                            <button class="btn btn-primary w-full" type="button">
+                                <span class="material-symbols-outlined">chat</span>
+                                Discuss Bundle
+                            </button>
                         </div>
-                    </section>
+                    </article>
 
-                    <div class="bundle-grid">
-                        <section class="bundle-card">
-                            <div class="card-media">
-                                <img alt="Rock band stage setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8XIP14aHNWfsqemZKf99bXonu0DEZ4I-N-e0KxdNp8nk9O25NjzZnQ4-j8XRp1uizKopmBR0NPYPqr4csC8EfGZ5tqahn08tfOzfZSLnRoK-uTdikch6cGrdP8uoTnc8tSiSoZeU2vIZbQgP7uJqEqPnreiNr6o9UZCokcDvlAHbHQXuwWULEtAT-XOxPQhG551tooiEIwkWCTDG_eotEPX2SlLQOkkPGq_nWSaAYouM2RtIU3f3Ljf4C_mPWYCPWVIAu-7sLIFs" />
-                                <div class="card-badge badge-info">Tour-Ready</div>
+                    <article class="bundle-card" data-category="Live/Rock" data-order="2" data-price="4200">
+                        <div class="card-media">
+                            <img alt="Rock band stage setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8XIP14aHNWfsqemZKf99bXonu0DEZ4I-N-e0KxdNp8nk9O25NjzZnQ4-j8XRp1uizKopmBR0NPYPqr4csC8EfGZ5tqahn08tfOzfZSLnRoK-uTdikch6cGrdP8uoTnc8tSiSoZeU2vIZbQgP7uJqEqPnreiNr6o9UZCokcDvlAHbHQXuwWULEtAT-XOxPQhG551tooiEIwkWCTDG_eotEPX2SlLQOkkPGq_nWSaAYouM2RtIU3f3Ljf4C_mPWYCPWVIAu-7sLIFs" />
+                            <div class="card-badge badge-info">Tour-Ready</div>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <h3 class="card-title">Live Stage Bundle</h3>
+                                <p class="card-price">RM4,200</p>
                             </div>
+                            <p class="card-desc">Optimized for high-energy live performances in medium to large venues. Plug and play professional gear.</p>
 
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="card-title">Live Stage Bundle</h3>
-                                    <p class="card-price">RM4,200</p>
-                                </div>
-                                <p class="card-desc">Optimized for high-energy live performances in medium to large venues. Plug and play professional gear.</p>
-
-                                <div class="feature-stack">
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">speaker</span>
-                                        <div>
-                                            <p class="feature-label">Full PA &amp; Subwoofer System</p>
-                                            <p class="feature-sub">L-Acoustics K2 Array</p>
-                                        </div>
-                                    </div>
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">album</span>
-                                        <div>
-                                            <p class="feature-label">Pro Backline Package</p>
-                                            <p class="feature-sub">DW Collector's Kit &amp; Boutique Amps</p>
-                                        </div>
-                                    </div>
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">light_mode</span>
-                                        <div>
-                                            <p class="feature-label">Lighting &amp; Atmosphere</p>
-                                            <p class="feature-sub">Intelligent Movers &amp; Hazer</p>
-                                        </div>
+                            <div class="feature-stack">
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">speaker</span>
+                                    <div>
+                                        <p class="feature-label">Full PA &amp; Subwoofer System</p>
+                                        <p class="feature-sub">L-Acoustics K2 Array</p>
                                     </div>
                                 </div>
-
-                                <button class="btn btn-primary w-full">
-                                    <span class="material-symbols-outlined">chat</span>
-                                    Chat with Coordinator
-                                </button>
-                            </div>
-                        </section>
-
-                        <section class="bundle-card">
-                            <div class="card-media">
-                                <img alt="Jazz lounge setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZBz2vuEuDaxaokZzb3zMNPVtopcih1mRwqDJsnxLE22AM9pjagUJr_gKSFmaEz3AdaKwuhgGxUwu8pZYDkAMT3ifLCjtevSDugaAXw59GHyQ1c9mDbrcCnYek1Gb_FbseMrZp5sy9Iqyj1xvW54H1pKVk1IcKRkLANCkinejOWMH_1lWJ9BBKlmY_bKUUzPaczeMpDEKDGXc4-5n-walipHgzTtQ1wU6Ev1ZboS6M8zaeXiPVKW0HaSYyw0GRCNu6c_tgwcZhqa0" />
-                                <div class="card-badge badge-signature">Signature Series</div>
-                            </div>
-
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <h3 class="card-title">Jazz Lounge Quintet</h3>
-                                    <p class="card-price">RM3,800</p>
-                                </div>
-                                <p class="card-desc">A curated selection of warm, acoustic instruments for intimate lounge settings and upscale jazz nights.</p>
-
-                                <div class="feature-stack">
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">piano</span>
-                                        <div>
-                                            <p class="feature-label">Yamaha C7 Conservatory Grand</p>
-                                            <p class="feature-sub">Includes Professional Tuning</p>
-                                        </div>
-                                    </div>
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">mic</span>
-                                        <div>
-                                            <p class="feature-label">Vintage Microphone Kit</p>
-                                            <p class="feature-sub">Neumann &amp; AKG Classics</p>
-                                        </div>
-                                    </div>
-                                    <div class="feature-item">
-                                        <span class="material-symbols-outlined feature-icon">speaker_group</span>
-                                        <div>
-                                            <p class="feature-label">Bose L1 Pro Audio System</p>
-                                            <p class="feature-sub">Discreet High-Fidelity Sound</p>
-                                        </div>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">album</span>
+                                    <div>
+                                        <p class="feature-label">Pro Backline Package</p>
+                                        <p class="feature-sub">DW Collector's Kit &amp; Boutique Amps</p>
                                     </div>
                                 </div>
-
-                                <button class="btn btn-primary w-full">
-                                    <span class="material-symbols-outlined">chat</span>
-                                    Discuss Bundle
-                                </button>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">light_mode</span>
+                                    <div>
+                                        <p class="feature-label">Lighting &amp; Atmosphere</p>
+                                        <p class="feature-sub">Intelligent Movers &amp; Hazer</p>
+                                    </div>
+                                </div>
                             </div>
-                        </section>
-                    </div>
-                </div>
+
+                            <button class="btn btn-primary w-full" type="button">
+                                <span class="material-symbols-outlined">chat</span>
+                                Chat with Coordinator
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="bundle-card" data-category="Jazz" data-order="3" data-price="3800">
+                        <div class="card-media">
+                            <img alt="Jazz lounge setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZBz2vuEuDaxaokZzb3zMNPVtopcih1mRwqDJsnxLE22AM9pjagUJr_gKSFmaEz3AdaKwuhgGxUwu8pZYDkAMT3ifLCjtevSDugaAXw59GHyQ1c9mDbrcCnYek1Gb_FbseMrZp5sy9Iqyj1xvW54H1pKVk1IcKRkLANCkinejOWMH_1lWJ9BBKlmY_bKUUzPaczeMpDEKDGXc4-5n-walipHgzTtQ1wU6Ev1ZboS6M8zaeXiPVKW0HaSYyw0GRCNu6c_tgwcZhqa0" />
+                            <div class="card-badge badge-signature">Signature Series</div>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header">
+                                <h3 class="card-title">Jazz Lounge Quintet</h3>
+                                <p class="card-price">RM3,800</p>
+                            </div>
+                            <p class="card-desc">A curated selection of warm, acoustic instruments for intimate lounge settings and upscale jazz nights.</p>
+
+                            <div class="feature-stack">
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">piano</span>
+                                    <div>
+                                        <p class="feature-label">Yamaha C7 Conservatory Grand</p>
+                                        <p class="feature-sub">Includes Professional Tuning</p>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">mic</span>
+                                    <div>
+                                        <p class="feature-label">Vintage Microphone Kit</p>
+                                        <p class="feature-sub">Neumann &amp; AKG Classics</p>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="material-symbols-outlined feature-icon">speaker_group</span>
+                                    <div>
+                                        <p class="feature-label">Bose L1 Pro Audio System</p>
+                                        <p class="feature-sub">Discreet High-Fidelity Sound</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary w-full" type="button">
+                                <span class="material-symbols-outlined">chat</span>
+                                Discuss Bundle
+                            </button>
+                        </div>
+                    </article>
+                </section>
+                <p id="bundleEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No bundles match yet — check back soon.</p>
 
                 <div class="separator">
                     <div class="line"></div>
@@ -2273,13 +2150,6 @@ body {
         // reason as the instrument chat-btn above)
 
         /* ================= Bundles logic ================= */
-        document.getElementById('discussGalaBtn').addEventListener('click', function () {
-            showToast('Opening chat with a coordinator about the Grand Gala Ensemble...');
-            setTimeout(() => { window.location.href = 'chat.html'; }, 600);
-        });
-        document.getElementById('technicalRiderBtn').addEventListener('click', function () {
-            showToast('Technical rider PDF will be emailed to you shortly.');
-        });
         document.querySelectorAll('#tab-bundles .card-content .btn.w-full').forEach(btn => {
             btn.addEventListener('click', function () {
                 const title = this.closest('.card-content').querySelector('.card-title').textContent;
@@ -2287,6 +2157,69 @@ body {
                 setTimeout(() => { window.location.href = 'chat.html'; }, 600);
             });
         });
+
+        function applyBundleFilters() {
+            const activeChip = document.querySelector('#bundleCategoryChips .chip.active');
+            const category = activeChip ? activeChip.textContent.trim() : 'All Bundles';
+            const priceRange = document.getElementById('bundlePriceSelect').value;
+            const cards = document.querySelectorAll('#tab-bundles .marketplace-grid .bundle-card');
+            let count = 0;
+            cards.forEach(card => {
+                let show = true;
+                if (category !== 'All Bundles' && card.dataset.category !== category) show = false;
+                const price = parseInt(card.dataset.price, 10);
+                if (priceRange === 'Under RM4,000' && price >= 4000) show = false;
+                if (priceRange === 'RM4,000 - RM8,000' && (price < 4000 || price > 8000)) show = false;
+                if (priceRange === 'RM8,000+' && price <= 8000) show = false;
+                card.style.display = show ? '' : 'none';
+                if (show) count++;
+            });
+            document.getElementById('bundleEmptyMsg').style.display = count ? 'none' : '';
+        }
+
+        document.querySelectorAll('#bundleCategoryChips .chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                document.querySelectorAll('#bundleCategoryChips .chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                applyBundleFilters();
+            });
+        });
+        document.getElementById('bundlePriceSelect').addEventListener('change', applyBundleFilters);
+
+        function sortBundleCards(sortValue) {
+            const grid = document.getElementById('bundleGrid');
+            const cards = Array.from(grid.querySelectorAll('.bundle-card'));
+            if (sortValue === 'Price: Low to High') {
+                cards.sort((a, b) => parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10));
+            } else if (sortValue === 'Price: High to Low') {
+                cards.sort((a, b) => parseInt(b.dataset.price, 10) - parseInt(a.dataset.price, 10));
+            } else {
+                // 'Featured' (default) — original curated order
+                cards.sort((a, b) => parseInt(a.dataset.order, 10) - parseInt(b.dataset.order, 10));
+            }
+            cards.forEach(c => grid.appendChild(c));
+        }
+
+        const bundleMoreFiltersPanel = document.getElementById('bundleMoreFiltersPanel');
+        document.getElementById('bundleMoreFiltersBtn').addEventListener('click', function (e) {
+            e.stopPropagation();
+            bundleMoreFiltersPanel.classList.toggle('open');
+        });
+        document.addEventListener('click', function (e) {
+            if (bundleMoreFiltersPanel.classList.contains('open') && !bundleMoreFiltersPanel.contains(e.target) && e.target !== document.getElementById('bundleMoreFiltersBtn')) {
+                bundleMoreFiltersPanel.classList.remove('open');
+            }
+        });
+        document.querySelectorAll('#bundleMoreFiltersPanel .filter-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('#bundleMoreFiltersPanel .filter-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                sortBundleCards(this.dataset.sort);
+                bundleMoreFiltersPanel.classList.remove('open');
+                showToast('Sorted by "' + this.dataset.sort + '".');
+            });
+        });
+
         document.getElementById('scheduleConsultBtn').addEventListener('click', function () {
             showToast('Consultation request received — our specialists will reach out soon!');
         });
