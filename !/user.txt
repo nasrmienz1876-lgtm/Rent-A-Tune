@@ -48,3 +48,14 @@ Task:
 - In login.html#login,
 	- Make "Admin Login" below center with the login
 	- Make "Forgot username/password?" like in the firebase authentication templates password reset
+
+Task:
+- In marketplace.html#instrument:
+	- At "Sort by:" change "Most Popular" to "Top Rated" and make it function for the highest star rating items
+	- Make searh box at top nav bar to "Search Instruments"
+- In marketplace.html#band:
+	- At "More Filters", make it a function that can set our filter. Make the filter lists: Top Rating, Price: Low to High, Price: High to Low
+	- Remove "separator" and "bundles-section"
+	- Make searh box at top nav bar to "Search Bands"
+- In marketplace.html#bundles:
+	- Make searh box at top nav bar to "Search Bundles"

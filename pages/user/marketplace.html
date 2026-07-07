@@ -719,6 +719,52 @@ body {
     white-space: nowrap;
 }
 
+#tab-band .more-filters-wrapper {
+    position: relative;
+}
+
+#tab-band .more-filters-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 200px;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    z-index: 50;
+}
+
+#tab-band .more-filters-panel.open {
+    display: block;
+}
+
+#tab-band .filter-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--on-surface);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#tab-band .filter-option:hover {
+    background-color: var(--surface-container-high);
+}
+
+#tab-band .filter-option.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
 #tab-band .marketplace-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -842,165 +888,6 @@ body {
     gap: 0.5rem;
 }
 
-#tab-band .separator {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 5rem 0;
-}
-
-#tab-band .separator-line {
-    flex-grow: 1;
-    height: 1px;
-    background-color: var(--outline-variant);
-    opacity: 0.5;
-}
-
-#tab-band .bundles-header {
-    margin-bottom: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-#tab-band .view-all-link {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-    border-bottom: 2px solid var(--surface-container-highest);
-    padding-bottom: 4px;
-}
-
-#tab-band .bundles-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--gutter);
-    margin-bottom: 5rem;
-}
-
-@media (min-width: 1024px) {
-    #tab-band .bundles-grid { grid-template-columns: repeat(12, 1fr); }
-}
-
-#tab-band .bundle-large {
-    grid-column: span 8;
-    background-color: var(--on-surface);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    position: relative;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    padding: 3rem;
-}
-
-#tab-band .bundle-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-}
-
-#tab-band .bundle-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.4;
-}
-
-#tab-band .bundle-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, var(--on-surface) 0%, rgba(11, 28, 48, 0.8) 60%, transparent 100%);
-}
-
-#tab-band .bundle-content {
-    position: relative;
-    z-index: 1;
-    max-width: 500px;
-}
-
-#tab-band .tag-best-value {
-    background-color: var(--secondary-container);
-    color: var(--on-secondary-container);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-default);
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-}
-
-#tab-band .bundle-title {
-    font-size: 40px;
-    color: var(--surface-container-lowest);
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
-
-#tab-band .bundle-desc {
-    color: var(--surface-variant);
-    margin-bottom: 2rem;
-}
-
-#tab-band .bundle-actions {
-    display: flex;
-    gap: 1rem;
-}
-
-#tab-band .btn-primary {
-    padding: 0.75rem 2rem;
-    background-color: var(--primary);
-    color: var(--on-primary);
-    border: none;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#tab-band .btn-outline {
-    padding: 0.75rem 2rem;
-    background: transparent;
-    border: 1px solid var(--surface-variant);
-    color: var(--surface-container-lowest);
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#tab-band .bundle-small {
-    grid-column: span 4;
-    background-color: var(--surface-container-high);
-    border-radius: var(--radius-xl);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--outline-variant);
-}
-
-#tab-band .bundle-small-icon {
-    font-size: 48px;
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-}
-
-#tab-band .savings-box {
-    margin-top: auto;
-}
-
-#tab-band .btn-dark {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--on-surface);
-    color: var(--surface-container-lowest);
-    border: none;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    cursor: pointer;
-}
 
 /* ======================================================================
    TAB: Bundles (scoped from bundles.html)
@@ -1565,7 +1452,7 @@ body {
             <div class="nav-actions">
                 <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
                     <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
-                    <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
+                    <input class="search-input" id="navSearchInput" placeholder="Search Instruments" type="text" />
                 </form>
                 <div style="position: relative;">
                     <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
@@ -1638,7 +1525,7 @@ body {
                         <div class="sort-by">
                             <span>Sort by:</span>
                             <select id="sortBySelect">
-                                <option>Most Popular</option>
+                                <option>Top Rated</option>
                                 <option>Latest</option>
                                 <option>Price: Low to High</option>
                                 <option>Price: High to Low</option>
@@ -1682,66 +1569,23 @@ body {
                                 <option>Orchestra (12+)</option>
                             </select>
                         </div>
-                        <button class="btn-filter" id="moreFiltersBtn" type="button">
-                            <span class="material-symbols-outlined">filter_list</span>
-                            More Filters
-                        </button>
+                        <div class="more-filters-wrapper">
+                            <button class="btn-filter" id="moreFiltersBtn" type="button">
+                                <span class="material-symbols-outlined">filter_list</span>
+                                More Filters
+                            </button>
+                            <div class="more-filters-panel" id="moreFiltersPanel">
+                                <button type="button" class="filter-option" data-sort="Top Rating">Top Rating</button>
+                                <button type="button" class="filter-option" data-sort="Price: Low to High">Price: Low to High</button>
+                                <button type="button" class="filter-option" data-sort="Price: High to Low">Price: High to Low</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="marketplace-grid" id="bandGrid"></section>
             <p id="bandEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No bands match yet — check back soon.</p>
-
-            <div class="separator">
-                <div class="separator-line"></div>
-                <span class="material-symbols-outlined">auto_awesome</span>
-                <div class="separator-line"></div>
-            </div>
-
-            <section class="bundles-section">
-                <div class="bundles-header">
-                    <div>
-                        <span class="text-label-lg" style="color: var(--primary); display: block; margin-bottom: 0.5rem;">Premium Offerings</span>
-                        <h2 class="text-display">Stage &amp; Ensemble Bundles</h2>
-                    </div>
-                    <a class="view-all-link text-label-lg" href="#bundles" data-tab="tab-bundles">View All Bundles</a>
-                </div>
-
-                <div class="bundles-grid">
-                    <article class="bundle-large">
-                        <div class="bundle-bg">
-                            <img alt="Orchestra" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcVFk5lPBkASV6v0j7OZBDFPPqLd7HWyEQjdUh10OZsJWMkyQKN0OMgE1Oi_OvqvDr83amf1i7pWskg98a8eGaKH8y81NziG8rZ13GryYVBxkuzNyWwvp9rwpGLcUON8lXQaXhzFvVRWX8OfGYvXY0FlHmayj2kUvIFt4fhgOROQ_Ui1RYARuEE13HsLJYMwOvCeXSiNzrcSJQWf413yqjrp7-2FltmkfbiFHABljXFvmlj7ENbyQpo5FWXtBIaFNbuTqF7z0QmVw" />
-                            <div class="bundle-gradient"></div>
-                        </div>
-                        <div class="bundle-content">
-                            <span class="tag-best-value">BEST VALUE</span>
-                            <h3 class="bundle-title">The Grand Gala Ensemble</h3>
-                            <p class="bundle-desc text-body-lg">A complete 24-piece orchestral setup including full audio engineering and professional stage lighting. Perfect for corporate summits and grand wedding receptions.</p>
-                            <div class="bundle-actions">
-                                <button class="btn-primary">Chat with Coordinator</button>
-                                <button class="btn-outline">View Specs</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="bundle-small">
-                        <div class="bundle-small-icon">
-                            <span class="material-symbols-outlined" style="font-size: 48px;">speaker_group</span>
-                        </div>
-                        <h3 class="text-headline-lg" style="margin-bottom: 1rem;">Live Stage Bundle</h3>
-                        <p class="text-body-md" style="color: var(--on-surface-variant); margin-bottom: 2rem;">Standard 4-piece band booking + Full PA System + Basic Lighting Rig. Everything you need for a private party in one click.</p>
-                        <div class="savings-box">
-                            <p class="text-label-md" style="color: var(--on-surface-variant); margin-bottom: 0.25rem;">Bundle Savings</p>
-                            <p class="text-headline-md" style="color: var(--secondary); margin-bottom: 1.5rem;">Save 15% on Gear</p>
-                            <button class="btn-dark">
-                                <span class="material-symbols-outlined">forum</span>
-                                Discuss Bundle
-                            </button>
-                        </div>
-                    </article>
-                </div>
-            </section>
         </div>
 
         <!-- ============================= TAB: Bundles ============================= -->
@@ -2079,6 +1923,8 @@ body {
             card.className = 'card';
             card.dataset.genre = listing.category || '';
             card.dataset.size = listing.members || '';
+            card.dataset.price = listing.price;
+            card.dataset.rating = listing.rating || 0;
             card.dataset.listingId = listing.id;
 
             const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
@@ -2174,6 +2020,11 @@ body {
 
         /* ---------- Tab switching (Instrument Rentals / Band Booking / Bundles) ---------- */
         const TAB_HASHES = { instrument: 'tab-instrument', band: 'tab-band', bundles: 'tab-bundles' };
+        const TAB_SEARCH_PLACEHOLDERS = {
+            'tab-instrument': 'Search Instruments',
+            'tab-band': 'Search Bands',
+            'tab-bundles': 'Search Bundles'
+        };
 
         function activateTab(tabId) {
             document.querySelectorAll('.market-tab').forEach(t => t.classList.remove('active'));
@@ -2182,6 +2033,7 @@ body {
             document.querySelectorAll('[data-tab]').forEach(link => {
                 link.classList.toggle('active', link.dataset.tab === tabId);
             });
+            document.getElementById('navSearchInput').placeholder = TAB_SEARCH_PLACEHOLDERS[tabId] || 'Search...';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2283,6 +2135,7 @@ body {
             } else if (sortValue === 'Latest') {
                 cards.sort((a, b) => parseInt(b.dataset.createdAt, 10) - parseInt(a.dataset.createdAt, 10));
             } else {
+                // 'Top Rated' (default) — highest star rating first
                 cards.sort((a, b) => parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating));
             }
             cards.forEach(c => grid.appendChild(c));
@@ -2378,24 +2231,42 @@ body {
 
         document.getElementById('bandSizeSelect').addEventListener('change', applyBandFilters);
 
-        document.getElementById('moreFiltersBtn').addEventListener('click', function () {
-            showToast('More filters (rate, location, availability) coming soon!');
+        function sortBandCards(sortValue) {
+            const grid = document.getElementById('bandGrid');
+            const cards = Array.from(grid.querySelectorAll('.card'));
+            if (sortValue === 'Price: Low to High') {
+                cards.sort((a, b) => parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10));
+            } else if (sortValue === 'Price: High to Low') {
+                cards.sort((a, b) => parseInt(b.dataset.price, 10) - parseInt(a.dataset.price, 10));
+            } else {
+                // 'Top Rating' (default) — highest star rating first
+                cards.sort((a, b) => parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating));
+            }
+            cards.forEach(c => grid.appendChild(c));
+        }
+
+        const moreFiltersPanel = document.getElementById('moreFiltersPanel');
+        document.getElementById('moreFiltersBtn').addEventListener('click', function (e) {
+            e.stopPropagation();
+            moreFiltersPanel.classList.toggle('open');
+        });
+        document.addEventListener('click', function (e) {
+            if (moreFiltersPanel.classList.contains('open') && !moreFiltersPanel.contains(e.target) && e.target !== document.getElementById('moreFiltersBtn')) {
+                moreFiltersPanel.classList.remove('open');
+            }
+        });
+        document.querySelectorAll('#moreFiltersPanel .filter-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('#moreFiltersPanel .filter-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                sortBandCards(this.dataset.sort);
+                moreFiltersPanel.classList.remove('open');
+                showToast('Sorted by "' + this.dataset.sort + '".');
+            });
         });
 
         // (btn-booking clicks are now wired per-card in the module script below, for the same
         // reason as the instrument chat-btn above)
-
-        document.querySelectorAll('#tab-band .bundle-actions .btn-primary, #tab-band .savings-box .btn-dark').forEach(btn => {
-            btn.addEventListener('click', function () {
-                showToast('Opening chat with your event coordinator...');
-                setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
-            });
-        });
-        document.querySelectorAll('#tab-band .bundle-actions .btn-outline').forEach(btn => {
-            btn.addEventListener('click', function () {
-                showToast(this.textContent.trim() + ' — full specs will be shown here shortly!');
-            });
-        });
 
         /* ================= Bundles logic ================= */
         document.getElementById('discussGalaBtn').addEventListener('click', function () {
