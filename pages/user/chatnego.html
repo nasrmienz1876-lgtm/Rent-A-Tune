@@ -1,0 +1,1246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rent A Tune | Messages</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+    /* Design System Tokens (unified with home.html) */
+    --primary: #0040e0;
+    --on-primary: #ffffff;
+    --primary-container: #2e5bff;
+    --on-primary-container: #efefff;
+    --secondary: #7c5800;
+    --secondary-container: #feb700;
+    --on-secondary-container: #6b4b00;
+    --background: #f8f9ff;
+    --on-surface: #0b1c30;
+    --surface: #f8f9ff;
+    --surface-variant: #d3e4fe;
+    --on-surface-variant: #434656;
+    --outline: #747688;
+    --outline-variant: #c4c5d9;
+    --surface-container-low: #eff4ff;
+    --surface-container: #e5eeff;
+    --surface-container-high: #dce9ff;
+    --surface-container-highest: #d3e4fe;
+    --surface-container-lowest: #ffffff;
+    --secondary-fixed-dim: #ffba20;
+    --tertiary-fixed-dim: #c8c6c5;
+    --tertiary-fixed: #e5e2e1;
+    --inverse-surface: #213145;
+    --inverse-on-surface: #eaf1ff;
+    --error: #ba1a1a;
+    --error-container: #ffdad6;
+    --on-error-container: #93000a;
+    --surface-bright: #f8f9ff;
+
+    /* Spacing */
+    --gutter: 24px;
+    --margin-desktop: 48px;
+    --container-max: 1280px;
+
+    /* Fonts */
+    --font-display: 'Source Serif 4', serif;
+    --font-body: 'Montserrat', sans-serif;
+
+    /* Borders */
+    --radius-default: 0.25rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--on-surface);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+/* Navigation (unified with home.html) */
+.navbar {
+    background-color: var(--surface-container-lowest);
+    border-bottom: 1px solid var(--outline-variant);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    margin-right: 2rem;
+}
+
+.nav-links {
+    display: none;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .nav-links { display: flex; }
+}
+
+.nav-link {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+    transition: color 0.2s;
+}
+
+.nav-link:hover { color: var(--primary); }
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-bar {
+    display: none;
+    align-items: center;
+    background-color: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+    .search-bar { display: flex; }
+}
+
+.search-input {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    width: 200px;
+    outline: none;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary-container);
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.chat-active-icon {
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 4px;
+    color: var(--primary) !important;
+    font-variation-settings: 'FILL' 1;
+}
+
+/* ---------- Carousell-style chat page layout ---------- */
+.chat-page-main {
+    display: flex;
+    gap: var(--gutter);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    height: calc(100vh - 81px);
+}
+
+@media (max-width: 900px) {
+    .chat-page-main { flex-direction: column; height: auto; }
+}
+
+/* Left: Conversation list */
+.conversations-panel {
+    width: 320px;
+    flex-shrink: 0;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-xl);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 900px) {
+    .conversations-panel { width: 100%; max-height: 320px; }
+}
+
+.conversations-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+}
+
+.conversations-header h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+}
+
+.conversations-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1rem;
+}
+
+.conversations-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+    font-family: var(--font-body);
+}
+
+.conversation-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.conversation-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-items: center;
+}
+
+.conversation-item:hover {
+    background-color: var(--surface-container-low);
+}
+
+.conversation-item.active {
+    background-color: var(--surface-container);
+}
+
+.conversation-avatar {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.conversation-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.conversation-avatar .dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background-color: var(--secondary-container);
+    border: 2px solid var(--surface-container-lowest);
+}
+
+.conversation-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.conversation-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.conversation-name {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-time {
+    font-size: 11px;
+    color: var(--outline);
+    flex-shrink: 0;
+}
+
+.conversation-item-title {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.conversation-preview {
+    font-size: 13px;
+    color: var(--on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.conversation-unread {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    flex-shrink: 0;
+}
+
+/* Center: Chat window */
+.chat-main-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-container-lowest);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--outline-variant);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    overflow: hidden;
+    min-height: 0;
+}
+
+.chat-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--outline-variant);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface-container-low);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar-status { position: relative; }
+
+.avatar-status img {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--secondary-container);
+    border: 2px solid white;
+    border-radius: var(--radius-full);
+}
+
+.user-details .name { font-size: 14px; font-weight: 600; }
+
+.user-details .status-text {
+    font-size: 13px;
+    color: var(--on-surface-variant);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.chat-actions { display: flex; gap: 0.5rem; }
+
+.chat-actions button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--radius-full);
+    color: var(--outline);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.chat-actions button:hover { background-color: var(--surface-container-highest); }
+
+/* Listing strip pinned in chat (Carousell-style item card) */
+.listing-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--surface-container-low);
+    border-bottom: 1px solid var(--outline-variant);
+}
+
+.listing-strip img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    border: 1px solid var(--outline-variant);
+}
+
+.listing-strip .listing-info { flex: 1; min-width: 0; }
+
+.listing-strip .listing-title {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listing-strip .listing-price {
+    font-size: 12px;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.listing-strip button {
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.listing-strip button:hover { background-color: var(--surface-container-high); }
+
+.messages-area {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.timestamp-pill {
+    align-self: center;
+    font-size: 12px;
+    color: var(--outline);
+    background-color: var(--surface-container-high);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+}
+
+.message { display: flex; gap: 0.75rem; max-width: 80%; }
+.message.received { align-self: flex-start; }
+.message.sent { align-self: flex-end; flex-direction: row-reverse; }
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    align-self: flex-end;
+}
+
+.bubble {
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-size: 15px;
+}
+
+.message.received .bubble {
+    background-color: var(--surface-container-high);
+    color: var(--on-surface);
+    border-bottom-left-radius: 0;
+}
+
+.message.sent .bubble {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border-bottom-right-radius: 0;
+}
+
+.message-time {
+    display: block;
+    font-size: 10px;
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+.message.received .message-time { color: var(--outline); }
+.message.sent .message-time { color: rgba(255,255,255,0.7); }
+
+.input-area {
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.warning-msg {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--error-container);
+    color: var(--on-error-container);
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    border: 1px solid rgba(186, 26, 26, 0.2);
+}
+
+.input-wrapper { display: flex; align-items: center; gap: 1rem; }
+
+.attach-btn {
+    background: none;
+    border: none;
+    color: var(--outline);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.attach-btn:hover { color: var(--primary); }
+
+.text-input-field {
+    flex: 1;
+    background-color: var(--surface-bright);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-xl);
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.text-input-field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 64, 224, 0.1);
+}
+
+.send-btn {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-xl);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+.send-btn:hover { transform: scale(1.05); }
+
+/* Right: Rental management sidebar */
+.management-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .management-sidebar { width: 100%; }
+}
+
+.management-card {
+    background-color: var(--inverse-surface);
+    color: var(--inverse-on-surface);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.management-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.management-header h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+}
+
+.status-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.status-label {
+    font-size: 12px;
+    color: var(--tertiary-fixed-dim);
+    margin-bottom: 0.25rem;
+}
+
+.status-value {
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--secondary-fixed-dim);
+}
+
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.controls-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--tertiary-fixed);
+    margin-bottom: 0.25rem;
+}
+
+.btn-primary-action {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius-xl);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.btn-primary-action:hover { transform: translateY(-2px); }
+
+.btn-outline-action {
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem;
+    border-radius: var(--radius-xl);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.btn-outline-action:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.escrow-section {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.escrow-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.escrow-status span:first-child {
+    font-size: 14px;
+    color: var(--tertiary-fixed-dim);
+}
+
+.escrow-section p {
+    font-size: 12px;
+    color: var(--tertiary-fixed-dim);
+    line-height: 1.6;
+}
+
+.cancel-btn {
+    margin-top: auto;
+    background: none;
+    border: none;
+    color: var(--error);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    transition: color 0.2s;
+    font-family: var(--font-body);
+}
+
+.cancel-btn:hover { color: var(--error-container); }
+
+/* Footer (unified with home.html) */
+.footer {
+    background-color: var(--surface-container-high);
+    border-top: 1px solid var(--outline-variant);
+    padding: 4rem 0 2rem;
+    margin-top: 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .footer-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.footer-brand h4 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    margin-bottom: 1.5rem;
+}
+
+.footer-nav h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-nav ul { list-style: none; }
+.footer-nav li { margin-bottom: 1rem; }
+
+.footer-nav a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    transition: color 0.2s;
+}
+
+.footer-nav a:hover { color: var(--secondary); }
+
+.footer-bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+}
+
+@media (min-width: 768px) {
+    .footer-bottom { flex-direction: row; }
+}
+
+.footer-bottom-badges { display: flex; gap: 1.5rem; }
+.badge-item { display: flex; align-items: center; gap: 0.5rem; }
+
+@media (max-width: 900px) {
+    .chat-page-main { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container nav-content">
+        <div style="display: flex; align-items: center;">
+            <a class="logo" href="home.html">Rent A Tune</a>
+            <div class="nav-links">
+                <a class="nav-link" href="marketplace.html#instrument">Instrument Rentals</a>
+                <a class="nav-link" href="marketplace.html#band">Band Booking</a>
+                <a class="nav-link" href="marketplace.html#bundles">Bundles</a>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
+                <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
+                <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
+            </form>
+            <div style="position: relative;">
+                <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
+                    <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
+                </div>
+            </div>
+            <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer;" title="Messages">
+                <span class="material-symbols-outlined chat-active-icon">chat</span>
+            </button>
+            <a href="login.html" id="profileLink">
+                <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="container chat-page-main">
+
+    <!-- Left: Conversation List (Carousell-style) -->
+    <aside class="conversations-panel">
+        <div class="conversations-header">
+            <h2>Messages</h2>
+            <div class="conversations-search">
+                <span class="material-symbols-outlined" style="color: var(--outline); font-size: 20px;">search</span>
+                <input id="conversationSearchInput" placeholder="Search chats..." type="text" />
+            </div>
+        </div>
+        <div class="conversation-list" id="conversationList"></div>
+        <p id="conversationEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 24px 16px;">No conversations yet — start one from the marketplace.</p>
+    </aside>
+
+    <!-- Center: Chat Window -->
+    <section class="chat-main-col">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="user-info">
+                    <div class="avatar-status">
+                        <img alt="Julian Vance" id="activeAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBOis44EvLhMMH-gvuNxvvOzZnWUMMiCZK8KG5BtN2p-2C9A_WHjwdP0-RchwOtdRbB5DB3iU5yDCAdtJeC0HF6D0hOmJYRcaSUe-g0qHLN9-qrtbr-AOAr7gFak7QcfUCCdmCofA9nuu7HCQ703Z7tgr6CRESaU6vh7pGmlrG3ZbHPsQgOpMFMUU1KTvuwCJ9fMOtGrEX5FbK5trnbjTEx2R-RFz9m_JvXuBXEOgOjf8O3HFH41CufEJdy8PEIfPzavEkFCpHn5I"/>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="user-details">
+                        <div class="name" id="activeName">Julian Vance (Pro Renter)</div>
+                        <div class="status-text">
+                            <span class="material-symbols-outlined" style="font-size: 12px;">schedule</span>
+                            <span id="activeStatus">Active now</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button id="callBtn" title="Call"><span class="material-symbols-outlined">call</span></button>
+                    <button id="moreBtn" title="More"><span class="material-symbols-outlined">more_vert</span></button>
+                </div>
+            </div>
+
+            <!-- Pinned listing strip (Carousell-style) -->
+            <div class="listing-strip">
+                <img alt="1964 Fender Stratocaster" id="listingImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYktc7yVpjm65ZSH09hlePt3xcb3h-pIIOLI1HMkkI5hc5d4vc4yRWyqzvvbni82p0rK5jbwypPLCE1Gj9yUBRGccjoGuE2xj3Qle8jkdww4nuIu9dDBkCOOXC2z51_2zsBSbF0xzHWojCS4kFMl_igSkZxJBxLm7ry3qs0eGNid20KtpwlJrBRMVkZLpwmGnKXjXXegl-6FlZ9JSR3OJy1BZolKKP4AkGr81LLe-YtP2XfK8xH0xmdmPE2oiJqWJ_-Eg0_DhrVEs" />
+                <div class="listing-info">
+                    <div class="listing-title" id="listingTitle">1964 Fender Stratocaster</div>
+                    <div class="listing-price" id="listingPrice">$145 / day &middot; Oct 24 - Oct 27</div>
+                </div>
+                <button id="viewListingBtn" type="button">View Listing</button>
+            </div>
+
+            <div class="messages-area" id="messagesArea"></div>
+
+            <div class="input-area">
+                <div class="warning-msg">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">report</span>
+                    Sharing contact information or social media is prohibited and monitored by system admins.
+                </div>
+                <div class="input-wrapper">
+                    <button class="attach-btn" id="attachBtn" title="Attach file">
+                        <span class="material-symbols-outlined">attach_file</span>
+                    </button>
+                    <input class="text-input-field" id="chatTextInput" placeholder="Type your message..." type="text"/>
+                    <button class="send-btn" id="sendBtn" title="Send">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Right: Rental Management -->
+    <aside class="management-sidebar">
+        <div class="management-card">
+            <div class="management-header">
+                <span class="material-symbols-outlined" style="color: var(--secondary-fixed-dim);">settings_suggest</span>
+                <h2>Rental Management</h2>
+            </div>
+            <div class="status-box">
+                <div class="status-label">Current Status</div>
+                <div class="status-value" id="rentalStatusValue">Negotiation</div>
+            </div>
+            <div class="controls-section">
+                <h3>Active Controls</h3>
+                <button class="btn-primary-action" id="triggerPaymentBtn" type="button">
+                    <span class="material-symbols-outlined">payments</span>
+                    Trigger Payment Request
+                </button>
+                <button class="btn-outline-action" id="modifyDatesBtn" type="button">
+                    <span class="material-symbols-outlined">edit_calendar</span>
+                    Modify Rental Dates
+                </button>
+                <button class="btn-outline-action" id="updateTermsBtn" type="button">
+                    <span class="material-symbols-outlined">description</span>
+                    Update Contract Terms
+                </button>
+            </div>
+            <div class="escrow-section">
+                <div class="escrow-status">
+                    <span>Escrow Secured</span>
+                    <span class="material-symbols-outlined" style="color: var(--secondary-fixed-dim); font-size: 18px; font-variation-settings: 'FILL' 1;">lock</span>
+                </div>
+                <p>Once payment is triggered, the user will be notified to authorize the deposit. Funds are held in Rent A Tune Escrow until the instrument is returned and inspected.</p>
+            </div>
+            <button class="cancel-btn" id="cancelTransactionBtn" type="button">
+                <span class="material-symbols-outlined">cancel</span>
+                Cancel Transaction
+            </button>
+        </div>
+    </aside>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h4>Rent A Tune</h4>
+                <p>Elevating the professional music scene with secure, rhythmic logistics for performers and planners.</p>
+            </div>
+            <div class="footer-nav">
+                <h5>Marketplace</h5>
+                <ul>
+                    <li><a href="marketplace.html#instrument">Instrument Rentals</a></li>
+                    <li><a href="marketplace.html#band">Band Booking</a></li>
+                    <li><a href="marketplace.html#bundles">Bundles</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="support.html#faq">FAQ</a></li>
+                    <li><a href="support.html#privacy">Privacy Policy</a></li>
+                    <li><a href="support.html#terms">Terms of Service</a></li>
+                    <li><a href="support.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h5>Security</h5>
+                <div class="footer-bottom-badges" style="margin-top: 0;">
+                    <div class="badge-item">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">security</span>
+                        <span>Verified Rentals</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Rent A Tune. Secure Escrow Payments Guaranteed.</p>
+            <div class="footer-bottom-badges">
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">payments</span>
+                    <span>Secure Payments</span>
+                </div>
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">verified</span>
+                    <span>Vetted Talent</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="module">
+    import { renderAuthNav } from '../shared/auth-helpers.js';
+    renderAuthNav('profileLink');
+</script>
+<script>
+    /* ---------- Shared toast helper ---------- */
+    function showToast(msg) {
+        let toast = document.getElementById('appToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'appToast';
+            toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+    }
+
+    /* ---------- Navbar notification panel ---------- */
+    function toggleNotifPanel() {
+        const panel = document.getElementById('notifPanel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+    document.addEventListener('click', function (e) {
+        const notifPanel = document.getElementById('notifPanel');
+        const notifBtn = document.getElementById('notifBtn');
+        if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+            notifPanel.style.display = 'none';
+        }
+    });
+
+    /* ---------- Navbar search ---------- */
+    function handleNavSearch(e) {
+        e.preventDefault();
+        const q = document.getElementById('navSearchInput').value.trim();
+        if (!q) return false;
+        window.location.href = 'marketplace.html?q=' + encodeURIComponent(q);
+        return false;
+    }
+
+    /* Conversation list, messages, send/attach/call/more, view-listing, and rental-management logic now live in the module script below, since they need real-time Firestore access. */
+</script>
+
+<script type="module">
+    import { requireAuth } from '../shared/auth-helpers.js';
+    import {
+        getMany, updateDocFields, createSubDoc, subscribeToSubQuery,
+        where, orderBy, serverTimestamp, escapeHtml
+    } from '../shared/firestore-helpers.js';
+
+    const { uid: myUid } = await requireAuth(null, '../user/login.html');
+
+    let conversationsCache = [];
+    let activeConversationId = null;
+    let unsubscribeMessages = null;
+
+    function otherParticipant(convo) {
+        const otherUid = convo.participantIds.find(id => id !== myUid);
+        const name = (convo.participantNames && convo.participantNames[otherUid]) || 'User';
+        return { uid: otherUid, name };
+    }
+
+    function renderConversationItem(convo) {
+        const other = otherParticipant(convo);
+        const div = document.createElement('div');
+        div.className = 'conversation-item' + (convo.id === activeConversationId ? ' active' : '');
+        div.dataset.convo = convo.id;
+        const lastAt = convo.lastMessageAt && convo.lastMessageAt.toDate ? convo.lastMessageAt.toDate() : null;
+        const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+        div.innerHTML =
+            '<div class="conversation-avatar"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../images/user_profile.jpg') + '"/></div>' +
+            '<div class="conversation-body">' +
+                '<div class="conversation-top-row"><span class="conversation-name">' + escapeHtml(other.name) + '</span><span class="conversation-time">' + escapeHtml(timeLabel) + '</span></div>' +
+                '<div class="conversation-item-title">' + escapeHtml(convo.listingTitle || '') + '</div>' +
+                '<div class="conversation-preview">' + escapeHtml(convo.lastMessage || 'Start the conversation...') + '</div>' +
+            '</div>';
+        div.addEventListener('click', function () { openConversation(convo.id); });
+        return div;
+    }
+
+    function renderConversationList() {
+        const list = document.getElementById('conversationList');
+        list.innerHTML = '';
+        conversationsCache.forEach(c => list.appendChild(renderConversationItem(c)));
+        document.getElementById('conversationEmptyMsg').style.display = conversationsCache.length ? 'none' : '';
+    }
+
+    function updateActiveHeader(convo) {
+        const other = otherParticipant(convo);
+        document.getElementById('activeAvatar').src = convo.listingImage || '../images/user_profile.jpg';
+        document.getElementById('activeName').textContent = other.name;
+        document.getElementById('activeStatus').textContent = '';
+        document.getElementById('listingImg').src = convo.listingImage || '../images/user_profile.jpg';
+        document.getElementById('listingTitle').textContent = convo.listingTitle || '';
+        document.getElementById('listingPrice').textContent = convo.listingPrice ? ('RM' + convo.listingPrice) : '';
+        const status = convo.status || 'negotiation';
+        document.getElementById('rentalStatusValue').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    function renderMessages(msgs) {
+        const area = document.getElementById('messagesArea');
+        area.innerHTML = '';
+        msgs.forEach(m => {
+            const isMine = m.senderId === myUid;
+            const wrap = document.createElement('div');
+            wrap.className = 'message ' + (isMine ? 'sent' : 'received');
+            const time = m.createdAt && m.createdAt.toDate
+                ? m.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                : '';
+            let inner = '';
+            if (!isMine) {
+                inner += '<img alt="" class="message-avatar" src="../images/user_profile.jpg"/>';
+            }
+            inner += '<div class="bubble"><p></p><span class="message-time">' + escapeHtml(time) + '</span></div>';
+            wrap.innerHTML = inner;
+            wrap.querySelector('.bubble p').textContent = m.text || '';
+            area.appendChild(wrap);
+        });
+        area.scrollTop = area.scrollHeight;
+    }
+
+    function openConversation(convoId) {
+        const convo = conversationsCache.find(c => c.id === convoId);
+        if (!convo) return;
+        activeConversationId = convoId;
+        document.querySelectorAll('.conversation-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.convo === convoId);
+        });
+        updateActiveHeader(convo);
+
+        if (unsubscribeMessages) unsubscribeMessages();
+        unsubscribeMessages = subscribeToSubQuery('conversations', convoId, 'messages', [orderBy('createdAt', 'asc')], renderMessages);
+
+        history.replaceState(null, '', '?convo=' + convoId);
+    }
+
+    async function loadConversations() {
+        conversationsCache = await getMany('conversations', where('participantIds', 'array-contains', myUid));
+        conversationsCache.sort((a, b) => {
+            const at = a.lastMessageAt && a.lastMessageAt.toMillis ? a.lastMessageAt.toMillis() : 0;
+            const bt = b.lastMessageAt && b.lastMessageAt.toMillis ? b.lastMessageAt.toMillis() : 0;
+            return bt - at;
+        });
+        renderConversationList();
+
+        if (conversationsCache.length === 0) return;
+        const params = new URLSearchParams(window.location.search);
+        const wanted = params.get('convo');
+        const target = conversationsCache.find(c => c.id === wanted) || conversationsCache[0];
+        openConversation(target.id);
+    }
+
+    /* ---------- Conversation search filter ---------- */
+    document.getElementById('conversationSearchInput').addEventListener('input', function () {
+        const q = this.value.trim().toLowerCase();
+        document.querySelectorAll('.conversation-item').forEach(item => {
+            const name = item.querySelector('.conversation-name').textContent.toLowerCase();
+            const title = item.querySelector('.conversation-item-title').textContent.toLowerCase();
+            item.style.display = (name.includes(q) || title.includes(q)) ? 'flex' : 'none';
+        });
+    });
+
+    /* ---------- Send message ---------- */
+    async function sendMessage() {
+        const input = document.getElementById('chatTextInput');
+        const text = input.value.trim();
+        if (!text || !activeConversationId) return;
+        input.value = '';
+        try {
+            await createSubDoc('conversations', activeConversationId, 'messages', {
+                senderId: myUid,
+                text,
+                attachmentUrl: null
+            });
+            await updateDocFields('conversations', activeConversationId, {
+                lastMessage: text,
+                lastMessageAt: serverTimestamp()
+            });
+        } catch (err) {
+            showToast('Could not send message. Please try again.');
+        }
+    }
+    document.getElementById('sendBtn').addEventListener('click', sendMessage);
+    document.getElementById('chatTextInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    /* ---------- Attach / Call / More (no file storage / calling / moderation system built yet) ---------- */
+    document.getElementById('attachBtn').addEventListener('click', function () {
+        showToast('File attachments will open your device file picker.');
+    });
+    document.getElementById('callBtn').addEventListener('click', function () {
+        showToast('Starting a secure in-app voice call...');
+    });
+    document.getElementById('moreBtn').addEventListener('click', function () {
+        showToast('Options: Block, Report, or Archive this conversation.');
+    });
+    document.getElementById('viewListingBtn').addEventListener('click', function () {
+        window.location.href = 'marketplace.html';
+    });
+
+    /* ---------- Rental management controls ---------- */
+    document.getElementById('triggerPaymentBtn').addEventListener('click', function () {
+        if (!activeConversationId) return;
+        showToast('Redirecting to checkout...');
+        setTimeout(() => { window.location.href = 'checkout.html?convo=' + activeConversationId; }, 600);
+    });
+    document.getElementById('modifyDatesBtn').addEventListener('click', function () {
+        showToast('Opening rental date editor...');
+    });
+    document.getElementById('updateTermsBtn').addEventListener('click', function () {
+        showToast('Opening contract terms editor...');
+    });
+    document.getElementById('cancelTransactionBtn').addEventListener('click', async function () {
+        if (!activeConversationId) return;
+        if (!confirm('Are you sure you want to cancel this transaction? This cannot be undone.')) return;
+        try {
+            await updateDocFields('conversations', activeConversationId, { status: 'cancelled' });
+            const convo = conversationsCache.find(c => c.id === activeConversationId);
+            if (convo && convo.bookingId) {
+                await updateDocFields('bookings', convo.bookingId, { bookingStatus: 'cancelled' });
+            }
+            document.getElementById('rentalStatusValue').textContent = 'Cancelled';
+            showToast('Transaction cancelled.');
+        } catch (err) {
+            showToast('Could not cancel this transaction. Please try again.');
+        }
+    });
+
+    loadConversations();
+</script>
+</body>
+</html>

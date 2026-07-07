@@ -1,0 +1,883 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Process - Rent A Tune</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            /* Colors */
+            --primary: #0040e0;
+            --primary-container: #2e5bff;
+            --on-primary: #ffffff;
+            --on-primary-container: #efefff;
+            --primary-fixed-dim: #b8c3ff;
+            
+            --secondary: #7c5800;
+            --on-secondary: #ffffff;
+            --secondary-container: #feb700;
+            --on-secondary-container: #6b4b00;
+            
+            --surface: #f8f9ff;
+            --on-surface: #0b1c30;
+            --surface-variant: #d3e4fe;
+            --on-surface-variant: #434656;
+            
+            --background: #f8f9ff;
+            --on-background: #0b1c30;
+            
+            --outline: #747688;
+            --outline-variant: #c4c5d9;
+            
+            --surface-container-low: #eff4ff;
+            --surface-container: #e5eeff;
+            --surface-container-high: #dce9ff;
+            --surface-container-highest: #d3e4fe;
+            --surface-container-lowest: #ffffff;
+
+            /* Spacing */
+            --margin-mobile: 16px;
+            --margin-desktop: 48px;
+            --gutter: 24px;
+            --container-max: 1280px;
+            --base: 8px;
+
+            /* Transitions */
+            --transition-speed: 0.2s;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--on-surface);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Material Symbols Support */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .material-fill { font-variation-settings: 'FILL' 1; }
+
+        /* Typography Components */
+        .font-display { font-family: 'Source Serif 4', serif; font-weight: 700; }
+        .font-headline { font-family: 'Source Serif 4', serif; font-weight: 600; }
+        
+        .text-display { font-size: 48px; line-height: 56px; letter-spacing: -0.02em; }
+        .text-headline-lg { font-size: 32px; line-height: 40px; }
+        .text-headline-md { font-size: 24px; line-height: 32px; }
+        .text-label-lg { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        .text-label-md { font-size: 12px; line-height: 16px; font-weight: 500; }
+        .text-body-lg { font-size: 18px; line-height: 28px; }
+        .text-body-md { font-size: 16px; line-height: 24px; }
+        .text-body-sm { font-size: 14px; line-height: 20px; }
+
+        /* Layout */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding-left: var(--gutter);
+            padding-right: var(--gutter);
+            width: 100%;
+        }
+
+        /* Header (unified with home.html navbar) */
+        .navbar {
+            background-color: var(--surface-container-lowest);
+            border-bottom: 1px solid var(--outline-variant);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            transition: color var(--transition-speed);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: none;
+            align-items: center;
+            background-color: var(--surface-container-low);
+            border: 1px solid var(--outline-variant);
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .search-bar { display: flex; }
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            width: 200px;
+            outline: none;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            border: 2px solid var(--primary-container);
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+
+        @media (min-width: 1024px) {
+            .main-grid { grid-template-columns: repeat(12, 1fr); }
+            .col-left { grid-column: span 7; }
+            .col-right { grid-column: span 5; }
+        }
+
+        /* Order Summary */
+        .card {
+            background-color: var(--surface-container-lowest);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid var(--outline-variant);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .order-header {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--outline-variant);
+        }
+
+        @media (min-width: 768px) {
+            .order-header { flex-direction: row; }
+        }
+
+        .product-image {
+            width: 128px;
+            height: 128px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            padding: 4px 12px;
+            border-radius: 9999px;
+        }
+
+        .pricing-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pricing-label { color: var(--on-surface-variant); }
+        .pricing-value { font-weight: 600; }
+
+        .total-row {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--outline-variant);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-amount { color: var(--primary); }
+
+        /* Security Banner */
+        .escrow-banner {
+            background-color: var(--surface-container-high);
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .escrow-banner .icon { color: var(--secondary); }
+        .escrow-title { color: var(--secondary); margin-bottom: 4px; }
+        .escrow-text { color: var(--on-surface-variant); line-height: 1.6; }
+
+        /* Payment Form */
+        .payment-sticky {
+            position: sticky;
+            top: 96px;
+        }
+
+        .payment-card {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .method-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .method-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--outline-variant);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .method-option:hover { background-color: var(--surface-container-high); }
+
+        .method-option.active {
+            border: 2px solid var(--primary);
+            background-color: var(--surface-container-low);
+        }
+
+        .method-radio {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+        }
+
+        .method-info {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            margin-left: 16px;
+        }
+
+        .method-info .icon { margin-right: 12px; color: var(--on-surface-variant); }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--on-surface-variant);
+        }
+
+        .input-wrapper { position: relative; }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--outline-variant);
+            outline: none;
+            font-family: inherit;
+            transition: all var(--transition-speed);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-fixed-dim);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--outline-variant);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Action Button */
+        .btn-primary {
+            width: 100%;
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            padding: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: all var(--transition-speed);
+            margin-top: 24px;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transform: scale(1.02);
+        }
+
+        .btn-primary:active { transform: scale(0.98); }
+
+        .secure-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--on-surface-variant);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        /* Footer (unified with home.html) */
+        .footer {
+            background-color: var(--surface-container-high);
+            border-top: 1px solid var(--outline-variant);
+            padding: 4rem 0 2rem;
+            margin-top: 48px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .footer-brand h4 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-nav h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-nav ul {
+            list-style: none;
+        }
+
+        .footer-nav li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav a {
+            text-decoration: none;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            transition: color var(--transition-speed);
+        }
+
+        .footer-nav a:hover { color: var(--secondary); }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--outline-variant);
+            background-color: var(--surface);
+            font-size: 14px;
+        }
+
+        .btn-send {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom { flex-direction: row; }
+        }
+
+        .footer-bottom-badges {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="container nav-content">
+        <div style="display: flex; align-items: center;">
+            <a class="logo" href="home.html">Rent A Tune</a>
+            <div class="nav-links">
+                <a class="nav-link" href="marketplace.html#instrument">Instrument Rentals</a>
+                <a class="nav-link" href="marketplace.html#band">Band Booking</a>
+                <a class="nav-link" href="marketplace.html#bundles">Bundles</a>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
+                <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
+                <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
+            </form>
+            <div style="position: relative;">
+                <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
+                    <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
+                </div>
+            </div>
+            <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
+                <span class="material-symbols-outlined">chat</span>
+            </button>
+            <a href="login.html" id="profileLink">
+                <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+            </a>
+        </div>
+    </div>
+</nav>
+<main class="container main-grid">
+<!-- Left Column -->
+<div class="col-left">
+<section style="margin-bottom: 32px;">
+<h1 class="font-display text-headline-lg" style="margin-bottom: 8px;">Review Your Rental</h1>
+<p class="text-on-surface-variant text-body-md">Finalize the secure payment for your negotiated instrument rental.</p>
+</section>
+<!-- Order Summary Card -->
+<div class="card">
+<div class="order-header">
+<div class="product-image">
+<img alt="Rental item" id="checkoutProductImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgAqoskzdx8I7yztQ1sA01qczPoMJJnt1LdDH7dkToFHw3bYbQ977vaHZfxkqaXG_IGJjwOHpfAAt-RjjbfJwD3GKp9I6MHtP_53USaCwav-gne7QroS8YWqEdNYIehnS4kRYq7EMpogGbQAD_RGUNOX50Mn93gSlK37VhxgPeIIpiTn-cUtiQbtWAuFCfPee0Y-OqchmvE2Our9n2Yb7S4-88J6jbGeZbnBU0chGoQji0lOx-4nFYtfIaBscyIJKGINoeA4TaSbE"/>
+</div>
+<div>
+<span class="badge text-label-md" id="checkoutStatusBadge">Available</span>
+<h2 class="font-headline text-headline-md" style="margin-top: 8px;" id="checkoutTitle">Gibson Les Paul Standard '60s</h2>
+<p class="text-on-surface-variant text-body-md" id="checkoutSubtitle">Heritage Cherry Sunburst</p>
+</div>
+</div>
+<div class="pricing-list text-body-md">
+<div class="pricing-row">
+<span class="pricing-label">Rental Dates</span>
+<span class="pricing-value" id="checkoutDatesValue">Oct 12 - Oct 15 (3 Days)</span>
+</div>
+<div class="pricing-row">
+<span class="pricing-label" id="checkoutRateLabel">Daily Rate (RM85.00 x 3)</span>
+<span id="checkoutRateValue">RM255.00</span>
+</div>
+<div class="pricing-row">
+<span class="pricing-label">Pickup/Delivery Fee</span>
+<span id="checkoutDeliveryValue">RM25.00</span>
+</div>
+<div class="pricing-row">
+<span class="pricing-label">Platform Fee</span>
+<span id="checkoutPlatformValue">RM12.50</span>
+</div>
+<div class="total-row">
+<span class="font-headline text-headline-md">Total Amount</span>
+<span class="font-display text-headline-lg total-amount" id="checkoutTotalValue">RM292.50</span>
+</div>
+</div>
+</div>
+<!-- Escrow Protection -->
+<div class="escrow-banner">
+<span class="material-symbols-outlined icon material-fill">verified_user</span>
+<div>
+<p class="text-label-lg escrow-title">Secure Escrow Protection</p>
+<p class="text-body-sm escrow-text">
+                    Your payment will be held securely by Rent A Tune. Funds are only released to the renter after the rental period is successfully completed.
+                </p>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="col-right">
+<div class="card payment-card payment-sticky">
+<h3 class="font-headline text-headline-md" style="margin-bottom: 24px;">Payment Method</h3>
+<form>
+<div class="method-selector">
+<label class="method-option active">
+<input checked="" class="method-radio" name="payment_method" type="radio" value="card"/>
+<div class="method-info">
+<span class="material-symbols-outlined icon">credit_card</span>
+<span class="text-label-lg" style="color: var(--on-surface);">Credit / Debit Card</span>
+</div>
+<div style="display: flex; gap: 4px;">
+<span style="width: 24px; height: 16px; background-color: #e2e8f0; border-radius: 2px;"></span>
+<span style="width: 24px; height: 16px; background-color: #cbd5e1; border-radius: 2px;"></span>
+</div>
+</label>
+<label class="method-option">
+<input class="method-radio" name="payment_method" type="radio" value="wallet"/>
+<div class="method-info">
+<span class="material-symbols-outlined icon">account_balance_wallet</span>
+<span class="text-label-lg" style="color: var(--on-surface);">Digital Wallet</span>
+</div>
+</label>
+</div>
+<div class="form-group">
+<label class="form-label text-label-md">Cardholder Name</label>
+<input id="cardholderNameInput" class="form-input text-body-md" placeholder="Min Marlon" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label text-label-md">Card Number</label>
+<div class="input-wrapper">
+<input id="cardNumberInput" class="form-input text-body-md" placeholder="0000 0000 0000 0000" type="text"/>
+<span class="material-symbols-outlined input-icon">lock</span>
+</div>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label text-label-md">Expiry Date</label>
+<input id="cardExpiryInput" class="form-input text-body-md" placeholder="MM/YY" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label text-label-md">CVV</label>
+<input id="cardCvvInput" class="form-input text-body-md" placeholder="***" type="text"/>
+</div>
+</div>
+<button class="btn-primary text-label-lg text-body-lg" type="button">
+<span class="material-symbols-outlined">verified</span>
+                    Complete Secure Payment
+                </button>
+<div class="secure-footer text-body-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">lock_person</span>
+                    256-bit SSL Encrypted Connection
+                </div>
+</form>
+</div>
+</div>
+</main>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h4>Rent A Tune</h4>
+                <p>The Professional Stage for instrument rentals and band logistics.</p>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Marketplace</h5>
+                <ul>
+                    <li><a href="marketplace.html#instrument">Instrument Rentals</a></li>
+                    <li><a href="marketplace.html#band">Band Booking</a></li>
+                    <li><a href="marketplace.html#bundles">Bundles</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="support.html#faq">FAQ</a></li>
+                    <li><a href="support.html#privacy">Privacy Policy</a></li>
+                    <li><a href="support.html#terms">Terms of Service</a></li>
+                    <li><a href="support.html#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Newsletter</h5>
+                <p style="font-size: 14px; color: var(--on-surface-variant); margin-bottom: 1rem;">Get the latest gear drops and talent availability.</p>
+                <div class="newsletter-form">
+                    <input class="newsletter-input" id="newsletterInput" placeholder="Email address" type="email" />
+                    <button class="btn-send" id="newsletterBtn" type="button"><span class="material-symbols-outlined">send</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Rent A Tune. Secure Escrow Payments Guaranteed.</p>
+            <div class="footer-bottom-badges">
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">payments</span>
+                    <span>Secure Payments</span>
+                </div>
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">verified</span>
+                    <span>Vetted Talent</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="module">
+    import { requireAuth, renderAuthNav } from '../shared/auth-helpers.js';
+    import { getOne, createDoc, updateDocFields } from '../shared/firestore-helpers.js';
+
+    renderAuthNav('profileLink');
+
+    const params = new URLSearchParams(window.location.search);
+    const convoId = params.get('convo');
+    if (!convoId) {
+        alert('No item selected for checkout. Redirecting to the marketplace.');
+        window.location.href = 'marketplace.html';
+        throw new Error('Missing convo param');
+    }
+
+    const { uid: myUid, profile: myProfile } = await requireAuth(null, 'login.html');
+
+    const convo = await getOne('conversations', convoId);
+    if (!convo || !convo.participantIds.includes(myUid)) {
+        alert('This conversation could not be found.');
+        window.location.href = 'marketplace.html';
+        throw new Error('Conversation not found or not a participant');
+    }
+
+    const listing = await getOne('listings', convo.listingId);
+    if (!listing) {
+        alert('This listing is no longer available.');
+        window.location.href = 'marketplace.html';
+        throw new Error('Listing not found');
+    }
+
+    const DELIVERY_FEE = 25;
+    const PLATFORM_FEE_RATE = 0.05;
+    const DEFAULT_DAYS = 3;
+    const isShow = listing.priceUnit === 'show';
+    const days = isShow ? 1 : DEFAULT_DAYS;
+    const subtotal = isShow ? listing.price : listing.price * DEFAULT_DAYS;
+    const deliveryFee = DELIVERY_FEE;
+    const platformFee = Math.round(subtotal * PLATFORM_FEE_RATE * 100) / 100;
+    const total = Math.round((subtotal + deliveryFee + platformFee) * 100) / 100;
+
+    document.getElementById('checkoutProductImg').src = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+    document.getElementById('checkoutStatusBadge').textContent =
+        (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
+    document.getElementById('checkoutTitle').textContent = listing.title;
+    document.getElementById('checkoutSubtitle').textContent = listing.description || listing.category || '';
+    document.getElementById('checkoutDatesValue').textContent = isShow ? 'Show booking' : (days + ' Days (to be confirmed with renter)');
+    document.getElementById('checkoutRateLabel').textContent = isShow ? 'Show Fee' : ('Daily Rate (RM' + listing.price.toFixed(2) + ' x ' + days + ')');
+    document.getElementById('checkoutRateValue').textContent = 'RM' + subtotal.toFixed(2);
+    document.getElementById('checkoutDeliveryValue').textContent = 'RM' + deliveryFee.toFixed(2);
+    document.getElementById('checkoutPlatformValue').textContent = 'RM' + platformFee.toFixed(2);
+    document.getElementById('checkoutTotalValue').textContent = 'RM' + total.toFixed(2);
+
+    document.querySelector('.btn-primary').addEventListener('click', async function () {
+        const cardName = document.getElementById('cardholderNameInput').value.trim();
+        const cardNumber = document.getElementById('cardNumberInput').value.trim();
+        const expiry = document.getElementById('cardExpiryInput').value.trim();
+        const cvv = document.getElementById('cardCvvInput').value.trim();
+        const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+        if (selectedMethod === 'card' && (!cardName || !cardNumber || !expiry || !cvv)) {
+            showToast('Please fill in all card details to continue.');
+            return;
+        }
+
+        const btn = this;
+        btn.disabled = true;
+        try {
+            const bookingId = await createDoc('bookings', {
+                listingId: listing.id,
+                listingTitle: listing.title,
+                listingImage: (listing.photos && listing.photos[0]) || '',
+                renterId: listing.ownerId,
+                renterName: listing.ownerName || 'Renter',
+                customerId: myUid,
+                customerName: myProfile.fullName || myProfile.username || 'Customer',
+                startDate: null,
+                endDate: null,
+                days: days,
+                dailyRate: listing.price,
+                deliveryFee: deliveryFee,
+                platformFee: platformFee,
+                totalAmount: total,
+                paymentMethod: selectedMethod,
+                escrowStatus: 'held',
+                bookingStatus: 'active',
+                conversationId: convoId
+            });
+            await updateDocFields('conversations', convoId, { status: 'booked', bookingId });
+            showToast('Payment successful! Funds are secured in Rent A Tune Escrow.');
+            setTimeout(() => { window.location.href = 'home.html'; }, 1500);
+        } catch (err) {
+            btn.disabled = false;
+            showToast('Payment could not be completed: ' + (err.message || 'please try again.'));
+        }
+    });
+</script>
+<script>
+        /* ---------- Shared toast helper ---------- */
+        function showToast(msg) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        /* ---------- Navbar notification panel ---------- */
+        function toggleNotifPanel() {
+            const panel = document.getElementById('notifPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (e) {
+            const notifPanel = document.getElementById('notifPanel');
+            const notifBtn = document.getElementById('notifBtn');
+            if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+                notifPanel.style.display = 'none';
+            }
+        });
+
+        /* ---------- Navbar search ---------- */
+        function handleNavSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('navSearchInput').value.trim();
+            if (!q) return false;
+            window.location.href = 'marketplace.html?q=' + encodeURIComponent(q);
+            return false;
+        }
+
+        /* ---------- Payment method selection ---------- */
+        document.querySelectorAll('.method-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.method-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                this.querySelector('.method-radio').checked = true;
+            });
+        });
+
+        /* (Complete Secure Payment now lives in the module script below, since it needs to
+           create a real Firestore booking tied to the conversation) */
+
+        /* ---------- Newsletter subscribe ---------- */
+        document.getElementById('newsletterBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            const input = document.getElementById('newsletterInput');
+            const email = input.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showToast('Please enter a valid email address.');
+                return;
+            }
+            showToast('Subscribed! Watch your inbox for gear drops and talent availability.');
+            input.value = '';
+        });
+    </script>
+</body></html>

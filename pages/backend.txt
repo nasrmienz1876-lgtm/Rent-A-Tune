@@ -1,0 +1,14 @@
+Read and analyze all the files in [admin, renter, user folder] and understand how the website work. Don't change anything I didn't ask for. Do the task in order, make sure first task at the top is done then continue to second and so on.
+
+Notes:
+- Ensure all the buttons at every pages is function
+
+Target:
+- Have a backend for my website
+- Can run my website fully function
+
+Database I want to use:
+- Firebase
+
+For hosting website:
+- Vercel

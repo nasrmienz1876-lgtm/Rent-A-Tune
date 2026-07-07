@@ -1,0 +1,3113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Renter | Rent A Tune</title>
+    <style>
+:root {
+    --primary: #0040e0;
+    --on-primary: #ffffff;
+    --primary-container: #2e5bff;
+    --on-primary-container: #efefff;
+    --primary-fixed: #dde1ff;
+    --secondary: #7c5800;
+    --secondary-container: #feb700;
+    --on-secondary-container: #6b4b00;
+    --background: #f8f9ff;
+    --on-background: #0b1c30;
+    --surface: #f8f9ff;
+    --surface-bright: #f8f9ff;
+    --surface-container: #e5eeff;
+    --surface-container-low: #eff4ff;
+    --surface-container-high: #dce9ff;
+    --surface-container-highest: #d3e4fe;
+    --surface-container-lowest: #ffffff;
+    --on-surface: #0b1c30;
+    --on-surface-variant: #434656;
+    --outline: #747688;
+    --outline-variant: #c4c5d9;
+    --error: #ba1a1a;
+    --on-error: #ffffff;
+    --error-container: #ffdad6;
+    --inverse-surface: #213145;
+    --inverse-primary: #b8c3ff;
+
+    --font-body: 'Montserrat', sans-serif;
+    --font-display: 'Source Serif 4', serif;
+
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+    --shadow: 0 16px 32px -8px rgba(18, 18, 18, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--on-surface);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+.filled-icon {
+    font-variation-settings: 'FILL' 1;
+}
+
+/* Sidebar */
+aside {
+    width: 256px;
+    height: 100vh;
+    background-color: var(--surface-container-low);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 16px;
+    box-shadow: 1px 0 5px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 0 8px;
+}
+
+.logo-box {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--on-primary);
+    box-shadow: 0 4px 6px rgba(0, 64, 224, 0.2);
+}
+
+.brand-text h1 {
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.brand-text p {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    opacity: 0.6;
+}
+
+nav {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--on-surface-variant);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background-color: var(--surface-container-highest);
+}
+
+.nav-link.active {
+    color: var(--primary);
+    background-color: var(--surface-container-highest);
+    border-right: 4px solid var(--primary);
+}
+
+.btn-list {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    margin-bottom: 32px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-list:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(116, 118, 136, 0.1);
+}
+
+.nav-link.logout {
+    color: var(--error);
+}
+
+.nav-link.logout:hover {
+    background-color: var(--error-container);
+}
+
+/* Main Content chrome */
+main {
+    margin-left: 256px;
+    flex: 1;
+    min-height: 100vh;
+}
+
+header {
+    height: 64px;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(116, 118, 136, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f8f9ff;
+    border: 1px solid #c4c5d9;
+    border-radius: 9999px;
+    padding: 6px 16px;
+    width: 384px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    color: #434656;
+}
+
+.icon-btn:hover {
+    background-color: #e5eeff;
+}
+
+.badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background-color: #ba1a1a;
+    border-radius: 50%;
+}
+
+.divider {
+    width: 1px;
+    height: 32px;
+    background-color: #c4c5d9;
+}
+
+.profile-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-info {
+    text-align: right;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-role {
+    font-size: 10px;
+    font-weight: 700;
+    color: #434656;
+    text-transform: uppercase;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #dde1ff;
+    overflow: hidden;
+    border: 2px solid rgba(0, 64, 224, 0.1);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Page Layout */
+.content {
+    padding: 48px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 40px;
+}
+
+.page-header h2 {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.page-header p {
+    color: #434656;
+}
+
+/* Tab switching between merged renter pages */
+.page-section {
+    display: none;
+}
+
+.page-section.active-page {
+    display: block;
+}
+
+/* ================= Overview ================= */
+#page-overview .alert-banner {
+    background-color: var(--error-container);
+    color: var(--on-error-container);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(186, 26, 26, 0.2);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#page-overview .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+#page-overview .card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(116, 118, 136, 0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#page-overview .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+#page-overview .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+#page-overview .icon-box {
+    padding: 12px;
+    border-radius: 8px;
+}
+
+#page-overview .trend {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#page-overview .card-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #434656;
+    letter-spacing: 0.05em;
+}
+
+#page-overview .card-value {
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+#page-overview .card-sub {
+    font-size: 12px;
+    color: #434656;
+    margin-top: 8px;
+}
+
+#page-overview .blue-box { background-color: #e5eeff; color: #0040e0; }
+#page-overview .light-blue-box { background-color: #d3e4fe; color: #0035be; }
+#page-overview .yellow-box { background-color: #ffdea8; color: #7c5800; }
+#page-overview .red-box { background-color: #ffdad6; color: #ba1a1a; }
+
+#page-overview .text-error { color: #ba1a1a; }
+#page-overview .text-primary { color: #0040e0; }
+#page-overview .text-secondary { color: #7c5800; }
+
+#page-overview .urgent-tag {
+    background-color: #ba1a1a;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+#page-overview .main-grid {
+    display: grid;
+    gap: 32px;
+    margin-bottom: 40px;
+}
+
+#page-overview .panel {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(116, 118, 136, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#page-overview .panel-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(116, 118, 136, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#page-overview .panel-header h4 {
+    font-size: 24px;
+}
+
+#page-overview .panel-header p {
+    font-size: 14px;
+    color: #434656;
+}
+
+#page-overview .view-all {
+    color: #0040e0;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#page-overview table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+#page-overview thead {
+    background-color: #f8f9ff;
+    color: #434656;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#page-overview th, #page-overview td {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(116, 118, 136, 0.05);
+}
+
+#page-overview .font-mono { font-family: monospace; font-size: 12px; }
+#page-overview .item-cell b { display: block; font-size: 14px; }
+#page-overview .item-cell span { font-size: 12px; color: #434656; }
+#page-overview .amount-cell { text-align: right; font-weight: 700; }
+
+#page-overview .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#page-overview .pill-blue { background-color: rgba(0, 64, 224, 0.1); color: #0040e0; }
+#page-overview .pill-yellow { background-color: #ffdea8; color: #7c5800; }
+#page-overview .pill-red { background-color: #ffdad6; color: #ba1a1a; }
+#page-overview .pill-green { background-color: #d0f0c0; color: #006400; }
+
+#page-overview .dot { width: 6px; height: 6px; border-radius: 50%; }
+#page-overview .dot-blue { background-color: #0040e0; }
+#page-overview .dot-yellow { background-color: #7c5800; }
+#page-overview .dot-red { background-color: #ba1a1a; }
+#page-overview .dot-green { background-color: #006400; }
+
+#page-overview .user-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#page-overview .user-initials {
+    width: 48px;
+    height: 48px;
+    background-color: var(--surface-container-high);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+#page-overview .user-cell-text .name {
+    font-weight: 700;
+    display: block;
+}
+
+#page-overview .user-cell-text .id {
+    font-size: 12px;
+    color: var(--outline);
+}
+
+#page-overview .view-btn {
+    background-color: var(--surface-container-highest);
+    color: var(--primary);
+    border: none;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#page-overview .details-btn {
+    background-color: silver;
+    color: black;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ================= Bookings ================= */
+#page-bookings .font-mono { font-family: monospace; color: var(--on-surface-variant); font-weight: 500; }
+#page-bookings .font-bold { font-weight: 700; color: var(--on-surface); }
+#page-bookings .text-right { text-align: right; }
+#page-bookings .text-center { text-align: center; }
+#page-bookings .text-small { font-size: 14px; color: var(--on-surface-variant); }
+
+#page-bookings .card {
+    background-color: var(--surface-container-lowest);
+    border: 1px solid rgba(196, 197, 217, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#page-bookings .table-controls {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface-bright);
+    border-bottom: 1px solid rgba(196, 197, 217, 0.2);
+}
+
+#page-bookings .control-btns {
+    display: flex;
+    gap: 16px;
+}
+
+#page-bookings .btn-outline {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--outline);
+    background: none;
+    color: var(--on-surface-variant);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+#page-bookings .btn-filled-light {
+    padding: 8px 24px;
+    border-radius: 8px;
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+#page-bookings .table-search {
+    position: relative;
+    width: 288px;
+}
+
+#page-bookings .table-search .material-symbols-outlined {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    font-size: 20px;
+}
+
+#page-bookings .table-search input {
+    width: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 8px;
+    padding: 8px 16px 8px 40px;
+    font-size: 14px;
+    outline: none;
+}
+
+#page-bookings .table-wrapper {
+    overflow-x: auto;
+}
+
+#page-bookings table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+#page-bookings thead tr {
+    background-color: var(--surface-container-low);
+    border-bottom: 1px solid rgba(196, 197, 217, 0.3);
+}
+
+#page-bookings th {
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+}
+
+#page-bookings td {
+    padding: 20px 32px;
+    border-bottom: 1px solid rgba(196, 197, 217, 0.1);
+}
+
+#page-bookings tbody tr:hover {
+    background-color: var(--surface-container-low);
+}
+
+#page-bookings .user-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#page-bookings .user-initials {
+    width: 48px;
+    height: 48px;
+    background-color: var(--surface-container-high);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+#page-bookings .user-cell-text .name {
+    font-weight: 700;
+    display: block;
+}
+
+#page-bookings .user-cell-text .id {
+    font-size: 12px;
+    color: var(--outline);
+}
+
+#page-bookings .contact-cell .email {
+    font-size: 14px;
+    display: block;
+}
+
+#page-bookings .contact-cell .phone {
+    font-size: 12px;
+    color: var(--outline);
+}
+
+#page-bookings .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#page-bookings .status-active {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+}
+
+#page-bookings .status-suspended {
+    background-color: var(--error);
+    color: var(--on-error);
+}
+
+#page-bookings .actions-cell {
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+#page-bookings .view-btn {
+    background-color: var(--surface-container-highest);
+    color: var(--primary);
+    border: none;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#page-bookings .icon-action {
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+}
+
+#page-bookings .icon-action.block {
+    color: var(--error);
+}
+
+#page-bookings .icon-action.block:hover {
+    background-color: var(--error-container);
+}
+
+#page-bookings .icon-action.unblock {
+    color: var(--primary);
+}
+
+#page-bookings .icon-action.unblock:hover {
+    background-color: rgba(46, 91, 255, 0.2);
+}
+
+#page-bookings .badget {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+
+#page-bookings .badget-released { background-color: var(--primary); color: var(--background); }
+#page-bookings .badget-held { background-color: var(--secondary-container); color: var(--background); }
+#page-bookings .badget-completed { background-color: green; color: var(--background); }
+#page-bookings .badget-pending { background-color: var(--primary-fixed); color: var(--primary); }
+#page-bookings .badget-confirmed { background-color: var(--primary); color: var(--background); }
+#page-bookings .badget-cancelled { background-color: var(--error); color: var(--background); }
+#page-bookings .badget-issued { background-color: var(--error); color: white; }
+
+#page-bookings .btn-details {
+    padding: 6px 16px;
+    border: 2px solid var(--on-background);
+    border-radius: var(--radius-full);
+    background: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-bookings .btn-details:hover {
+    background-color: var(--on-background);
+    color: white;
+}
+
+#page-bookings .btn-accept {
+    padding: 6px 16px;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: var(--background);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-bookings .btn-decline {
+    padding: 6px 16px;
+    border: 2px solid var(--error);
+    border-radius: var(--radius-full);
+    background: var(--error);
+    color: var(--background);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-bookings .btn-complete {
+    padding: 6px 16px;
+    border: 2px solid green;
+    border-radius: var(--radius-full);
+    background: green;
+    color: var(--background);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-bookings .pagination {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface-container-low);
+}
+
+#page-bookings .pagination-info {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+}
+
+#page-bookings .pagination-btns {
+    display: flex;
+    gap: 8px;
+}
+
+#page-bookings .page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#page-bookings .page-btn:hover:not(:disabled) {
+    background-color: var(--surface-container-highest);
+}
+
+#page-bookings .page-btn.active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    font-weight: 700;
+}
+
+#page-bookings .page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ================= Chats ================= */
+#page-chat .chat-card {
+    background-color: var(--surface-container-lowest);
+    border: 1px solid rgba(196, 197, 217, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    height: 70vh;
+    min-height: 560px;
+}
+
+#page-chat .chat-list-panel {
+    width: 360px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(196, 197, 217, 0.3);
+}
+
+#page-chat .chat-list-search {
+    padding: 20px;
+    border-bottom: 1px solid rgba(196, 197, 217, 0.3);
+    background-color: var(--surface-bright);
+}
+
+#page-chat .chat-list-search .table-search {
+    position: relative;
+    width: 100%;
+}
+
+#page-chat .chat-list-search .material-symbols-outlined {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    font-size: 20px;
+}
+
+#page-chat .chat-list-search input {
+    width: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 8px;
+    padding: 8px 16px 8px 40px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+}
+
+#page-chat .chat-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+#page-chat .chat-list-item {
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    border-bottom: 1px solid rgba(196, 197, 217, 0.15);
+    transition: all 0.2s;
+}
+
+#page-chat .chat-list-item:hover {
+    background-color: var(--surface-container-low);
+}
+
+#page-chat .chat-list-item.active {
+    background-color: var(--surface-container-high);
+    border-left-color: var(--primary);
+}
+
+#page-chat .chat-list-item .avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+#page-chat .chat-list-item .avatar-wrap img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#page-chat .chat-list-item .online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--secondary-container);
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+#page-chat .chat-list-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+#page-chat .chat-list-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    gap: 8px;
+}
+
+#page-chat .chat-list-item-top .name {
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-chat .chat-list-item-top .time {
+    font-size: 12px;
+    color: var(--outline);
+    flex-shrink: 0;
+}
+
+#page-chat .chat-list-item .item-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+#page-chat .chat-list-item .last-message {
+    font-size: 13px;
+    color: var(--on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-chat .chat-window-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+#page-chat .chat-window-header {
+    height: 80px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(196, 197, 217, 0.3);
+    flex-shrink: 0;
+}
+
+#page-chat .chat-window-user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#page-chat .chat-window-user .avatar-wrap {
+    position: relative;
+}
+
+#page-chat .chat-window-user .avatar-wrap img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#page-chat .chat-window-user .online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--secondary-container);
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+#page-chat .chat-window-user h3 {
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+#page-chat .chat-window-user .status {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+#page-chat .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary);
+}
+
+#page-chat .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#page-chat .btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 64, 224, 0.2);
+}
+
+#page-chat .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--surface);
+}
+
+#page-chat .chat-date-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0;
+}
+
+#page-chat .chat-date-divider::before,
+#page-chat .chat-date-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--outline-variant);
+}
+
+#page-chat .chat-date-divider span {
+    font-size: 12px;
+    color: var(--outline);
+    white-space: nowrap;
+}
+
+#page-chat .message-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    max-width: 70%;
+}
+
+#page-chat .message-row.sender {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+#page-chat .message-row img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#page-chat .message-bubble {
+    padding: 14px 16px;
+    border-radius: 16px 16px 16px 4px;
+    background-color: var(--surface-container-lowest);
+    box-shadow: 0 4px 12px rgba(18, 74, 240, 0.05);
+}
+
+#page-chat .message-row.sender .message-bubble {
+    border-radius: 16px 16px 4px 16px;
+    background-color: var(--primary);
+    color: white;
+}
+
+#page-chat .message-bubble p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#page-chat .message-bubble .msg-time {
+    display: block;
+    font-size: 11px;
+    color: var(--outline);
+    margin-top: 8px;
+}
+
+#page-chat .message-row.sender .message-bubble .msg-time {
+    color: var(--primary-fixed);
+    text-align: right;
+}
+
+#page-chat .message-bubble img.attachment {
+    width: 100%;
+    max-width: 260px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+#page-chat .chat-input-bar {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(196, 197, 217, 0.3);
+    flex-shrink: 0;
+}
+
+#page-chat .chat-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    padding: 4px 8px;
+}
+
+#page-chat .chat-input-wrap:focus-within {
+    border-color: var(--primary);
+}
+
+#page-chat .chat-input-wrap input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 4px;
+    color: var(--on-surface);
+}
+
+#page-chat .send-btn {
+    background-color: var(--primary);
+    color: white;
+    border-radius: 8px;
+}
+
+#page-chat .send-btn:hover {
+    background-color: var(--primary);
+    opacity: 0.9;
+}
+
+#page-chat .secure-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--outline);
+    margin-top: 12px;
+}
+
+#page-chat .secure-note .material-symbols-outlined {
+    font-size: 14px;
+}
+
+/* ================= My Inventory ================= */
+#page-inventory .page-header button {
+    align-items: right;
+}
+
+#page-inventory .table-controls {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface-bright);
+    border-bottom: 1px solid rgba(196, 197, 217, 0.2);
+}
+
+#page-inventory .control-btns {
+    display: flex;
+    gap: 16px;
+}
+
+#page-inventory .btn-outline {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--outline);
+    background: none;
+    color: var(--on-surface-variant);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+#page-inventory .btn-filled-light {
+    padding: 8px 24px;
+    border-radius: 8px;
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+#page-inventory .table-search {
+    position: relative;
+    width: 288px;
+}
+
+#page-inventory .table-search .material-symbols-outlined {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    font-size: 20px;
+}
+
+#page-inventory .table-search input {
+    width: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 8px;
+    padding: 8px 16px 8px 40px;
+    font-size: 14px;
+    outline: none;
+}
+
+#page-inventory .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#page-inventory .btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 64, 224, 0.2);
+}
+
+#page-inventory .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 24px;
+}
+
+#page-inventory .filter-tabs {
+    background: var(--surface-container-low);
+    padding: 6px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--outline-variant);
+    display: flex;
+}
+
+#page-inventory .filter-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 24px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    cursor: pointer;
+}
+
+#page-inventory .filter-btn.active {
+    background: var(--secondary-container);
+    color: var(--on-secondary-container);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#page-inventory .search-container {
+    position: relative;
+    width: 384px;
+}
+
+#page-inventory .search-container input {
+    width: 100%;
+    background: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    padding: 12px 24px 12px 48px;
+    border-radius: var(--radius-full);
+    font-family: inherit;
+    font-size: 16px;
+}
+
+#page-inventory .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--on-surface-variant);
+}
+
+#page-inventory .inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+}
+
+#page-inventory .card {
+    background: var(--surface-container-lowest);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid transparent;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+#page-inventory .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 64, 224, 0.2);
+}
+
+#page-inventory .card-image {
+    height: 256px;
+    position: relative;
+    overflow: hidden;
+}
+
+#page-inventory .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+#page-inventory .card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+#page-inventory .badge-status {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--primary);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#page-inventory .badge-status.rented { background: #6e6d6d; }
+#page-inventory .badge-status.pending { background: var(--secondary-container); color: var(--on-secondary-container); }
+
+#page-inventory .badge-type {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--on-surface);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    border: 1px solid var(--outline-variant);
+}
+
+#page-inventory .card-rating {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#page-inventory .card-content {
+    padding: 24px;
+}
+
+#page-inventory .card-content h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+#page-inventory .location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--on-surface-variant);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+#page-inventory .card-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--outline-variant);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#page-inventory .price {
+    color: var(--secondary);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+#page-inventory .price-unit {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    font-weight: 400;
+}
+
+#page-inventory .card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+#page-inventory .action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--outline-variant);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--on-surface-variant);
+    transition: all 0.2s;
+}
+
+#page-inventory .action-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+#page-inventory .action-btn.delete:hover {
+    background: var(--error);
+    border-color: var(--error);
+}
+
+#page-inventory .content-divider {
+    margin: 64px 0 48px;
+    text-align: center;
+    position: relative;
+}
+
+#page-inventory .content-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--outline-variant);
+    z-index: 1;
+}
+
+#page-inventory .content-divider span {
+    background: var(--background);
+    padding: 0 16px;
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+#page-inventory .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 80px;
+}
+
+#page-inventory .stat-card {
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--outline-variant);
+    background: var(--surface-container-low);
+}
+
+#page-inventory .stat-card.primary {
+    background: var(--primary-container);
+    color: white;
+    border: none;
+}
+
+#page-inventory .stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    opacity: 0.8;
+    font-weight: 600;
+}
+
+#page-inventory .stat-value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 600;
+}
+
+#page-inventory .stat-card .stat-value.blue { color: var(--primary); }
+#page-inventory .stat-card .stat-value.gold { color: var(--secondary); }
+
+/* ================= List New ================= */
+#page-listnew .listing-form {
+    max-width: 896px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+#page-listnew section {
+    background-color: var(--surface-container-lowest);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(196, 197, 217, 0.4);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+#page-listnew section:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 24px rgba(18, 18, 18, 0.08);
+}
+
+#page-listnew .section-header {
+    margin-bottom: 24px;
+}
+
+#page-listnew .section-header h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+#page-listnew .section-header p {
+    color: var(--on-surface-variant);
+    font-size: 14px;
+}
+
+#page-listnew .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+#page-listnew .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+#page-listnew .selection-card {
+    position: relative;
+    cursor: pointer;
+}
+
+#page-listnew .selection-card input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#page-listnew .card-content {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--outline-variant);
+    transition: all 0.2s;
+}
+
+#page-listnew .selection-card input:checked + .card-content {
+    border-color: var(--secondary-container);
+    background-color: rgba(255, 222, 168, 0.1);
+}
+
+#page-listnew .selection-card:hover .card-content {
+    background-color: var(--surface-container-low);
+}
+
+#page-listnew .type-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--surface-container-high);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--on-surface-variant);
+}
+
+#page-listnew .selection-card input:checked + .card-content .type-icon {
+    background-color: rgba(254, 183, 0, 0.2);
+    color: var(--secondary);
+}
+
+#page-listnew .check-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--secondary);
+    display: none;
+}
+
+#page-listnew .selection-card input:checked ~ .check-icon {
+    display: block;
+}
+
+#page-listnew .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+}
+
+#page-listnew .form-group:last-child {
+    margin-bottom: 0;
+}
+
+#page-listnew label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--on-surface-variant);
+    padding: 0 4px;
+}
+
+#page-listnew input[type="text"],
+#page-listnew input[type="number"],
+#page-listnew select,
+#page-listnew textarea {
+    width: 100%;
+    background-color: var(--surface);
+    padding: 16px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#page-listnew input:focus, #page-listnew select:focus, #page-listnew textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 64, 224, 0.1);
+}
+
+#page-listnew .input-with-icon {
+    position: relative;
+}
+
+#page-listnew .input-with-icon input {
+    padding-left: 48px;
+}
+
+#page-listnew .input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    font-weight: bold;
+}
+
+#page-listnew .upload-area {
+    border: 2px dashed var(--outline-variant);
+    border-radius: 16px;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-listnew .upload-area:hover {
+    background-color: var(--surface-container-low);
+    border-color: var(--primary);
+}
+
+#page-listnew .upload-icon-circle {
+    width: 64px;
+    height: 64px;
+    background-color: var(--surface-container-high);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--primary);
+}
+
+#page-listnew .upload-area .browse-text {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+#page-listnew .photo-previews {
+    margin-top: 24px;
+}
+
+#page-listnew .preview-box {
+    aspect-ratio: 1 / 1;
+    background-color: var(--surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#page-listnew .preview-box.dashed {
+    border-style: dashed;
+}
+
+#page-listnew .preview-box span {
+    color: rgba(116, 118, 136, 0.3);
+    font-size: 40px;
+}
+
+#page-listnew .info-alert {
+    background-color: rgba(255, 222, 168, 0.2);
+    border: 1px solid rgba(124, 88, 0, 0.3);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 16px;
+}
+
+#page-listnew .info-alert .material-symbols-outlined {
+    color: var(--secondary);
+}
+
+#page-listnew .info-alert p {
+    font-size: 14px;
+    color: var(--secondary-fixed-variant);
+}
+
+#page-listnew .submit-container {
+    padding-top: 24px;
+}
+
+#page-listnew .btn-submit {
+    width: 100%;
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    border: none;
+    padding: 20px;
+    border-radius: 16px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+#page-listnew .btn-submit:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+#page-listnew .btn-submit:active {
+    transform: scale(0.98);
+}
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <aside>
+        <div class="brand">
+            <div class="logo-box">
+                <span class="material-symbols-outlined filled-icon">music_note</span>
+            </div>
+            <div class="brand-text">
+                <h1>Rent A Tune</h1>
+                <p>Renter Console</p>
+            </div>
+        </div>
+
+        <nav>
+            <a class="nav-link active" data-page="overview" href="#" onclick="showRenterPage('overview'); return false;">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Overview</span>
+            </a>
+            <a class="nav-link" data-page="inventory" href="#" onclick="showRenterPage('inventory'); return false;">
+                <span class="material-symbols-outlined">queue_music</span>
+                <span>My Inventory</span>
+            </a>
+            <a class="nav-link" data-page="chat" href="#" onclick="showRenterPage('chat'); return false;">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chats</span>
+            </a>
+            <a class="nav-link" data-page="bookings" href="#" onclick="showRenterPage('bookings'); return false;">
+                <span class="material-symbols-outlined">event_note</span>
+                <span>Bookings</span>
+            </a>
+            <a class="nav-link" data-page="listnew" id="listNewNavLink" href="#" onclick="showRenterPage('listnew'); return false;">
+                <span class="material-symbols-outlined">add_box</span>
+                <span>List New</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="nav-link" href="#" onclick="alert('Settings page coming soon.'); return false;">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Settings</span>
+            </a>
+            <a class="nav-link logout" href="#" id="logoutLink">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Top Application Header (shared across all renter pages) -->
+        <header>
+            <div class="search-bar">
+                <span class="material-symbols-outlined">search</span>
+                <input placeholder="Search..." type="text" />
+            </div>
+
+            <div class="header-actions">
+                <div class="icon-group">
+                    <button class="icon-btn" onclick="alert('You have no new notifications.')">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="badge"></span>
+                    </button>
+                    <button class="icon-btn" onclick="alert('Help Center coming soon.')">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="profile-area">
+                    <div class="profile-info">
+                        <p class="profile-name" id="profileNameText">Renter</p>
+                        <p class="profile-role" id="profileRoleText">Renter</p>
+                    </div>
+                    <div class="avatar">
+                        <img alt="Renter User Avatar" src="../images/user_profile.jpg" />
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= Overview ================= -->
+        <div class="page-section active-page" id="page-overview">
+            <div class="content">
+                <div class="page-header">
+                    <h2>Overview</h2>
+                    <p>View your performance and listings</p>
+                </div>
+
+                <section class="metrics-grid">
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box blue-box">
+                                <span class="material-symbols-outlined filled-icon">payments</span>
+                            </div>
+                            <span class="trend text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +25%
+                            </span>
+                        </div>
+                        <p class="card-label">Total Revenue</p>
+                        <h3 class="card-value">RM1,234.56</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box light-blue-box">
+                                <span class="material-symbols-outlined filled-icon">group</span>
+                            </div>
+                            <span class="trend text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +12%
+                            </span>
+                        </div>
+                        <p class="card-label">Total Rentals</p>
+                        <h3 class="card-value">30</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box yellow-box">
+                                <span class="material-symbols-outlined filled-icon">star</span>
+                            </div>
+                            <span class="trend text-secondary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +8%
+                            </span>
+                        </div>
+                        <p class="card-label">Ratings</p>
+                        <h3 class="card-value">4.8</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box red-box">
+                                <span class="material-symbols-outlined filled-icon">chat</span>
+                            </div>
+                            <span class="urgent-tag">Attention</span>
+                        </div>
+                        <p class="card-label">Pending Inquiries</p>
+                        <h3 class="card-value">12</h3>
+                    </div>
+                </section>
+
+                <section class="main-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Recent Inquiries</h4>
+                                <p>Real-time communication monitoring</p>
+                            </div>
+                            <a class="view-all" href="#" onclick="showRenterPage('chat'); return false;">View All</a>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Item</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inquiriesTbody">
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-initials">HD</div>
+                                            <div class="user-cell-text">
+                                                <span class="name">Harris Danniel</span>
+                                                <span class="id">ID: #U5</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Kamaka Ukulele</td>
+                                    <td>
+                                        <span class="status-pill pill-red">
+                                            <span class="dot dot-red"></span> Unopened
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button class="view-btn">Chat</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-initials">AT</div>
+                                            <div class="user-cell-text">
+                                                <span class="name">Ahmad Travis</span>
+                                                <span class="id">ID: #U9</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Yamaha Grand Piano</td>
+                                    <td>
+                                        <span class="status-pill pill-yellow">
+                                            <span class="dot dot-yellow"></span> Discussing
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button class="view-btn">Chat</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-initials">AR</div>
+                                            <div class="user-cell-text">
+                                                <span class="name">Ali Rahman</span>
+                                                <span class="id">ID: #U1</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Yamaha P125</td>
+                                    <td>
+                                        <span class="status-pill pill-yellow">
+                                            <span class="dot dot-yellow"></span> Discussing
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button class="view-btn">Chat</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-initials">NM</div>
+                                            <div class="user-cell-text">
+                                                <span class="name">Nasr Muhaimin</span>
+                                                <span class="id">ID: #U2</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Kawai ES120 Electric Piano</td>
+                                    <td>
+                                        <span class="status-pill pill-green">
+                                            <span class="dot dot-green"></span> Completed
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button class="details-btn">Details</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ================= My Inventory ================= -->
+        <div class="page-section" id="page-inventory">
+            <div class="content">
+                <div class="page-header">
+                    <h2>My Inventory</h2>
+                    <p>View and manage your listed items</p>
+                </div>
+
+                <section class="stats-grid">
+                    <div class="stat-card primary">
+                        <p class="stat-label">Total Items</p>
+                        <div class="stat-value" id="totalItemsStat">6</div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Active Rentals</p>
+                        <div class="stat-value blue">1</div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Upcoming Performance</p>
+                        <div class="stat-value gold">3</div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Monthly Earnings</p>
+                        <div class="stat-value">RM 1,234</div>
+                    </div>
+                </section>
+
+                <div class="controls">
+                    <div class="filter-tabs" id="filterTabs">
+                        <button class="filter-btn active" data-filter="all">All Items</button>
+                        <button class="filter-btn" data-filter="instrument">Instruments</button>
+                        <button class="filter-btn" data-filter="band">Bands</button>
+                    </div>
+                    <div class="search-container">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input id="inventorySearch" placeholder="Search your listings..." type="text" />
+                    </div>
+                </div>
+
+                <div class="inventory-grid" id="inventoryGrid"></div>
+                <p id="inventoryEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">You haven't listed anything yet. Use "List New" to add your first instrument or band.</p>
+            </div>
+        </div>
+
+        <!-- ================= Chats ================= -->
+        <div class="page-section" id="page-chat">
+            <div class="content">
+                <div class="page-header">
+                    <h2>Messages</h2>
+                    <p>Communicate with renters and manage inquiries</p>
+                </div>
+
+                <div class="chat-card">
+                    <div class="chat-list-panel">
+                        <div class="chat-list-search">
+                            <div class="table-search">
+                                <span class="material-symbols-outlined">search</span>
+                                <input id="chatSearchInput" placeholder="Search conversations..." type="text" />
+                            </div>
+                        </div>
+                        <div class="chat-list" id="chatListContainer"></div>
+                        <p id="chatListEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 24px 16px;">No conversations yet.</p>
+                    </div>
+
+                    <div class="chat-window-panel">
+                        <div class="chat-window-header">
+                            <div class="chat-window-user">
+                                <div class="avatar-wrap">
+                                    <img alt="Julian" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnXwhCDxIxO7EPaOEQPZWWx4m-lVVcCEQqGW0x5i4eTS4syGbx6WAPpD0b1cTvS-0B_u7MHfF2pHImjMf-3a-STbpLI5Jk57pQnKvaaEQEInfCnmlzwtuZZbCqtkuBjhRxALQxdEvdAekqNY19Cn95vcC_ScqwfIgSlfTmIRVA5fgX-Y_6cQ7riLkaM_bPL-BowxC_3uHSuJfZ-xP9hLrHLNpWxVzyfPDY7kuE5CV3mR-N6sYWoyJYt0tkseirv0k5HOKHPhls3A" />
+                                    <span class="online-dot"></span>
+                                </div>
+                                <div>
+                                    <h3 id="activeChatName">Julian Reed</h3>
+                                    <p class="status"><span class="status-dot"></span> Online</p>
+                                </div>
+                            </div>
+                            <button class="btn-primary" id="requestPaymentBtn">Request Payment</button>
+                        </div>
+
+                        <div class="chat-messages" id="messageHistory"></div>
+
+                        <div class="chat-input-bar">
+                            <div class="chat-input-wrap">
+                                <button class="icon-btn" id="attachFileBtn">
+                                    <span class="material-symbols-outlined">attach_file</span>
+                                </button>
+                                <input id="chatFileInput" style="display: none;" type="file" />
+                                <button class="icon-btn" id="emojiBtn">
+                                    <span class="material-symbols-outlined">sentiment_satisfied</span>
+                                </button>
+                                <input id="chatMessageInput" placeholder="Type a message to Julian..." type="text" />
+                                <button class="icon-btn send-btn" id="sendMessageBtn">
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                                </button>
+                            </div>
+                            <p class="secure-note">
+                                <span class="material-symbols-outlined">verified_user</span>
+                                Secure Escrow Payments Guaranteed.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Bookings ================= -->
+        <div class="page-section" id="page-bookings">
+            <div class="content">
+                <div class="page-header">
+                    <h2>Bookings</h2>
+                    <p>Manage your upcoming and past bookings</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <button class="btn-filled-light" id="filtersBtn">
+                                <span class="material-symbols-outlined">filter_list</span>
+                                Filters
+                            </button>
+                            <button class="btn-outline" id="exportBtn">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input id="bookingSearch" placeholder="Search..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table id="bookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Bookings ID</th>
+                                    <th>User</th>
+                                    <th>Item</th>
+                                    <th class="text-right">Price</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Shipping</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTbody"></tbody>
+                        </table>
+                        <p id="bookingsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No bookings yet.</p>
+
+                        <div class="pagination">
+                            <p class="pagination-info" id="paginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 bookings</p>
+                            <div class="pagination-btns" id="paginationBtns">
+                                <button class="page-btn" id="prevPageBtn" disabled="">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+                                <button class="page-btn active" data-page="1">1</button>
+                                <button class="page-btn" data-page="2">2</button>
+                                <button class="page-btn" data-page="3">3</button>
+                                <button class="page-btn" id="nextPageBtn">
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= List New ================= -->
+        <div class="page-section" id="page-listnew">
+            <div class="content">
+                <div class="page-header">
+                    <h2>List New</h2>
+                    <p>Add an Instrument or Band to your listings</p>
+                </div>
+
+                <form class="listing-form">
+
+                    <section>
+                        <div class="section-header">
+                            <h3>What are you listing?</h3>
+                            <p>Choose the type of listing you want to create.</p>
+                        </div>
+
+                        <div class="grid-2">
+                            <label class="selection-card">
+                                <input checked="" id="typeInstrument" name="listing_type" type="radio" value="instrument" />
+                                <div class="card-content">
+                                    <div class="type-icon">
+                                        <span class="material-symbols-outlined" style="font-size: 32px;">music_note</span>
+                                    </div>
+                                    <div>
+                                        <span style="display: block; font-weight: 600; font-size: 14px;">Instrument</span>
+                                        <span style="display: block; font-size: 14px; color: var(--on-surface-variant); margin-top: 4px;">Guitar, drums, piano, mic...</span>
+                                    </div>
+                                </div>
+                                <span class="material-symbols-outlined check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            </label>
+
+                            <label class="selection-card">
+                                <input id="typeBand" name="listing_type" type="radio" value="band" />
+                                <div class="card-content">
+                                    <div class="type-icon">
+                                        <span class="material-symbols-outlined" style="font-size: 32px;">groups</span>
+                                    </div>
+                                    <div>
+                                        <span style="display: block; font-weight: 600; font-size: 14px;">Band / Ensemble</span>
+                                        <span style="display: block; font-size: 14px; color: var(--on-surface-variant); margin-top: 4px;">Live band, string quartet, jazz trio...</span>
+                                    </div>
+                                </div>
+                                <span class="material-symbols-outlined check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section id="instrumentDetailsSection">
+                        <div class="section-header">
+                            <h3>Listing Details</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Instrument Name</label>
+                            <input id="instrumentName" placeholder="e.g. Fender Stratocaster American Pro II" type="text" />
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="instrumentCategory">
+                                    <option>Electric Guitar</option>
+                                    <option>Acoustic Guitar</option>
+                                    <option>Bass Guitar</option>
+                                    <option>Drum Kit</option>
+                                    <option>Piano / Keyboard</option>
+                                    <option>Microphone</option>
+                                    <option>Violin</option>
+                                    <option>Cello</option>
+                                    <option>Trumpet</option>
+                                    <option>Saxophone</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Brand</label>
+                                <input id="instrumentBrand" placeholder="e.g. Fender, Yamaha" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="instrumentDescription" placeholder="Describe the instrument — condition, accessories included, any notable features..." rows="4"></textarea>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Price (RM) / day</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon">RM</span>
+                                    <input id="instrumentPrice" placeholder="e.g. 120" type="number" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <div class="input-with-icon">
+                                    <span class="material-symbols-outlined input-icon">location_on</span>
+                                    <input id="instrumentLocation" placeholder="e.g. Kuala Lumpur" type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Availability</label>
+                            <select id="instrumentAvailability">
+                                <option>Available for pickup &amp; delivery</option>
+                                <option>Pickup Only</option>
+                                <option>Delivery Only</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <section id="bandDetailsSection" style="display: none;">
+                        <div class="section-header">
+                            <h3>Listing Details</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Band/Ensemble Name</label>
+                            <input id="bandName" placeholder="e.g. The Crescendo Jazz Band" type="text" />
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="bandCategory">
+                                    <option>Jazz</option>
+                                    <option>Classical</option>
+                                    <option>Rock</option>
+                                    <option>Pop</option>
+                                    <option>Traditional / Folk</option>
+                                    <option>Wedding</option>
+                                    <option>Corporate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Members</label>
+                                <input id="bandMembers" placeholder="e.g. 5 members" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="bandDescription" placeholder="Tell customers about your band, genre, experience, and what makes you special..." rows="4"></textarea>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Price (RM) / show</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon">RM</span>
+                                    <input id="bandPrice" placeholder="e.g. 120" type="number" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <div class="input-with-icon">
+                                    <span class="material-symbols-outlined input-icon">location_on</span>
+                                    <input id="bandLocation" placeholder="e.g. Kuala Lumpur" type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Availability</label>
+                            <select id="bandAvailability">
+                                <option>Venue performance</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="section-header">
+                            <h3>Photos</h3>
+                            <p>Paste a link to an already-hosted photo (e.g. an Imgur or Google Photos link). Separate multiple links with a comma.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Photo URL(s)</label>
+                            <input id="photoUrlsInput" placeholder="https://example.com/photo1.jpg, https://example.com/photo2.jpg" type="text" />
+                        </div>
+
+                        <div class="grid-4 photo-previews" id="photoPreviews"></div>
+                    </section>
+
+                    <div class="info-alert">
+                        <span class="material-symbols-outlined">info</span>
+                        <p>All payments are processed securely through Rent A Tune. Sharing personal contact details or arranging outside payments is prohibited and will result in account suspension.</p>
+                    </div>
+
+                    <div class="submit-container">
+                        <button class="btn-submit" id="submitListingBtn" type="submit">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                            Submit Listing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Tab switching between the merged renter pages ---
+        function showRenterPage(page) {
+            document.querySelectorAll('.page-section').forEach(function (section) {
+                section.classList.toggle('active-page', section.id === 'page-' + page);
+            });
+            document.querySelectorAll('.nav-link[data-page]').forEach(function (link) {
+                link.classList.toggle('active', link.dataset.page === page);
+            });
+            window.scrollTo(0, 0);
+        }
+
+        // --- Overview page interactivity ---
+        document.getElementById('inquiriesTbody').addEventListener('click', function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const name = row.querySelector('.user-cell-text .name').textContent.trim();
+            const item = row.children[1].textContent.trim();
+
+            if (e.target.closest('.view-btn')) {
+                // "Chat" button -> switch to the Chats tab
+                showRenterPage('chat');
+            } else if (e.target.closest('.details-btn')) {
+                alert('Inquiry Details\nRenter: ' + name + '\nItem: ' + item);
+            }
+        });
+
+        // --- My Inventory page interactivity ---
+        // (data-category is set directly when each real listing card is rendered — see the module script)
+
+        function applyInventoryFilters() {
+            const activeFilter = document.querySelector('#filterTabs .filter-btn.active').dataset.filter;
+            const searchTerm = document.getElementById('inventorySearch').value.toLowerCase();
+            document.querySelectorAll('#inventoryGrid .card').forEach(card => {
+                const matchesFilter = activeFilter === 'all' || card.dataset.category === activeFilter;
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const matchesSearch = title.includes(searchTerm);
+                card.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
+            });
+        }
+
+        document.getElementById('filterTabs').addEventListener('click', function (e) {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            this.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyInventoryFilters();
+        });
+
+        document.getElementById('inventorySearch').addEventListener('input', applyInventoryFilters);
+        window.applyInventoryFilters = applyInventoryFilters;
+
+        // (the #inventoryGrid action-btn delegation — visibility/edit/delete — now lives in the module
+        // script below, since delete/edit need real Firestore calls)
+
+        // (Chats page real-time logic — conversation list, messages, send, trigger payment —
+        // now lives in the module script below, since it needs Firebase access)
+        document.getElementById('emojiBtn').addEventListener('click', function () {
+            const chatInput = document.getElementById('chatMessageInput');
+            chatInput.value += '😊';
+            chatInput.focus();
+        });
+
+        // --- Bookings page interactivity ---
+        // (Bookings row actions — Mark as Complete / View Details — now live in the module
+        // script below, wired to real Firestore bookings)
+
+        document.getElementById('filtersBtn').addEventListener('click', function () {
+            this.classList.toggle('active');
+            alert('Filter options would appear here.');
+        });
+
+        document.getElementById('exportBtn').addEventListener('click', function () {
+            const table = document.getElementById('bookingsTable');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const csv = rows.map(row => {
+                return Array.from(row.querySelectorAll('th, td'))
+                    .slice(0, 8)
+                    .map(cell => '"' + cell.textContent.trim().replace(/"/g, '""') + '"')
+                    .join(',');
+            }).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'bookings_export.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('bookingSearch').addEventListener('input', function () {
+            const term = this.value.toLowerCase();
+            document.querySelectorAll('#bookingsTbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+            });
+        });
+
+        const paginationBtns = document.getElementById('paginationBtns');
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const totalPages = 3, totalItems = 20;
+
+        function setActivePage(page) {
+            paginationBtns.querySelectorAll('.page-btn[data-page]').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.page) === page);
+            });
+            prevBtn.disabled = page === 1;
+            nextBtn.disabled = page === totalPages;
+            const start = (page - 1) * 5 + 1;
+            const end = Math.min(page * 5, totalItems);
+            paginationInfo.innerHTML = 'Showing <span style="font-weight: 700;">' + start + '-' + end + '</span> of ' + totalItems + ' bookings';
+        }
+
+        paginationBtns.querySelectorAll('.page-btn[data-page]').forEach(btn => {
+            btn.addEventListener('click', () => setActivePage(parseInt(btn.dataset.page)));
+        });
+        prevBtn.addEventListener('click', () => {
+            const current = parseInt(paginationBtns.querySelector('.page-btn.active').dataset.page);
+            if (current > 1) setActivePage(current - 1);
+        });
+        nextBtn.addEventListener('click', () => {
+            const current = parseInt(paginationBtns.querySelector('.page-btn.active').dataset.page);
+            if (current < totalPages) setActivePage(current + 1);
+        });
+
+        // --- List New page interactivity ---
+        const instrumentRadio = document.getElementById('typeInstrument');
+        const bandRadio = document.getElementById('typeBand');
+        const instrumentSection = document.getElementById('instrumentDetailsSection');
+        const bandSection = document.getElementById('bandDetailsSection');
+
+        function toggleListingType() {
+            if (bandRadio.checked) {
+                instrumentSection.style.display = 'none';
+                bandSection.style.display = '';
+            } else {
+                instrumentSection.style.display = '';
+                bandSection.style.display = 'none';
+            }
+        }
+        instrumentRadio.addEventListener('change', toggleListingType);
+        bandRadio.addEventListener('change', toggleListingType);
+        toggleListingType();
+        window.toggleListingType = toggleListingType;
+
+        // (photo previews and the real submit handler — create/update a Firestore listing —
+        // now live in the module script below, since they need Firebase access)
+    </script>
+
+    <script type="module">
+        import { requireAuth, logOut } from '../shared/auth-helpers.js';
+        import {
+            getMany, createDoc, updateDocFields, removeDoc, createSubDoc,
+            subscribeToSubQuery, where, orderBy, serverTimestamp
+        } from '../shared/firestore-helpers.js';
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str == null ? '' : String(str);
+            return div.innerHTML;
+        }
+
+        const { uid: currentUid, profile: currentProfile } = await requireAuth(['renter', 'admin'], '../user/login.html');
+
+        document.getElementById('profileNameText').textContent = currentProfile.fullName || currentProfile.username || 'Renter';
+        document.getElementById('profileRoleText').textContent = currentProfile.role === 'admin' ? 'Admin' : 'Renter';
+
+        document.getElementById('logoutLink').addEventListener('click', async function (e) {
+            e.preventDefault();
+            if (!confirm('Are you sure you want to log out?')) return;
+            await logOut();
+            window.location.href = '../user/login.html';
+        });
+
+        /* ---------- My Inventory: render real listings ---------- */
+        let myListingsCache = [];
+        let editingListingId = null;
+
+        function renderInventoryCard(listing) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.category = listing.listingType;
+            card.dataset.listingId = listing.id;
+
+            const isBand = listing.listingType === 'band';
+            const img = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+            const statusClass = listing.status === 'rented' ? ' rented' : (listing.status === 'pending' ? ' pending' : '');
+            const statusLabel = (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
+            const badgeTypeStyle = isBand ? ' style="background: var(--secondary); color: white;"' : '';
+            const badgeTypeLabel = isBand ? 'Band' : (listing.category || 'Instrument');
+            const priceUnit = isBand ? '/show' : '/day';
+
+            card.innerHTML =
+                '<div class="card-image">' +
+                    '<img alt="' + escapeHtml(listing.title) + '" src="' + escapeHtml(img) + '" />' +
+                    '<span class="badge-status' + statusClass + '">' + escapeHtml(statusLabel) + '</span>' +
+                    '<span class="badge-type"' + badgeTypeStyle + '>' + escapeHtml(badgeTypeLabel) + '</span>' +
+                    '<div class="card-rating">' +
+                        '<span class="material-symbols-outlined filled" style="font-size: 14px; color: #ffba20;">star</span>' +
+                        '<span>' + (listing.rating || 0).toFixed(1) + ' (' + (listing.ratingCount || 0) + ')</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="card-content">' +
+                    '<h3>' + escapeHtml(listing.title) + '</h3>' +
+                    '<div class="location">' +
+                        '<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>' +
+                        '<span>' + escapeHtml(listing.location) + '</span>' +
+                    '</div>' +
+                    '<div class="card-footer">' +
+                        '<div class="price">RM ' + listing.price + ' <span class="price-unit">' + priceUnit + '</span></div>' +
+                        '<div class="card-actions">' +
+                            '<button class="action-btn"><span class="material-symbols-outlined" style="font-size: 18px;">visibility</span></button>' +
+                            '<button class="action-btn"><span class="material-symbols-outlined" style="font-size: 18px;">edit</span></button>' +
+                            '<button class="action-btn delete"><span class="material-symbols-outlined" style="font-size: 18px;">delete</span></button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            return card;
+        }
+
+        async function loadMyListings() {
+            const grid = document.getElementById('inventoryGrid');
+            myListingsCache = await getMany('listings', where('ownerId', '==', currentUid));
+            grid.innerHTML = '';
+            myListingsCache.forEach(listing => grid.appendChild(renderInventoryCard(listing)));
+            document.getElementById('totalItemsStat').textContent = myListingsCache.length;
+            document.getElementById('inventoryEmptyMsg').style.display = myListingsCache.length ? 'none' : '';
+            if (window.applyInventoryFilters) window.applyInventoryFilters();
+        }
+
+        document.getElementById('inventoryGrid').addEventListener('click', async function (e) {
+            const btn = e.target.closest('.action-btn');
+            if (!btn) return;
+            const card = btn.closest('.card');
+            const listingId = card.dataset.listingId;
+            const title = card.querySelector('h3').textContent.trim();
+            const icon = btn.querySelector('.material-symbols-outlined').textContent.trim();
+
+            if (btn.classList.contains('delete')) {
+                if (confirm('Delete "' + title + '" from your inventory? This cannot be undone.')) {
+                    try {
+                        await removeDoc('listings', listingId);
+                        await loadMyListings();
+                    } catch (err) {
+                        alert('Could not delete this listing: ' + (err.message || 'please try again.'));
+                    }
+                }
+            } else if (icon === 'visibility') {
+                const price = card.querySelector('.price').textContent.trim();
+                const location = card.querySelector('.location span:last-child').textContent.trim();
+                alert(title + '\nLocation: ' + location + '\nPrice: ' + price);
+            } else if (icon === 'edit') {
+                const listing = myListingsCache.find(l => l.id === listingId);
+                if (listing) populateListingForm(listing);
+            }
+        });
+
+        /* ---------- List New: photo URL previews ---------- */
+        function renderPhotoPreviews() {
+            const urls = document.getElementById('photoUrlsInput').value.split(',').map(s => s.trim()).filter(Boolean);
+            const container = document.getElementById('photoPreviews');
+            container.innerHTML = '';
+            urls.forEach(url => {
+                const box = document.createElement('div');
+                box.className = 'preview-box';
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Photo preview';
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:12px;';
+                img.onerror = () => { box.style.display = 'none'; };
+                box.appendChild(img);
+                container.appendChild(box);
+            });
+        }
+        document.getElementById('photoUrlsInput').addEventListener('input', renderPhotoPreviews);
+
+        function populateListingForm(listing) {
+            editingListingId = listing.id;
+            const isBand = listing.listingType === 'band';
+            document.getElementById(isBand ? 'typeBand' : 'typeInstrument').checked = true;
+            window.toggleListingType();
+            if (isBand) {
+                document.getElementById('bandName').value = listing.title || '';
+                document.getElementById('bandCategory').value = listing.category || '';
+                document.getElementById('bandMembers').value = listing.members || '';
+                document.getElementById('bandDescription').value = listing.description || '';
+                document.getElementById('bandPrice').value = listing.price || '';
+                document.getElementById('bandLocation').value = listing.location || '';
+                document.getElementById('bandAvailability').value = listing.availability || '';
+            } else {
+                document.getElementById('instrumentName').value = listing.title || '';
+                document.getElementById('instrumentCategory').value = listing.category || '';
+                document.getElementById('instrumentBrand').value = listing.brand || '';
+                document.getElementById('instrumentDescription').value = listing.description || '';
+                document.getElementById('instrumentPrice').value = listing.price || '';
+                document.getElementById('instrumentLocation').value = listing.location || '';
+                document.getElementById('instrumentAvailability').value = listing.availability || '';
+            }
+            document.getElementById('photoUrlsInput').value = (listing.photos || []).join(', ');
+            renderPhotoPreviews();
+            document.getElementById('submitListingBtn').innerHTML =
+                '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">send</span> Update Listing';
+            window.showRenterPage('listnew');
+        }
+
+        function resetListingForm() {
+            editingListingId = null;
+            document.querySelector('.listing-form').reset();
+            window.toggleListingType();
+            document.getElementById('photoPreviews').innerHTML = '';
+            document.getElementById('submitListingBtn').innerHTML =
+                '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">send</span> Submit Listing';
+        }
+        document.getElementById('listNewNavLink').addEventListener('click', resetListingForm);
+
+        document.querySelector('.listing-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const isBand = document.getElementById('typeBand').checked;
+            const photos = document.getElementById('photoUrlsInput').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            const data = isBand ? {
+                listingType: 'band',
+                title: document.getElementById('bandName').value.trim(),
+                category: document.getElementById('bandCategory').value,
+                members: document.getElementById('bandMembers').value.trim(),
+                description: document.getElementById('bandDescription').value.trim(),
+                price: parseFloat(document.getElementById('bandPrice').value),
+                priceUnit: 'show',
+                location: document.getElementById('bandLocation').value.trim(),
+                availability: document.getElementById('bandAvailability').value
+            } : {
+                listingType: 'instrument',
+                title: document.getElementById('instrumentName').value.trim(),
+                category: document.getElementById('instrumentCategory').value,
+                brand: document.getElementById('instrumentBrand').value.trim(),
+                description: document.getElementById('instrumentDescription').value.trim(),
+                price: parseFloat(document.getElementById('instrumentPrice').value),
+                priceUnit: 'day',
+                location: document.getElementById('instrumentLocation').value.trim(),
+                availability: document.getElementById('instrumentAvailability').value
+            };
+            data.photos = photos;
+
+            const requiredValues = isBand
+                ? [data.title, data.category, data.members, data.description, data.location]
+                : [data.title, data.category, data.brand, data.description, data.location];
+            if (requiredValues.some(v => !v) || !data.price) {
+                alert('Please fill in all the listing details before submitting.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitListingBtn');
+            submitBtn.disabled = true;
+            try {
+                if (editingListingId) {
+                    await updateDocFields('listings', editingListingId, data);
+                    alert('Listing updated successfully.');
+                } else {
+                    data.ownerId = currentUid;
+                    data.ownerName = currentProfile.fullName || currentProfile.username;
+                    data.status = 'available';
+                    data.rating = 0;
+                    data.ratingCount = 0;
+                    await createDoc('listings', data);
+                    alert('Listing submitted successfully! Your ' + (isBand ? 'band/ensemble' : 'instrument') + ' is now live on the marketplace.');
+                }
+                resetListingForm();
+                await loadMyListings();
+                window.showRenterPage('inventory');
+            } catch (err) {
+                alert('Could not save your listing: ' + (err.message || 'please try again.'));
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        loadMyListings();
+
+        /* ---------- Chats ---------- */
+        let renterConversationsCache = [];
+        let activeRenterConvoId = null;
+        let unsubscribeRenterMessages = null;
+
+        function renterOtherParticipant(convo) {
+            const otherUid = convo.participantIds.find(id => id !== currentUid);
+            const name = (convo.participantNames && convo.participantNames[otherUid]) || 'User';
+            return { uid: otherUid, name };
+        }
+
+        function renderChatListItem(convo) {
+            const other = renterOtherParticipant(convo);
+            const div = document.createElement('div');
+            div.className = 'chat-list-item' + (convo.id === activeRenterConvoId ? ' active' : '');
+            div.dataset.convo = convo.id;
+            const lastAt = convo.lastMessageAt && convo.lastMessageAt.toDate ? convo.lastMessageAt.toDate() : null;
+            const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+            div.innerHTML =
+                '<div class="avatar-wrap"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../images/user_profile.jpg') + '" /></div>' +
+                '<div class="chat-list-item-body">' +
+                    '<div class="chat-list-item-top"><span class="name">' + escapeHtml(other.name) + '</span><span class="time">' + escapeHtml(timeLabel) + '</span></div>' +
+                    '<p class="item-title">' + escapeHtml(convo.listingTitle || '') + '</p>' +
+                    '<p class="last-message">' + escapeHtml(convo.lastMessage || 'Start the conversation...') + '</p>' +
+                '</div>';
+            div.addEventListener('click', function () { openRenterConversation(convo.id); });
+            return div;
+        }
+
+        function renderRenterChatList() {
+            const container = document.getElementById('chatListContainer');
+            container.innerHTML = '';
+            renterConversationsCache.forEach(c => container.appendChild(renderChatListItem(c)));
+            document.getElementById('chatListEmptyMsg').style.display = renterConversationsCache.length ? 'none' : '';
+        }
+
+        function renderRenterMessages(msgs) {
+            const area = document.getElementById('messageHistory');
+            area.innerHTML = '';
+            msgs.forEach(m => {
+                const isMine = m.senderId === currentUid;
+                const wrap = document.createElement('div');
+                wrap.className = 'message-row' + (isMine ? ' sender' : '');
+                const time = m.createdAt && m.createdAt.toDate
+                    ? m.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    : '';
+                let inner = '';
+                if (!isMine) {
+                    inner += '<img alt="" src="../images/user_profile.jpg" />';
+                }
+                inner += '<div class="message-bubble"><p></p><span class="msg-time">' + escapeHtml(time) + '</span></div>';
+                wrap.innerHTML = inner;
+                wrap.querySelector('.message-bubble p').textContent = m.text || '';
+                area.appendChild(wrap);
+            });
+            area.scrollTop = area.scrollHeight;
+        }
+
+        function openRenterConversation(convoId) {
+            const convo = renterConversationsCache.find(c => c.id === convoId);
+            if (!convo) return;
+            activeRenterConvoId = convoId;
+            document.querySelectorAll('#chatListContainer .chat-list-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.convo === convoId);
+            });
+            const other = renterOtherParticipant(convo);
+            document.getElementById('activeChatName').textContent = other.name;
+            document.getElementById('chatMessageInput').placeholder = 'Type a message to ' + other.name + '...';
+
+            if (unsubscribeRenterMessages) unsubscribeRenterMessages();
+            unsubscribeRenterMessages = subscribeToSubQuery('conversations', convoId, 'messages', [orderBy('createdAt', 'asc')], renderRenterMessages);
+        }
+
+        async function loadRenterConversations() {
+            renterConversationsCache = await getMany('conversations', where('participantIds', 'array-contains', currentUid));
+            renterConversationsCache.sort((a, b) => {
+                const at = a.lastMessageAt && a.lastMessageAt.toMillis ? a.lastMessageAt.toMillis() : 0;
+                const bt = b.lastMessageAt && b.lastMessageAt.toMillis ? b.lastMessageAt.toMillis() : 0;
+                return bt - at;
+            });
+            renderRenterChatList();
+            if (renterConversationsCache.length && !activeRenterConvoId) {
+                openRenterConversation(renterConversationsCache[0].id);
+            }
+        }
+
+        document.getElementById('chatSearchInput').addEventListener('input', function () {
+            const term = this.value.toLowerCase();
+            document.querySelectorAll('#chatListContainer .chat-list-item').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(term) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('attachFileBtn').addEventListener('click', function () {
+            alert('File attachments will open your device file picker.');
+        });
+
+        async function sendRenterMessage() {
+            const input = document.getElementById('chatMessageInput');
+            const text = input.value.trim();
+            if (!text || !activeRenterConvoId) return;
+            input.value = '';
+            try {
+                await createSubDoc('conversations', activeRenterConvoId, 'messages', {
+                    senderId: currentUid,
+                    text,
+                    attachmentUrl: null
+                });
+                await updateDocFields('conversations', activeRenterConvoId, {
+                    lastMessage: text,
+                    lastMessageAt: serverTimestamp()
+                });
+            } catch (err) {
+                alert('Could not send message. Please try again.');
+            }
+        }
+        document.getElementById('sendMessageBtn').addEventListener('click', sendRenterMessage);
+        document.getElementById('chatMessageInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') sendRenterMessage();
+        });
+
+        /* "Request Payment" posts a request message into the shared conversation thread —
+           it does NOT send the renter to checkout (that's the customer's action, in chatnego.html). */
+        document.getElementById('requestPaymentBtn').addEventListener('click', async function () {
+            if (!activeRenterConvoId) {
+                alert('Select a conversation first.');
+                return;
+            }
+            if (!confirm('Send a payment request to this customer?')) return;
+            const text = '💰 Payment has been requested for this booking. Please proceed to checkout to complete payment.';
+            try {
+                await createSubDoc('conversations', activeRenterConvoId, 'messages', {
+                    senderId: currentUid,
+                    text,
+                    attachmentUrl: null
+                });
+                await updateDocFields('conversations', activeRenterConvoId, {
+                    lastMessage: text,
+                    lastMessageAt: serverTimestamp()
+                });
+                alert('Payment request sent.');
+            } catch (err) {
+                alert('Could not send the payment request. Please try again.');
+            }
+        });
+
+        loadRenterConversations();
+
+        /* ---------- Bookings ---------- */
+        let bookingsCache = [];
+
+        function renderBookingRow(booking) {
+            const tr = document.createElement('tr');
+            tr.dataset.bookingId = booking.id;
+            const status = booking.bookingStatus || 'active';
+            const statusClass = status === 'completed' ? 'badget-completed' : (status === 'cancelled' ? 'badget-cancelled' : 'badget-confirmed');
+            const actionsHtml = status === 'active'
+                ? '<button class="btn-complete" type="button"><span class="material-symbols-outlined">check_circle</span> Mark as Complete</button>'
+                : '<button class="btn-details" type="button">View Details</button>';
+
+            tr.innerHTML =
+                '<td class="font-mono">#' + escapeHtml(booking.id.slice(0, 6)) + '</td>' +
+                '<td class="font-bold">' + escapeHtml(booking.customerName || 'Customer') + '</td>' +
+                '<td>' + escapeHtml(booking.listingTitle || '') + '</td>' +
+                '<td class="text-right">RM' + booking.totalAmount + '</td>' +
+                '<td class="font-bold">—</td>' +
+                '<td class="font-bold">—</td>' +
+                '<td>—</td>' +
+                '<td class="text-center"><span class="badget ' + statusClass + '">' + escapeHtml(status) + '</span></td>' +
+                '<td class="text-right">' + actionsHtml + '</td>';
+            return tr;
+        }
+
+        async function loadBookings() {
+            bookingsCache = await getMany('bookings', where('renterId', '==', currentUid));
+            const tbody = document.getElementById('bookingsTbody');
+            tbody.innerHTML = '';
+            bookingsCache.forEach(b => tbody.appendChild(renderBookingRow(b)));
+            document.getElementById('bookingsEmptyMsg').style.display = bookingsCache.length ? 'none' : '';
+            document.getElementById('paginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + bookingsCache.length + '</span> of ' + bookingsCache.length + ' bookings';
+        }
+
+        document.getElementById('bookingsTbody').addEventListener('click', async function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const booking = bookingsCache.find(b => b.id === row.dataset.bookingId);
+            if (!booking) return;
+
+            if (e.target.closest('.btn-complete')) {
+                if (!confirm('Mark this booking as complete? This releases the escrowed payment to you.')) return;
+                try {
+                    await updateDocFields('bookings', booking.id, { bookingStatus: 'completed', escrowStatus: 'released' });
+                    await loadBookings();
+                } catch (err) {
+                    alert('Could not update this booking: ' + (err.message || 'please try again.'));
+                }
+            } else if (e.target.closest('.btn-details')) {
+                alert(
+                    'Booking #' + booking.id.slice(0, 6) + '\n' +
+                    'Customer: ' + (booking.customerName || 'Customer') + '\n' +
+                    'Item: ' + (booking.listingTitle || '') + '\n' +
+                    'Total: RM' + booking.totalAmount + '\n' +
+                    'Status: ' + (booking.bookingStatus || 'active')
+                );
+            }
+        });
+
+        loadBookings();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+    function isSelf(uid)  { return isSignedIn() && request.auth.uid == uid; }
+    function myRole() {
+      return isSignedIn()
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : null;
+    }
+    function isAdmin()  { return myRole() == 'admin'; }
+    function isRenter() { return myRole() == 'renter' || isAdmin(); }
+    function onlyProfileFieldsChanged() {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status', 'uid']);
+    }
+    function onlyRoleAndStatusChanged() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'status', 'updatedAt']);
+    }
+
+    match /users/{uid} {
+      allow read:   if isSelf(uid) || isAdmin();
+      allow create: if isSelf(uid);
+      allow update: if (isSelf(uid) && onlyProfileFieldsChanged())
+                    || (isAdmin() && onlyRoleAndStatusChanged());
+      allow delete: if false;
+    }
+
+    match /usernames/{uname} {
+      allow read:   if true; // needed pre-auth, to resolve username -> email at login
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false;
+      // A write to an EXISTING usernames/{uname} doc is classified "update", not
+      // "create", so duplicate-username claims are rejected automatically above.
+    }
+
+    match /listings/{listingId} {
+      allow read:   if true; // public marketplace
+      allow create: if isRenter() && request.resource.data.ownerId == request.auth.uid;
+      allow update: if (isRenter() && resource.data.ownerId == request.auth.uid
+                        && request.resource.data.ownerId == resource.data.ownerId)
+                    || isAdmin();
+      allow delete: if (isSignedIn() && resource.data.ownerId == request.auth.uid) || isAdmin();
+    }
+
+    match /bookings/{bookingId} {
+      allow read:   if isSignedIn() &&
+                    (resource.data.customerId == request.auth.uid
+                     || resource.data.renterId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.customerId == request.auth.uid;
+      allow update: if isSignedIn() &&
+                    (resource.data.customerId == request.auth.uid
+                     || resource.data.renterId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    match /conversations/{convoId} {
+      allow read, update: if isSignedIn() && request.auth.uid in resource.data.participantIds;
+      allow create: if isSignedIn() && request.auth.uid in request.resource.data.participantIds;
+      allow delete: if isAdmin();
+
+      match /messages/{msgId} {
+        allow read: if isSignedIn() &&
+          request.auth.uid in get(/databases/$(database)/documents/conversations/$(convoId)).data.participantIds;
+        allow create: if isSignedIn() &&
+          request.auth.uid in get(/databases/$(database)/documents/conversations/$(convoId)).data.participantIds &&
+          request.resource.data.senderId == request.auth.uid;
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    match /reports/{reportId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.reporterId == request.auth.uid;
+    }
+
+    match /contactMessages/{msgId} {
+      allow create: if true; // reachable even when logged out
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /auditLog/{entryId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

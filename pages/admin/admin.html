@@ -1,0 +1,2869 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin | Rent A Tune</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,900;1,8..60,400&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #0040e0;
+            --on-primary: #ffffff;
+            --primary-container: #2e5bff;
+            --on-primary-container: #efefff;
+            --primary-fixed: #dde1ff;
+            --secondary: #7c5800;
+            --secondary-container: #feb700;
+            --on-secondary-container: #6b4b00;
+            --background: #f8f9ff;
+            --on-background: #0b1c30;
+            --surface: #f8f9ff;
+            --surface-bright: #f8f9ff;
+            --surface-container: #e5eeff;
+            --surface-container-low: #eff4ff;
+            --surface-container-high: #dce9ff;
+            --surface-container-highest: #d3e4fe;
+            --surface-container-lowest: #ffffff;
+            --on-surface: #0b1c30;
+            --on-surface-variant: #434656;
+            --outline: #747688;
+            --outline-variant: #c4c5d9;
+            --error: #ba1a1a;
+            --on-error: #ffffff;
+            --error-container: #ffdad6;
+            --inverse-surface: #213145;
+            --inverse-primary: #b8c3ff;
+            --radius-full: 9999px;
+
+            --font-body: 'Montserrat', sans-serif;
+            --font-display: 'Source Serif 4', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background);
+            color: var(--on-surface);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Shared utility classes */
+        .font-mono { font-family: monospace; color: var(--on-surface-variant); font-weight: 500; }
+        .font-bold { font-weight: 700; color: var(--on-surface); }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .text-small { font-size: 14px; color: var(--on-surface-variant); }
+
+        /* Sidebar */
+        aside {
+            width: 256px;
+            height: 100vh;
+            background-color: var(--surface-container-low);
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 16px;
+            box-shadow: 1px 0 5px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 0 8px;
+        }
+
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--on-primary);
+            box-shadow: 0 4px 6px rgba(0, 64, 224, 0.2);
+        }
+
+        .brand-text h1 {
+            font-size: 24px;
+            line-height: 1.1;
+        }
+
+        .brand-text p {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            opacity: 0.6;
+        }
+
+        nav {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--on-surface-variant);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-link:hover {
+            background-color: var(--surface-container-highest);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background-color: var(--surface-container-highest);
+            border-right: 4px solid var(--primary);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(116, 118, 136, 0.1);
+        }
+
+        .nav-link.logout {
+            color: var(--error);
+        }
+
+        .nav-link.logout:hover {
+            background-color: var(--error-container);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 256px;
+            flex: 1;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 64px;
+            background-color: #ffffff;
+            border-bottom: 1px solid rgba(116, 118, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #f8f9ff;
+            border: 1px solid #c4c5d9;
+            border-radius: 9999px;
+            padding: 6px 16px;
+            width: 384px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .icon-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            color: #434656;
+        }
+
+        .icon-btn:hover {
+            background-color: #e5eeff;
+        }
+
+        .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background-color: #ba1a1a;
+            border-radius: 50%;
+        }
+
+        .divider {
+            width: 1px;
+            height: 32px;
+            background-color: #c4c5d9;
+        }
+
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-info {
+            text-align: right;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-role {
+            font-size: 10px;
+            font-weight: 700;
+            color: #434656;
+            text-transform: uppercase;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #dde1ff;
+            overflow: hidden;
+            border: 2px solid rgba(0, 64, 224, 0.1);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Page Layout */
+        .content {
+            padding: 48px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h2 {
+            font-size: 32px;
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            color: #434656;
+        }
+
+        /* View switching: only the active section is shown */
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* ============================= */
+        /* Table Card system (Users, Renters, Transactions, Listings, Reports, Chat Monitor) */
+        /* ============================= */
+        .card {
+            background-color: var(--surface-container-lowest);
+            border: 1px solid rgba(196, 197, 217, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .table-controls {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--surface-bright);
+            border-bottom: 1px solid rgba(196, 197, 217, 0.2);
+        }
+
+        .control-btns {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-outline {
+            padding: 8px 24px;
+            border-radius: 8px;
+            border: 1px solid var(--outline);
+            background: none;
+            color: var(--on-surface-variant);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-filled-light {
+            padding: 8px 24px;
+            border-radius: 8px;
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background-color: var(--surface-container-lowest);
+            border: 1px solid rgba(196, 197, 217, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 180px;
+            padding: 8px;
+            z-index: 20;
+        }
+
+        .filter-menu.open {
+            display: block;
+        }
+
+        .filter-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--on-surface-variant);
+            cursor: pointer;
+        }
+
+        .filter-option:hover {
+            background-color: var(--surface-container-high);
+        }
+
+        .filter-option.active {
+            color: var(--primary);
+            font-weight: 700;
+            background-color: var(--surface-container-highest);
+        }
+
+        .table-search {
+            position: relative;
+            width: 288px;
+        }
+
+        .table-search .material-symbols-outlined {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--outline);
+            font-size: 20px;
+        }
+
+        .table-search input {
+            width: 100%;
+            background-color: var(--surface);
+            border: 1px solid var(--outline-variant);
+            border-radius: 8px;
+            padding: 8px 16px 8px 40px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead tr {
+            background-color: var(--surface-container-low);
+            border-bottom: 1px solid rgba(196, 197, 217, 0.3);
+        }
+
+        th {
+            padding: 16px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+        }
+
+        td {
+            padding: 20px 32px;
+            border-bottom: 1px solid rgba(196, 197, 217, 0.1);
+        }
+
+        tbody tr:hover {
+            background-color: var(--surface-container-low);
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-initials {
+            width: 48px;
+            height: 48px;
+            background-color: var(--surface-container-high);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .user-cell-text .name {
+            font-weight: 700;
+            display: block;
+        }
+
+        .user-cell-text .id {
+            font-size: 12px;
+            color: var(--outline);
+        }
+
+        .contact-cell .email {
+            font-size: 14px;
+            display: block;
+        }
+
+        .contact-cell .phone {
+            font-size: 12px;
+            color: var(--outline);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-active {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+        }
+
+        .status-suspended {
+            background-color: var(--error);
+            color: var(--on-error);
+        }
+
+        .actions-cell {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .view-btn {
+            background-color: var(--surface-container-highest);
+            color: var(--primary);
+            border: none;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .icon-action {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+        }
+
+        .icon-action.block {
+            color: var(--error);
+        }
+
+        .icon-action.block:hover {
+            background-color: var(--error-container);
+        }
+
+        .icon-action.unblock {
+            color: var(--primary);
+        }
+
+        .icon-action.unblock:hover {
+            background-color: rgba(46, 91, 255, 0.2);
+        }
+
+        /* Badges (Transactions, Listings, Reports, Chat Monitor) */
+        .badget {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+        }
+
+        .badget-released { background-color: var(--primary); color: var(--background); }
+        .badget-held { background-color: var(--secondary-container); color: var(--background); }
+        .badget-completed { background-color: green; color: var(--background); }
+        .badget-active { background-color: var(--primary-fixed); color: var(--primary); }
+        .badget-issued { background-color: var(--error); color: white; }
+        .badget-type { background-color: var(--inverse-primary); color: black; }
+        .badget-resolved { background-color: green; color: var(--background); }
+        .badget-investigating { background-color: var(--secondary-container); color: var(--background); }
+        .badget-warning { background-color: var(--secondary-container); color: var(--background); }
+        .badget-suspended { background-color: var(--error); color: white; }
+
+        .btn-details {
+            padding: 6px 16px;
+            border: 2px solid var(--on-background);
+            border-radius: var(--radius-full);
+            background: none;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-details:hover {
+            background-color: var(--on-background);
+            color: white;
+        }
+
+        .btn-investigate {
+            padding: 6px 16px;
+            border: 2px solid var(--secondary-container);
+            border-radius: var(--radius-full);
+            background: none;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--secondary-container);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-investigate:hover {
+            background-color: var(--secondary-container);
+            color: var(--background);
+        }
+
+        .btn-warning {
+            padding: 6px 16px;
+            border: 2px solid var(--error);
+            border-radius: var(--radius-full);
+            background: none;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--error);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-warning:hover {
+            background-color: var(--error);
+            color: var(--background);
+        }
+
+        /* Pagination */
+        .pagination {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--surface-container-low);
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
+
+        .pagination-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--outline-variant);
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background-color: var(--surface-container-highest);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            font-weight: 700;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ============================= */
+        /* Overview view */
+        /* ============================= */
+        #view-overview .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(116, 118, 136, 0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        #view-overview .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        #view-overview .font-mono { font-family: monospace; font-size: 12px; color: inherit; font-weight: 400; }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .icon-box {
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .trend {
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #434656;
+            letter-spacing: 0.05em;
+        }
+
+        .card-value {
+            font-size: 24px;
+            margin-top: 4px;
+        }
+
+        .card-sub {
+            font-size: 12px;
+            color: #434656;
+            margin-top: 8px;
+        }
+
+        .blue-box { background-color: #e5eeff; color: #0040e0; }
+        .light-blue-box { background-color: #d3e4fe; color: #0035be; }
+        .yellow-box { background-color: #ffdea8; color: #7c5800; }
+        .red-box { background-color: #ffdad6; color: #ba1a1a; }
+
+        .text-error { color: #ba1a1a; }
+        .text-primary { color: #0040e0; }
+        .text-secondary { color: #7c5800; }
+
+        .urgent-tag {
+            background-color: #ba1a1a;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid rgba(116, 118, 136, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(116, 118, 136, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h4 {
+            font-size: 24px;
+        }
+
+        .panel-header p {
+            font-size: 14px;
+            color: #434656;
+        }
+
+        .view-all {
+            color: #0040e0;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .item-cell b { display: block; font-size: 14px; }
+        .item-cell span { font-size: 12px; color: #434656; }
+        .amount-cell { text-align: right; font-weight: 700; }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pill-blue { background-color: rgba(0, 64, 224, 0.1); color: #0040e0; }
+        .pill-yellow { background-color: #ffdea8; color: #7c5800; }
+        .pill-red { background-color: #ffdad6; color: #ba1a1a; }
+
+        .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .dot-blue { background-color: #0040e0; }
+        .dot-yellow { background-color: #7c5800; }
+        .dot-red { background-color: #ba1a1a; }
+
+        .activity-list {
+            padding: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .violation-card {
+            padding: 16px;
+            background-color: #eff4ff;
+            border-radius: 8px;
+            border-left: 4px solid #ba1a1a;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .violation-card:hover {
+            background-color: #e5eeff;
+        }
+
+        .violation-card.warned {
+            border-left-color: #747688;
+            opacity: 0.7;
+        }
+
+        .violation-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .tag-red { background-color: #ba1a1a; }
+        .tag-grey { background-color: #747688; }
+
+        .time { font-size: 10px; color: #434656; }
+        .v-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .v-text { font-size: 12px; font-style: italic; color: #434656; margin-bottom: 8px; }
+
+        .v-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .v-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .v-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        .panel-footer {
+            padding: 16px;
+            text-align: center;
+            border-top: 1px solid rgba(116, 118, 136, 0.1);
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: #0040e0;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .action-card {
+            background-color: #e5eeff;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(116, 118, 136, 0.1);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .action-card:hover {
+            border-color: rgba(0, 64, 224, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .action-card:hover .action-icon {
+            background-color: #0040e0;
+            color: white;
+        }
+
+        .action-card.secondary:hover .action-icon { background-color: #7c5800; }
+        .action-card.tertiary:hover .action-icon { background-color: #565555; }
+
+        .action-card h5 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .action-card p {
+            font-size: 14px;
+            color: #434656;
+        }
+
+        .arrow-hint {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            opacity: 0;
+            transition: all 0.3s;
+            color: #0040e0;
+        }
+
+        .action-card:hover .arrow-hint {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .pending-notif {
+            position: absolute;
+            top: 16px;
+            right: 40px;
+            background-color: #ba1a1a;
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 999px;
+        }
+
+        #view-overview footer {
+            border-top: 1px solid rgba(116, 118, 136, 0.1);
+            padding: 48px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #434656;
+            opacity: 0.6;
+        }
+
+        #view-overview .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        #view-overview .footer-links a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        #view-overview .footer-links a:hover {
+            color: #0040e0;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 56px;
+            height: 56px;
+            background-color: #0040e0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 8px 16px rgba(0, 64, 224, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================= */
+        /* Listings view */
+        /* ============================= */
+        #view-listings .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(0, 64, 224, 0.2);
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--surface-container-lowest);
+            border: 1px solid rgba(196, 197, 217, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .stat-value.primary { color: var(--primary); }
+        .stat-value.secondary { color: var(--secondary); }
+
+        .listing-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .listing-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .listing-icon.instrument { background-color: rgba(46, 91, 255, 0.1); color: var(--primary); }
+        .listing-icon.band { background-color: rgba(254, 183, 0, 0.1); color: var(--secondary); }
+
+        .listing-info .title { font-weight: 700; color: var(--on-surface); }
+        .listing-info .id { font-size: 12px; color: var(--outline); }
+
+        .category-tag {
+            padding: 4px 12px;
+            background-color: var(--surface-container-high);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--on-surface-variant);
+        }
+
+        .price-text { font-weight: 700; font-size: 16px; }
+        .muted-text { color: var(--outline); }
+
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-tag.active { background-color: var(--primary-container); color: var(--on-primary-container); }
+        .status-tag.pending { background-color: var(--surface-container-high); color: var(--on-surface-variant); }
+
+        #view-listings .actions-cell {
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+        }
+
+        .btn-action-square {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+            transition: transform 0.2s;
+        }
+
+        .btn-action-square:hover { transform: scale(1.05); }
+        .btn-approve { background-color: var(--on-surface); }
+        .btn-reject { background-color: var(--error); }
+
+        #view-listings footer {
+            padding: 48px 0;
+            text-align: center;
+            font-size: 12px;
+            color: var(--on-surface-variant);
+            opacity: 0.6;
+        }
+
+        /* ============================= */
+        /* Chat Monitor view */
+        /* ============================= */
+        .info-box {
+            margin-top: 48px;
+            background-color: var(--surface-container-low);
+            border: 1px solid rgba(46, 91, 255, 0.3);
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            padding: 12px;
+            background-color: var(--primary-container);
+            border-radius: 8px;
+            color: var(--on-primary-container);
+        }
+
+        .info-content h4 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .info-content p {
+            font-size: 16px;
+            color: var(--on-surface-variant);
+            line-height: 1.6;
+        }
+
+        .info-badges {
+            margin-top: 24px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .info-badge-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .info-badge-item .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <aside>
+        <div class="brand">
+            <div class="logo-box">
+                <span class="material-symbols-outlined filled-icon">music_note</span>
+            </div>
+            <div class="brand-text">
+                <h1>Rent A Tune</h1>
+                <p>Admin Console</p>
+            </div>
+        </div>
+
+        <nav>
+            <a class="nav-link active" href="#" data-view="overview">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Overview</span>
+            </a>
+            <a class="nav-link" href="#" data-view="users">
+                <span class="material-symbols-outlined">group</span>
+                <span>Users</span>
+            </a>
+            <a class="nav-link" href="#" data-view="renters">
+                <span class="material-symbols-outlined">person_celebrate</span>
+                <span>Renters</span>
+            </a>
+            <a class="nav-link" href="#" data-view="transactions">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span>Transactions</span>
+            </a>
+            <a class="nav-link" href="#" data-view="listings">
+                <span class="material-symbols-outlined">list_alt</span>
+                <span>Listings</span>
+            </a>
+            <a class="nav-link" href="#" data-view="reports">
+                <span class="material-symbols-outlined">bar_chart</span>
+                <span>Reports</span>
+            </a>
+            <a class="nav-link" href="#" data-view="chatmonitor">
+                <span class="material-symbols-outlined">forum</span>
+                <span>Chat Monitor</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="nav-link" href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Settings</span>
+            </a>
+            <a class="nav-link logout" href="#" id="logoutLink">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Top Application Header (shared across all views) -->
+        <header>
+            <div class="search-bar">
+                <span class="material-symbols-outlined">search</span>
+                <input placeholder="Search users, listings, or logs..." type="text" />
+            </div>
+
+            <div class="header-actions">
+                <div class="icon-group">
+                    <button class="icon-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="badge"></span>
+                    </button>
+                    <button class="icon-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="profile-area">
+                    <div class="profile-info">
+                        <p class="profile-name" id="profileNameText">Admin</p>
+                        <p class="profile-role">Super Admin</p>
+                    </div>
+                    <div class="avatar">
+                        <img alt="Admin User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFpRb_eE_qW4_hdNvibZUFQISkyputcYCmC05yoTA6GJDfe-AoMNKKsGArGJEL7RcFSin5niRwmq32xDBmugy62ruoTnjA3PKojQ2jFOzYKIARXaxv8ST-UpN9Q5EiPoTIzQhKsnikBsukYBRa8TUfY3vUeY7Ow4CHtww8PRaRTx6PcnmBE2kRbUC01qhWLYKgkgU06_oROtEFnR2YcRV2afkhYQE8RN-7e3G3_GgffuNkzlzbBW7aiSLRzzGvKgjYcV32XY-XWA" />
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- ============================= -->
+            <!-- OVERVIEW -->
+            <!-- ============================= -->
+            <section class="view-section active" id="view-overview" data-view="overview">
+                <div class="page-header">
+                    <h2>System Overview</h2>
+                    <p>Platform health and activity summary</p>
+                </div>
+
+                <section class="metrics-grid">
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box blue-box">
+                                <span class="material-symbols-outlined filled-icon">payments</span>
+                            </div>
+                            <span class="trend text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +25%
+                            </span>
+                        </div>
+                        <p class="card-label">Total Revenue</p>
+                        <h3 class="card-value">RM12,345.67</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box light-blue-box">
+                                <span class="material-symbols-outlined filled-icon">group</span>
+                            </div>
+                            <span class="trend text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +12%
+                            </span>
+                        </div>
+                        <p class="card-label">Total Users</p>
+                        <h3 class="card-value">30</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="icon-box yellow-box">
+                                <span class="material-symbols-outlined filled-icon">person_celebrate</span>
+                            </div>
+                            <span class="trend text-secondary">
+                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +8%
+                            </span>
+                        </div>
+                        <p class="card-label">Total Renters</p>
+                        <h3 class="card-value">20</h3>
+                    </div>
+
+                    <div class="card" style="border-color: #ffdad6;">
+                        <div class="card-top">
+                            <div class="icon-box red-box">
+                                <span class="material-symbols-outlined filled-icon">warning</span>
+                            </div>
+                            <span class="urgent-tag">Requires attention</span>
+                        </div>
+                        <p class="card-label">Pending Issues</p>
+                        <h3 class="card-value">12</h3>
+                    </div>
+                </section>
+
+                <section class="main-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Recent Transactions</h4>
+                                <p>Real-time payment flow monitoring</p>
+                            </div>
+                            <a class="view-all nav-link-view" href="#" data-view="transactions">View All</a>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User &amp; Item</th>
+                                    <th style="text-align: right;">Amount</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono">TRX005</td>
+                                    <td class="item-cell">
+                                        <b>Ali Rahman</b>
+                                        <span>Full String Ensemble</span>
+                                    </td>
+                                    <td class="amount-cell">RM2,000</td>
+                                    <td>
+                                        <span class="status-pill pill-yellow">
+                                            <span class="dot dot-yellow"></span> Held
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">TRX004</td>
+                                    <td class="item-cell">
+                                        <b>Zaref Affandi</b>
+                                        <span>Saxophone Alto</span>
+                                    </td>
+                                    <td class="amount-cell">RM378</td>
+                                    <td>
+                                        <span class="status-pill pill-red">
+                                            <span class="dot dot-red"></span> Issued
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">TRX003</td>
+                                    <td class="item-cell">
+                                        <b>Nasr Muhaimin</b>
+                                        <span>Yamaha P125</span>
+                                    </td>
+                                    <td class="amount-cell">RM600</td>
+                                    <td>
+                                        <span class="status-pill pill-yellow">
+                                            <span class="dot dot-yellow"></span> Held
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">TRX002</td>
+                                    <td class="item-cell">
+                                        <b>Harris Danniel</b>
+                                        <span>Roland JD-800</span>
+                                    </td>
+                                    <td class="amount-cell">RM450</td>
+                                    <td>
+                                        <span class="status-pill pill-yellow">
+                                            <span class="dot dot-yellow"></span> Held
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">TRX001</td>
+                                    <td class="item-cell">
+                                        <b>Ahmad Syahmi</b>
+                                        <span>Yamaha Grand Piano</span>
+                                    </td>
+                                    <td class="amount-cell">RM1,200</td>
+                                    <td>
+                                        <span class="status-pill pill-blue">
+                                            <span class="dot dot-blue"></span> Released
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Flagged Activities</h4>
+                                <p>Auto-detected chat violations</p>
+                            </div>
+                        </div>
+
+                        <div class="activity-list">
+                            <div class="violation-card">
+                                <div class="violation-top">
+                                    <span class="tag tag-red">New</span>
+                                    <span class="time">2 mins ago</span>
+                                </div>
+                                <p class="v-title">Social Media</p>
+                                <p class="v-text">"DM me on Instagram @user"</p>
+                                <div class="v-user">
+                                    <div class="v-avatar">
+                                        <img alt="" src="../images/user_profile.jpg" />
+                                    </div>
+                                    <span>Myself Renter → Nur Lisa</span>
+                                </div>
+                            </div>
+
+                            <div class="violation-card">
+                                <div class="violation-top">
+                                    <span class="tag tag-red">New</span>
+                                    <span class="time">15 mins ago</span>
+                                </div>
+                                <p class="v-title">Phone Number</p>
+                                <p class="v-text">"Call me at 0123456789"</p>
+                                <div class="v-user">
+                                    <div class="v-avatar">
+                                        <img alt="" src="../images/user_profile.jpg" />
+                                    </div>
+                                    <span>Mohd Drake → Music Pro</span>
+                                </div>
+                            </div>
+
+                            <div class="violation-card warned">
+                                <div class="violation-top">
+                                    <span class="tag tag-grey">Warned</span>
+                                    <span class="time">2 days ago</span>
+                                </div>
+                                <p class="v-title">Social Media</p>
+                                <p class="v-text">"Let's discuss on Instagram @user"</p>
+                                <div class="v-user">
+                                    <div class="v-avatar">
+                                        <img alt="" src="../images/user_profile.jpg" />
+                                    </div>
+                                    <span>Ahmad Travis → Play Music</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-link nav-link-view" data-view="chatmonitor">Open Chat Monitor</button>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ============================= -->
+            <!-- USERS -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-users" data-view="users">
+                <div class="page-header">
+                    <h2>User Management</h2>
+                    <p>Manage and view user information</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="name" type="button">Alphabetical Name</button>
+                                    <button class="filter-option" data-sort="id" type="button">ID</button>
+                                    <button class="filter-option" data-sort="joindate" type="button">Join Date</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                            <button class="btn-outline">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search users..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Contact</th>
+                                    <th>Join Date</th>
+                                    <th style="text-align: center;">Bookings</th>
+                                    <th style="text-align: center;">Status</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTbody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <p class="pagination-info" id="usersPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 users</p>
+                        <div class="pagination-btns">
+                            <button class="page-btn" disabled="">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================= -->
+            <!-- RENTERS -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-renters" data-view="renters">
+                <div class="page-header">
+                    <h2>Renter Management</h2>
+                    <p>Manage and view renter information</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="name" type="button">Alphabetical Name</button>
+                                    <button class="filter-option" data-sort="revenue" type="button">Revenue</button>
+                                    <button class="filter-option" data-sort="rating" type="button">Rating</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                            <button class="btn-outline">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search renter..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Renter</th>
+                                    <th>Contact</th>
+                                    <th>Listings</th>
+                                    <th>Revenue</th>
+                                    <th>Rating</th>
+                                    <th style="text-align: center;">Status</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rentersTbody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <p class="pagination-info" id="rentersPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 renters</p>
+                        <div class="pagination-btns">
+                            <button class="page-btn" disabled="">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================= -->
+            <!-- TRANSACTIONS -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-transactions" data-view="transactions">
+                <div class="page-header">
+                    <h2>Transaction Management</h2>
+                    <p>Monitor payments and escrow releases in real-time</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="id" type="button">Transaction ID</button>
+                                    <button class="filter-option" data-sort="date" type="button">Date</button>
+                                    <button class="filter-option" data-sort="escrow" type="button">Escrow</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                            <button class="btn-outline">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Renter</th>
+                                    <th>Item</th>
+                                    <th class="text-right">Amount</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Escrow</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTbody"></tbody>
+                        </table>
+                        <p id="transactionsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No transactions yet.</p>
+
+                        <div class="pagination">
+                            <p class="pagination-info" id="transactionsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 transactions</p>
+                            <div class="pagination-btns">
+                                <button class="page-btn" disabled="">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================= -->
+            <!-- LISTINGS -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-listings" data-view="listings">
+                <div class="page-header">
+                    <div>
+                        <h2>Listing Management</h2>
+                        <p>Monitor instruments and band listings performance across the platform.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <p class="stat-label">Total Listings</p>
+                        <p class="stat-value" id="listingsTotalStat">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Active Now</p>
+                        <p class="stat-value primary" id="listingsActiveStat">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Instruments</p>
+                        <p class="stat-value secondary" id="listingsInstrumentStat">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Bands</p>
+                        <p class="stat-value" id="listingsBandStat">0</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="category" type="button">Category</button>
+                                    <button class="filter-option" data-sort="views" type="button">Views</button>
+                                    <button class="filter-option" data-sort="bookings" type="button">Bookings</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search listings..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Listing</th>
+                                    <th>Category</th>
+                                    <th>Renter</th>
+                                    <th>Price</th>
+                                    <th>Views</th>
+                                    <th>Bookings</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listingsTbody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <p class="pagination-info" id="listingsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 listings</p>
+                        <div class="pagination-btns">
+                            <button class="page-btn" disabled="">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <footer>
+                    <p>© 2024 Rent A Tune Inc. All rights reserved. Professional Stage Management Console.</p>
+                </footer>
+            </section>
+
+            <!-- ============================= -->
+            <!-- REPORTS -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-reports" data-view="reports">
+                <div class="page-header">
+                    <h2>Reports Management</h2>
+                    <p>Monitor system integrity and resolve user-reported conflicts. Every entry is a critical touchpoint for maintaining platform trust</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="id" type="button">Report ID</button>
+                                    <button class="filter-option" data-sort="date" type="button">Date</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                            <button class="btn-outline">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Reporter</th>
+                                    <th>Reported</th>
+                                    <th>Report Type</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportsTbody"></tbody>
+                        </table>
+                        <p id="reportsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No reports yet.</p>
+
+                        <div class="pagination">
+                            <p class="pagination-info" id="reportsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 reports</p>
+                            <div class="pagination-btns">
+                                <button class="page-btn" disabled="">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================= -->
+            <!-- CHAT MONITOR -->
+            <!-- ============================= -->
+            <section class="view-section" id="view-chatmonitor" data-view="chatmonitor">
+                <div class="page-header">
+                    <h2>Chat Violation</h2>
+                    <p>Auto-detected violations: phone numbers, social media, external payments</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="control-btns">
+                            <div class="filter-dropdown">
+                                <button class="btn-filled-light filter-toggle" type="button">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filter-menu">
+                                    <button class="filter-option" data-sort="id" type="button">Chat ID</button>
+                                    <button class="filter-option" data-sort="timestamp" type="button">Timestamp</button>
+                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                </div>
+                            </div>
+                            <button class="btn-outline">
+                                <span class="material-symbols-outlined">file_download</span>
+                                Export
+                            </button>
+                        </div>
+                        <div class="table-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input placeholder="Search..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Chat ID</th>
+                                    <th>Offender</th>
+                                    <th>With</th>
+                                    <th>Violation Type</th>
+                                    <th>Message</th>
+                                    <th>Timestamp</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono">VC001</td>
+                                    <td class="font-bold" style="color: red;">Ahmad Travis</td>
+                                    <td class="font-bold">Play Music</td>
+                                    <td><span class="badget badget-type">Social Media</span></td>
+                                    <td class="text-small">"Let's discuss on Instagram @user"</td>
+                                    <td class="text-small">2026-06-21 7:00 PM</td>
+                                    <td class="text-center"><span class="badget badget-warning">Warning</span></td>
+                                    <td class="text-right"><button class="btn-details">Details</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">VC002</td>
+                                    <td class="font-bold" style="color: red;">Ahmad Travis</td>
+                                    <td class="font-bold">Play Music</td>
+                                    <td><span class="badget badget-type">External Payment</span></td>
+                                    <td class="text-small">"Pay via PayPal to save fees"</td>
+                                    <td class="text-small">2026-06-22 9:00 AM</td>
+                                    <td class="text-center"><span class="badget badget-suspended">suspended</span></td>
+                                    <td class="text-right"><button class="btn-details">Details</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">VC003</td>
+                                    <td class="font-bold" style="color: red;">Music Pro</td>
+                                    <td class="font-bold">Mohd Drake</td>
+                                    <td><span class="badget badget-type">Phone Number</span></td>
+                                    <td class="text-small">"Chat me at 0123456789"</td>
+                                    <td class="text-small">2026-06-25 10:30 AM</td>
+                                    <td class="text-center"><span class="badget badget-active">pending</span></td>
+                                    <td class="text-right">
+                                        <div class="actions-cell">
+                                            <button class="btn-warning">Warning</button>
+                                            <button class="icon-action block" title="Block User">
+                                                <span class="material-symbols-outlined">block</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono">VC004</td>
+                                    <td class="font-bold" style="color: red;">Nur Lisa</td>
+                                    <td class="font-bold">Myself Renter</td>
+                                    <td><span class="badget badget-type">Social Media</span></td>
+                                    <td class="text-small">"DM me on Instagram @user"</td>
+                                    <td class="text-small">2026-06-23 11:58 AM</td>
+                                    <td class="text-center"><span class="badget badget-active">pending</span></td>
+                                    <td class="text-right">
+                                        <div class="actions-cell">
+                                            <button class="btn-warning">Warning</button>
+                                            <button class="icon-action block" title="Block User">
+                                                <span class="material-symbols-outlined">block</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination">
+                            <p class="pagination-info">Showing <span style="font-weight: 700;">1-5</span> of 10 violations</p>
+                            <div class="pagination-btns">
+                                <button class="page-btn" disabled="">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-icon">
+                        <span class="material-symbols-outlined" style="font-size: 32px;">security</span>
+                    </div>
+                    <div class="info-content">
+                        <h4>Auto-Moderation System</h4>
+                        <p>Messages containing phone numbers, social media handles, or external payment requests are automatically flagged and deleted. Users receive warnings, and repeated violations may result in account suspension. Our system uses advanced rhythmic pattern recognition to ensure the safety of our musical community.</p>
+                        <div class="info-badges">
+                            <div class="info-badge-item">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                99.8% Accuracy
+                            </div>
+                            <div class="info-badge-item">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Real-time Scanning
+                            </div>
+                            <div class="info-badge-item">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Manual Review Override
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ---------------------------------------------------------
+            // View switching: swap which <section class="view-section">
+            // is visible instead of navigating to a separate admin_*.html file
+            // ---------------------------------------------------------
+            function switchView(view) {
+                document.querySelectorAll('.view-section').forEach(function (section) {
+                    section.classList.toggle('active', section.getAttribute('data-view') === view);
+                });
+                document.querySelectorAll('.nav-link[data-view]').forEach(function (link) {
+                    link.classList.toggle('active', link.getAttribute('data-view') === view);
+                });
+                window.scrollTo(0, 0);
+            }
+
+            document.querySelectorAll('.nav-link[data-view], .nav-link-view[data-view]').forEach(function (trigger) {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    switchView(trigger.getAttribute('data-view'));
+                });
+            });
+
+            // ---------------------------------------------------------
+            // Filters dropdown: open/close + sort the table by the chosen column.
+            // Getter functions are scoped per view since the same data-sort key
+            // (e.g. "status" or "id") reads a different column in each table.
+            // ---------------------------------------------------------
+            var FILTER_GETTERS = {
+                users: {
+                    name: function (row) {
+                        var el = row.querySelector('.user-cell-text .name');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    },
+                    id: function (row) {
+                        var el = row.querySelector('.user-cell-text .id');
+                        var m = el ? el.textContent.match(/(\d+)/) : null;
+                        return m ? parseInt(m[1], 10) : 0;
+                    },
+                    joindate: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var text = cells[2] ? cells[2].textContent.trim() : '';
+                        var d = Date.parse(text);
+                        return isNaN(d) ? text : d;
+                    },
+                    status: function (row) {
+                        var el = row.querySelector('.status-badge');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    }
+                },
+                renters: {
+                    name: function (row) {
+                        var el = row.querySelector('.user-cell-text .name');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    },
+                    revenue: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var num = cells[3] ? parseFloat(cells[3].textContent.replace(/[^0-9.]/g, '')) : 0;
+                        return isNaN(num) ? 0 : -num;
+                    },
+                    rating: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var spans = cells[4] ? cells[4].querySelectorAll('span') : [];
+                        var num = spans[1] ? parseFloat(spans[1].textContent) : 0;
+                        return isNaN(num) ? 0 : -num;
+                    },
+                    status: function (row) {
+                        var el = row.querySelector('.status-badge');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    }
+                },
+                transactions: {
+                    id: function (row) {
+                        var el = row.querySelector('td.font-mono');
+                        var m = el ? el.textContent.match(/(\d+)/) : null;
+                        return m ? parseInt(m[1], 10) : 0;
+                    },
+                    date: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var text = cells[5] ? cells[5].textContent.trim() : '';
+                        var d = Date.parse(text);
+                        return isNaN(d) ? text : d;
+                    },
+                    escrow: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
+                        return badge ? badge.textContent.trim().toLowerCase() : '';
+                    },
+                    status: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var badge = cells[7] ? cells[7].querySelector('.badget') : null;
+                        return badge ? badge.textContent.trim().toLowerCase() : '';
+                    }
+                },
+                listings: {
+                    category: function (row) {
+                        var el = row.querySelector('.category-tag');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    },
+                    views: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var num = cells[4] ? parseFloat(cells[4].textContent.replace(/[^0-9.]/g, '')) : 0;
+                        return isNaN(num) ? 0 : -num;
+                    },
+                    bookings: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var num = cells[5] ? parseFloat(cells[5].textContent.replace(/[^0-9.]/g, '')) : 0;
+                        return isNaN(num) ? 0 : -num;
+                    },
+                    status: function (row) {
+                        var el = row.querySelector('.status-tag');
+                        return el ? el.textContent.trim().toLowerCase() : '';
+                    }
+                },
+                reports: {
+                    id: function (row) {
+                        var el = row.querySelector('td.font-mono');
+                        var m = el ? el.textContent.match(/(\d+)/) : null;
+                        return m ? parseInt(m[1], 10) : 0;
+                    },
+                    date: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var text = cells[5] ? cells[5].textContent.trim() : '';
+                        var d = Date.parse(text);
+                        return isNaN(d) ? text : d;
+                    },
+                    status: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
+                        return badge ? badge.textContent.trim().toLowerCase() : '';
+                    }
+                },
+                chatmonitor: {
+                    id: function (row) {
+                        var el = row.querySelector('td.font-mono');
+                        var m = el ? el.textContent.match(/(\d+)/) : null;
+                        return m ? parseInt(m[1], 10) : 0;
+                    },
+                    timestamp: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var text = cells[5] ? cells[5].textContent.trim() : '';
+                        var d = Date.parse(text);
+                        return isNaN(d) ? text : d;
+                    },
+                    status: function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
+                        return badge ? badge.textContent.trim().toLowerCase() : '';
+                    }
+                }
+            };
+
+            document.querySelectorAll('.filter-dropdown').forEach(function (dropdown) {
+                var toggle = dropdown.querySelector('.filter-toggle');
+                var menu = dropdown.querySelector('.filter-menu');
+                if (!toggle || !menu) return;
+
+                var viewSection = dropdown.closest('.view-section');
+                var viewName = viewSection ? viewSection.getAttribute('data-view') : null;
+                var getters = FILTER_GETTERS[viewName] || {};
+
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var isOpen = menu.classList.contains('open');
+                    document.querySelectorAll('.filter-menu.open').forEach(function (m) { m.classList.remove('open'); });
+                    if (!isOpen) menu.classList.add('open');
+                });
+
+                menu.querySelectorAll('.filter-option').forEach(function (option) {
+                    option.addEventListener('click', function () {
+                        menu.querySelectorAll('.filter-option').forEach(function (o) { o.classList.remove('active'); });
+                        option.classList.add('active');
+                        menu.classList.remove('open');
+
+                        var card = dropdown.closest('.card');
+                        var tbody = card ? card.querySelector('tbody') : null;
+                        var getValue = getters[option.getAttribute('data-sort')];
+                        if (!tbody || !getValue) return;
+
+                        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+                        rows.sort(function (a, b) {
+                            var va = getValue(a);
+                            var vb = getValue(b);
+                            if (va < vb) return -1;
+                            if (va > vb) return 1;
+                            return 0;
+                        });
+                        rows.forEach(function (row) { tbody.appendChild(row); });
+                    });
+                });
+            });
+
+            document.addEventListener('click', function () {
+                document.querySelectorAll('.filter-menu.open').forEach(function (m) { m.classList.remove('open'); });
+            });
+
+            // Table search: live-filter rows by their visible text
+            document.querySelectorAll('.table-search input').forEach(function (input) {
+                input.addEventListener('input', function () {
+                    var query = input.value.trim().toLowerCase();
+                    var card = input.closest('.card');
+                    var tbody = card ? card.querySelector('tbody') : null;
+                    if (!tbody) return;
+                    tbody.querySelectorAll('tr').forEach(function (row) {
+                        row.style.display = row.textContent.toLowerCase().indexOf(query) !== -1 ? '' : 'none';
+                    });
+                });
+            });
+
+            // Header icon buttons (notifications / help)
+            document.querySelectorAll('.icon-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var icon = btn.querySelector('.material-symbols-outlined');
+                    var name = icon ? icon.textContent.trim() : '';
+                    if (name === 'notifications') {
+                        var badge = btn.querySelector('.badge');
+                        if (badge) badge.style.display = 'none';
+                        alert('No new notifications.');
+                    } else if (name === 'help') {
+                        alert('Need help? Contact support@rentatune.com');
+                    }
+                });
+            });
+
+            // Dead nav links (Settings) that have no real destination page — Logout is wired for real
+            // in the module script below, so it's excluded from this generic stub handler.
+            document.querySelectorAll('a.nav-link[href="#"]:not([data-view]):not(#logoutLink)').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var label = link.querySelector('span:last-child');
+                    alert((label ? label.textContent.trim() : 'This') + ' page is not available yet.');
+                });
+            });
+
+            // Pagination: clicking a page number makes it active; chevrons step through pages
+            document.querySelectorAll('.pagination-btns, .pagination-controls').forEach(function (group) {
+                var buttons = Array.prototype.slice.call(group.querySelectorAll('.page-btn'));
+                var pageButtons = buttons.filter(function (b) { return !b.querySelector('.material-symbols-outlined'); });
+                var prevBtn = buttons.find(function (b) {
+                    var icon = b.querySelector('.material-symbols-outlined');
+                    return icon && icon.textContent.trim() === 'chevron_left';
+                });
+                var nextBtn = buttons.find(function (b) {
+                    var icon = b.querySelector('.material-symbols-outlined');
+                    return icon && icon.textContent.trim() === 'chevron_right';
+                });
+
+                function setActive(index) {
+                    pageButtons.forEach(function (b) { b.classList.remove('active'); });
+                    pageButtons[index].classList.add('active');
+                    if (prevBtn) prevBtn.disabled = index === 0;
+                    if (nextBtn) nextBtn.disabled = index === pageButtons.length - 1;
+                }
+
+                pageButtons.forEach(function (btn, index) {
+                    btn.addEventListener('click', function () { setActive(index); });
+                });
+                if (prevBtn) prevBtn.addEventListener('click', function () {
+                    var current = pageButtons.findIndex(function (b) { return b.classList.contains('active'); });
+                    if (current > 0) setActive(current - 1);
+                });
+                if (nextBtn) nextBtn.addEventListener('click', function () {
+                    var current = pageButtons.findIndex(function (b) { return b.classList.contains('active'); });
+                    if (current < pageButtons.length - 1) setActive(current + 1);
+                });
+            });
+
+            // Block / Unblock: toggles the row's status badge when it represents current state,
+            // otherwise treats the click as a one-off action (reports/chat monitor rows showing both buttons).
+            // Users/Renters tabs are excluded — their rows are rendered dynamically and wired for
+            // real Firestore updates in the module script below.
+            Array.prototype.filter.call(
+                document.querySelectorAll('.icon-action.block, .icon-action.unblock'),
+                function (btn) { return !btn.closest('#usersTbody') && !btn.closest('#rentersTbody'); }
+            ).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    var statusEl = row ? row.querySelector('.status-badge') : null;
+                    var icon = btn.querySelector('.material-symbols-outlined');
+
+                    if (statusEl) {
+                        if (btn.classList.contains('block')) {
+                            statusEl.classList.remove('status-active');
+                            statusEl.classList.add('status-suspended');
+                            statusEl.textContent = 'suspended';
+                            btn.classList.remove('block');
+                            btn.classList.add('unblock');
+                            btn.title = 'Unblock User';
+                            if (icon) { icon.textContent = 'check_circle'; icon.style.fontVariationSettings = "'FILL' 1"; }
+                        } else {
+                            statusEl.classList.remove('status-suspended');
+                            statusEl.classList.add('status-active');
+                            statusEl.textContent = 'active';
+                            btn.classList.remove('unblock');
+                            btn.classList.add('block');
+                            btn.title = 'Block User';
+                            if (icon) { icon.textContent = 'block'; icon.style.fontVariationSettings = ''; }
+                        }
+                    } else {
+                        var wasBlock = btn.classList.contains('block');
+                        btn.disabled = true;
+                        btn.style.opacity = '0.4';
+                        btn.style.cursor = 'not-allowed';
+                        alert(wasBlock ? 'User has been blocked.' : 'Marked as resolved.');
+                    }
+                });
+            });
+
+            // Warning: flags the row's status badge as a warning (Chat Monitor only — Reports'
+            // real Warning button is wired to Firestore in the module script below).
+            Array.prototype.filter.call(
+                document.querySelectorAll('.btn-warning'),
+                function (btn) { return !btn.closest('#reportsTbody'); }
+            ).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    var badges = row ? row.querySelectorAll('td.text-center .badget') : [];
+                    var statusBadge = badges[badges.length - 1];
+                    if (statusBadge) {
+                        statusBadge.className = 'badget badget-warning';
+                        statusBadge.textContent = 'warning';
+                    }
+                    btn.disabled = true;
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                });
+            });
+
+            // Investigate: moves a pending report into investigation. Reports is excluded —
+            // its real Investigate button is wired to Firestore in the module script below.
+            Array.prototype.filter.call(
+                document.querySelectorAll('.btn-investigate'),
+                function (btn) { return !btn.closest('#reportsTbody'); }
+            ).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    var badges = row ? row.querySelectorAll('td.text-center .badget') : [];
+                    var statusBadge = badges[badges.length - 1];
+                    if (statusBadge) {
+                        statusBadge.className = 'badget badget-investigating';
+                        statusBadge.textContent = 'investigating';
+                    }
+                    btn.textContent = 'Investigating';
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.style.cursor = 'not-allowed';
+                });
+            });
+
+            // (Listings has no approve/reject flow — listings go live immediately. View/Delete
+            // for the Listings tab are wired in the module script below, since that tab's rows
+            // are now rendered dynamically from Firestore.)
+
+            // View / Export: .btn-outline is "Export" in table toolbars, "View" in listings rows.
+            // The real Listings "View" button is excluded — it's wired to real data below.
+            Array.prototype.filter.call(
+                document.querySelectorAll('.btn-outline'),
+                function (btn) { return !btn.closest('#listingsTbody'); }
+            ).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (btn.closest('.control-btns') || btn.closest('.table-controls')) {
+                        alert('Export started — this is a front-end preview only.');
+                    } else {
+                        var row = btn.closest('tr');
+                        var title = row ? row.querySelector('.title') : null;
+                        alert(title ? ('Viewing: ' + title.textContent.trim()) : 'View clicked.');
+                    }
+                });
+            });
+
+            // Generic buttons: View / Details — placeholder feedback. Users/Renters/Listings/Transactions/Reports
+            // tabs are excluded — their rows are rendered dynamically and wired for real data below.
+            Array.prototype.filter.call(
+                document.querySelectorAll('.view-btn, .btn-details, .btn-primary'),
+                function (btn) {
+                    return !btn.closest('#usersTbody') && !btn.closest('#rentersTbody') &&
+                        !btn.closest('#listingsTbody') && !btn.closest('#transactionsTbody') &&
+                        !btn.closest('#reportsTbody');
+                }
+            ).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    var nameEl = row ? row.querySelector('.name, .title, .font-bold') : null;
+                    var label = btn.textContent.trim();
+                    var subject = nameEl ? nameEl.textContent.trim() : '';
+                    alert(subject ? (label + ': ' + subject) : (label + ' clicked.'));
+                });
+            });
+        });
+    </script>
+
+    <script type="module">
+        import { requireAuth, logOut } from '../shared/auth-helpers.js';
+        import { getMany, removeDoc, updateDocFields, escapeHtml } from '../shared/firestore-helpers.js';
+
+        const { profile } = await requireAuth(['admin'], '../user/login.html');
+        document.getElementById('profileNameText').textContent = profile.fullName || profile.username || 'Admin';
+
+        document.getElementById('logoutLink').addEventListener('click', async function (e) {
+            e.preventDefault();
+            if (!confirm('Are you sure you want to log out?')) return;
+            await logOut();
+            window.location.href = '../user/login.html';
+        });
+
+        function initials(name) {
+            const parts = (name || '?').trim().split(/\s+/).slice(0, 2);
+            return parts.map(w => w[0].toUpperCase()).join('');
+        }
+
+        function shortId(uid) {
+            return (uid || '').slice(0, 6);
+        }
+
+        function personActionsCell(status) {
+            const isBlocked = status === 'blocked';
+            return '<div class="actions-cell">' +
+                '<button class="view-btn" type="button">View</button>' +
+                '<button class="icon-action ' + (isBlocked ? 'unblock' : 'block') + '" type="button" title="' + (isBlocked ? 'Unblock User' : 'Block User') + '">' +
+                    '<span class="material-symbols-outlined"' + (isBlocked ? ' style="font-variation-settings: \'FILL\' 1;"' : '') + '>' + (isBlocked ? 'check_circle' : 'block') + '</span>' +
+                '</button>' +
+            '</div>';
+        }
+
+        function renderUserRow(user) {
+            const tr = document.createElement('tr');
+            tr.dataset.uid = user.uid;
+            const status = user.status || 'active';
+            const joinDate = user.createdAt && user.createdAt.toDate ? user.createdAt.toDate().toISOString().slice(0, 10) : '—';
+
+            tr.innerHTML =
+                '<td><div class="user-cell"><div class="user-initials">' + escapeHtml(initials(user.fullName)) + '</div>' +
+                '<div class="user-cell-text"><span class="name">' + escapeHtml(user.fullName || user.username) + '</span>' +
+                '<span class="id">ID: #' + escapeHtml(shortId(user.uid)) + '</span></div></div></td>' +
+                '<td><div class="contact-cell"><span class="email">' + escapeHtml(user.email) + '</span>' +
+                '<span class="phone">' + escapeHtml(user.phone || '—') + '</span></div></td>' +
+                '<td>' + joinDate + '</td>' +
+                '<td style="font-weight: 500; text-align: center;">' + (user.bookingsCount || 0) + '</td>' +
+                '<td style="text-align: center;"><span class="status-badge status-' + (status === 'blocked' ? 'suspended' : 'active') + '">' +
+                    escapeHtml(status === 'blocked' ? 'suspended' : 'active') + '</span></td>' +
+                '<td>' + personActionsCell(status) + '</td>';
+            return tr;
+        }
+
+        function renderRenterRow(user, listingsByOwner) {
+            const tr = document.createElement('tr');
+            tr.dataset.uid = user.uid;
+            const status = user.status || 'active';
+            const myListings = listingsByOwner[user.uid] || [];
+            const ratedListings = myListings.filter(l => (l.ratingCount || 0) > 0);
+            const avgRating = ratedListings.length
+                ? (ratedListings.reduce((sum, l) => sum + (l.rating || 0), 0) / ratedListings.length).toFixed(1)
+                : null;
+
+            tr.innerHTML =
+                '<td><div class="user-cell"><div class="user-initials">' + escapeHtml(initials(user.fullName)) + '</div>' +
+                '<div class="user-cell-text"><span class="name">' + escapeHtml(user.fullName || user.username) + '</span>' +
+                '<span class="id">ID: #' + escapeHtml(shortId(user.uid)) + '</span></div></div></td>' +
+                '<td><div class="contact-cell"><span class="email">' + escapeHtml(user.email) + '</span>' +
+                '<span class="phone">' + escapeHtml(user.phone || '—') + '</span></div></td>' +
+                '<td>' + myListings.length + ' items</td>' +
+                '<td style="font-weight: 700;">—</td>' +
+                '<td>' + (avgRating
+                    ? '<span class="material-symbols-outlined filled-icon" style="color:#7c5800; font-size: 18px;">star</span><span style="font-weight: 700;">' + avgRating + '</span>'
+                    : '<span style="color:var(--on-surface-variant);">—</span>') + '</td>' +
+                '<td style="text-align: center;"><span class="status-badge status-' + (status === 'blocked' ? 'suspended' : 'active') + '">' +
+                    escapeHtml(status === 'blocked' ? 'suspended' : 'active') + '</span></td>' +
+                '<td>' + personActionsCell(status) + '</td>';
+            return tr;
+        }
+
+        let usersCache = [];
+        let rentersCache = [];
+
+        async function loadUsersAndRenters() {
+            const [allUsers, allListings] = await Promise.all([getMany('users'), getMany('listings')]);
+
+            const listingsByOwner = {};
+            allListings.forEach(l => {
+                (listingsByOwner[l.ownerId] || (listingsByOwner[l.ownerId] = [])).push(l);
+            });
+
+            usersCache = allUsers.filter(u => u.role === 'user');
+            rentersCache = allUsers.filter(u => u.role === 'renter');
+
+            const usersTbody = document.getElementById('usersTbody');
+            usersTbody.innerHTML = '';
+            usersCache.forEach(u => usersTbody.appendChild(renderUserRow(u)));
+            document.getElementById('usersPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + usersCache.length + '</span> of ' + usersCache.length + ' users';
+
+            const rentersTbody = document.getElementById('rentersTbody');
+            rentersTbody.innerHTML = '';
+            rentersCache.forEach(u => rentersTbody.appendChild(renderRenterRow(u, listingsByOwner)));
+            document.getElementById('rentersPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + rentersCache.length + '</span> of ' + rentersCache.length + ' renters';
+        }
+
+        function wirePersonActions(tbodyId, getCache) {
+            document.getElementById(tbodyId).addEventListener('click', async function (e) {
+                const row = e.target.closest('tr');
+                if (!row) return;
+                const uid = row.dataset.uid;
+                const person = getCache().find(u => u.uid === uid);
+                if (!person) return;
+
+                if (e.target.closest('.view-btn')) {
+                    alert(
+                        (person.fullName || person.username) + '\n' +
+                        'Email: ' + person.email + '\n' +
+                        'Phone: ' + (person.phone || '—') + '\n' +
+                        'Role: ' + person.role + '\n' +
+                        'Status: ' + (person.status || 'active')
+                    );
+                } else if (e.target.closest('.icon-action')) {
+                    const isBlocked = (person.status || 'active') === 'blocked';
+                    if (!confirm((isBlocked ? 'Unblock' : 'Block') + ' "' + (person.fullName || person.username) + '"?')) return;
+                    try {
+                        await updateDocFields('users', uid, { status: isBlocked ? 'active' : 'blocked' });
+                        await loadUsersAndRenters();
+                    } catch (err) {
+                        alert('Could not update this user: ' + (err.message || 'please try again.'));
+                    }
+                }
+            });
+        }
+
+        wirePersonActions('usersTbody', () => usersCache);
+        wirePersonActions('rentersTbody', () => rentersCache);
+        await loadUsersAndRenters();
+
+        /* ---------- Transactions (read-only) ---------- */
+        let transactionsCache = [];
+
+        function bookingStatusClass(status) {
+            if (status === 'completed') return 'badget-completed';
+            if (status === 'cancelled') return 'badget-issued';
+            return 'badget-active';
+        }
+
+        function renderTransactionRow(booking) {
+            const tr = document.createElement('tr');
+            tr.dataset.bookingId = booking.id;
+            const escrowStatus = booking.escrowStatus || 'held';
+            const bookingStatus = booking.bookingStatus || 'active';
+            const date = booking.createdAt && booking.createdAt.toDate ? booking.createdAt.toDate().toISOString().slice(0, 10) : '—';
+
+            tr.innerHTML =
+                '<td class="font-mono">#' + escapeHtml(booking.id.slice(0, 6)) + '</td>' +
+                '<td class="font-bold">' + escapeHtml(booking.customerName || 'Customer') + '</td>' +
+                '<td class="text-small">' + escapeHtml(booking.renterName || 'Renter') + '</td>' +
+                '<td class="text-small">' + escapeHtml(booking.listingTitle || '') + '</td>' +
+                '<td class="font-bold text-right">RM' + booking.totalAmount + '</td>' +
+                '<td class="text-small">' + date + '</td>' +
+                '<td class="text-center"><span class="badget badget-' + escrowStatus + '">' + escapeHtml(escrowStatus) + '</span></td>' +
+                '<td class="text-center"><span class="badget ' + bookingStatusClass(bookingStatus) + '">' + escapeHtml(bookingStatus) + '</span></td>' +
+                '<td class="text-center"><button class="btn-details" type="button">Details</button></td>';
+            return tr;
+        }
+
+        async function loadTransactions() {
+            transactionsCache = await getMany('bookings');
+            const tbody = document.getElementById('transactionsTbody');
+            tbody.innerHTML = '';
+            transactionsCache.forEach(b => tbody.appendChild(renderTransactionRow(b)));
+            document.getElementById('transactionsEmptyMsg').style.display = transactionsCache.length ? 'none' : '';
+            document.getElementById('transactionsPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + transactionsCache.length + '</span> of ' + transactionsCache.length + ' transactions';
+        }
+
+        document.getElementById('transactionsTbody').addEventListener('click', function (e) {
+            if (!e.target.closest('.btn-details')) return;
+            const row = e.target.closest('tr');
+            const booking = transactionsCache.find(b => b.id === row.dataset.bookingId);
+            if (!booking) return;
+            alert(
+                'Transaction #' + booking.id.slice(0, 6) + '\n' +
+                'Customer: ' + (booking.customerName || 'Customer') + '\n' +
+                'Renter: ' + (booking.renterName || 'Renter') + '\n' +
+                'Item: ' + (booking.listingTitle || '') + '\n' +
+                'Amount: RM' + booking.totalAmount + '\n' +
+                'Escrow: ' + (booking.escrowStatus || 'held') + '\n' +
+                'Status: ' + (booking.bookingStatus || 'active')
+            );
+        });
+
+        await loadTransactions();
+
+        /* ---------- Reports ---------- */
+        let reportsCache = [];
+
+        function reportActionsCell(status) {
+            if (status === 'pending') {
+                return '<button class="btn-investigate" type="button">Investigate</button>';
+            }
+            if (status === 'investigating') {
+                return '<div class="actions-cell">' +
+                    '<button class="btn-warning" type="button">Warning</button>' +
+                    '<button class="btn-resolve" type="button">Resolve</button>' +
+                    '</div>';
+            }
+            return '<button class="btn-details" type="button">Details</button>';
+        }
+
+        function reportStatusClass(status) {
+            if (status === 'resolved') return 'badget-resolved';
+            if (status === 'investigating') return 'badget-investigating';
+            if (status === 'warning') return 'badget-investigating';
+            return 'badget-active';
+        }
+
+        function renderReportRow(report) {
+            const tr = document.createElement('tr');
+            tr.dataset.reportId = report.id;
+            const status = report.status || 'pending';
+            const date = report.createdAt && report.createdAt.toDate ? report.createdAt.toDate().toISOString().slice(0, 10) : '—';
+
+            tr.innerHTML =
+                '<td class="font-mono">#' + escapeHtml(report.id.slice(0, 6)) + '</td>' +
+                '<td class="font-bold">' + escapeHtml(report.reporterName || 'System') + '</td>' +
+                '<td class="font-bold" style="color: red;">' + escapeHtml(report.reportedUserName || '') + '</td>' +
+                '<td><span class="badget badget-type">' + escapeHtml(report.type || 'Other') + '</span></td>' +
+                '<td class="text-small">' + escapeHtml(report.description || '') + '</td>' +
+                '<td class="text-small">' + date + '</td>' +
+                '<td class="text-center"><span class="badget ' + reportStatusClass(status) + '">' + escapeHtml(status) + '</span></td>' +
+                '<td class="text-right">' + reportActionsCell(status) + '</td>';
+            return tr;
+        }
+
+        async function loadReports() {
+            reportsCache = await getMany('reports');
+            const tbody = document.getElementById('reportsTbody');
+            tbody.innerHTML = '';
+            reportsCache.forEach(r => tbody.appendChild(renderReportRow(r)));
+            document.getElementById('reportsEmptyMsg').style.display = reportsCache.length ? 'none' : '';
+            document.getElementById('reportsPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + reportsCache.length + '</span> of ' + reportsCache.length + ' reports';
+        }
+
+        document.getElementById('reportsTbody').addEventListener('click', async function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const report = reportsCache.find(r => r.id === row.dataset.reportId);
+            if (!report) return;
+
+            if (e.target.closest('.btn-investigate')) {
+                await updateDocFields('reports', report.id, { status: 'investigating' });
+                await loadReports();
+            } else if (e.target.closest('.btn-warning')) {
+                if (!confirm('Send a warning for this report?')) return;
+                await updateDocFields('reports', report.id, { status: 'warning', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
+                await loadReports();
+            } else if (e.target.closest('.btn-resolve')) {
+                await updateDocFields('reports', report.id, { status: 'resolved', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
+                await loadReports();
+            } else if (e.target.closest('.btn-details')) {
+                alert(
+                    'Report #' + report.id.slice(0, 6) + '\n' +
+                    'Type: ' + (report.type || 'Other') + '\n' +
+                    'Reported: ' + (report.reportedUserName || '—') + '\n' +
+                    'Description: ' + (report.description || '—') + '\n' +
+                    'Status: ' + (report.status || 'pending')
+                );
+            }
+        });
+
+        await loadReports();
+
+        function statusTagClass(status) {
+            return status === 'available' || status === 'rented' ? 'active' : 'pending';
+        }
+
+        function renderListingRow(listing) {
+            const tr = document.createElement('tr');
+            tr.dataset.listingId = listing.id;
+            const isBand = listing.listingType === 'band';
+            const icon = isBand ? 'groups' : 'music_note';
+            const priceUnit = listing.priceUnit === 'show' ? '/show' : '/day';
+            const status = listing.status || 'available';
+
+            tr.innerHTML =
+                '<td>' +
+                    '<div class="listing-cell">' +
+                        '<div class="listing-icon ' + (isBand ? 'band' : 'instrument') + '">' +
+                            '<span class="material-symbols-outlined">' + icon + '</span>' +
+                        '</div>' +
+                        '<div class="listing-info">' +
+                            '<p class="title">' + escapeHtml(listing.title) + '</p>' +
+                            '<p class="id">ID: #' + escapeHtml(listing.id.slice(0, 6)) + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</td>' +
+                '<td><span class="category-tag">' + (isBand ? 'band' : 'instrument') + '</span></td>' +
+                '<td><strong>' + escapeHtml(listing.ownerName || 'Unknown') + '</strong></td>' +
+                '<td class="price-text">RM' + listing.price + ' ' + priceUnit + '</td>' +
+                '<td class="muted-text">—</td>' +
+                '<td class="muted-text">—</td>' +
+                '<td><span class="status-tag ' + statusTagClass(status) + '">' + escapeHtml(status) + '</span></td>' +
+                '<td>' +
+                    '<div class="actions-cell">' +
+                        '<button class="btn-outline view-listing-btn" type="button">View</button>' +
+                        '<button class="btn-action-square delete-listing-btn" style="background-color: var(--error);" title="Delete Listing" type="button">' +
+                            '<span class="material-symbols-outlined">delete</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</td>';
+            return tr;
+        }
+
+        async function loadListings() {
+            const tbody = document.getElementById('listingsTbody');
+            const listings = await getMany('listings');
+            tbody.innerHTML = '';
+            listings.forEach(listing => tbody.appendChild(renderListingRow(listing)));
+
+            document.getElementById('listingsTotalStat').textContent = listings.length;
+            document.getElementById('listingsActiveStat').textContent =
+                listings.filter(l => (l.status || 'available') !== 'blocked').length;
+            document.getElementById('listingsInstrumentStat').textContent =
+                listings.filter(l => l.listingType === 'instrument').length;
+            document.getElementById('listingsBandStat').textContent =
+                listings.filter(l => l.listingType === 'band').length;
+            document.getElementById('listingsPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + listings.length + '</span> of ' + listings.length + ' listings';
+
+            return listings;
+        }
+
+        let listingsCache = await loadListings();
+
+        document.getElementById('listingsTbody').addEventListener('click', async function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const listingId = row.dataset.listingId;
+            const listing = listingsCache.find(l => l.id === listingId);
+            if (!listing) return;
+
+            if (e.target.closest('.view-listing-btn')) {
+                alert(
+                    listing.title + '\n' +
+                    'Type: ' + listing.listingType + '\n' +
+                    'Renter: ' + (listing.ownerName || 'Unknown') + '\n' +
+                    'Price: RM' + listing.price + ' ' + (listing.priceUnit === 'show' ? '/show' : '/day') + '\n' +
+                    'Location: ' + (listing.location || '—') + '\n' +
+                    'Status: ' + (listing.status || 'available')
+                );
+            } else if (e.target.closest('.delete-listing-btn')) {
+                if (confirm('Delete "' + listing.title + '"? This cannot be undone and will remove it from the marketplace immediately.')) {
+                    try {
+                        await removeDoc('listings', listingId);
+                        listingsCache = await loadListings();
+                    } catch (err) {
+                        alert('Could not delete this listing: ' + (err.message || 'please try again.'));
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+Read and analyze all the files and understand how the website work. Don't change anything I didn't ask for. Do the task in order, make sure first task at the top is done then continue to second and so on.
+
+Do this task:
+- Merge only .css file into .html file that have the same name
+- Ensure all the button at every pages is function
+- Make login.html and signup.html only coded in one file
+
+Do this task:
+- Make top and bottom bar for faq.html, chatnego.html, checkout.html, legalpartners.html the same as home.html
+- Make all the style in every html file the same according to "home.html"
+- Make new file: privacypolicy.html, termsofservice.html
+- Make chatnego.html like Carousell chat layout.
+- In every page that have chat logo on top nav bar, make it open chatnego.html
+- In instrument.html, band.html, bundles.html, when there is a chat or discuss button it will open chatnego.html.
+- Ensure all the button at every pages is function
+
+Task:
+- In login.html, at Login section, change "forgot username/password?" style to something else that the best
+- For chatnego.html, I want to create two different chat pages:
+	1. Page for User. For User to chat with Renter about instru, band, and etc.
+	2. Page for Renter. Where Renter have the option to Trigger Payment for User to make payment.
+- In chatnego.html, there is Security section. Please remove it and replace it to thing that the same as "home.html"
+
+Task:
+- Create new file name: marketplace.html
+- Make instrument.html, band.html, bundles.html file into one file: marketplace.html
+- Create new file name: support.html
+- Make faq.html, privacypolicy.html, termsofservice.html, contact.html file into one file: support.html

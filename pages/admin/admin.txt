@@ -1,0 +1,30 @@
+Read and analyze all the files and understand how the website work. Don't change anything I didn't ask for. Do the task in order, make sure first task at the top is done then continue to second and so on.
+
+Task:
+- Merge only .css file into .html file that have the same name
+- Ensure all the button at every pages is function
+
+Task:
+- In admin_users.html:
+	- Make the filters have Alphabetical name, ID, Join Date, Status
+	- Make the Searh users... function to search
+- In admin_renters.html:
+	- Make the filters have Alphabetical name, Revenue, Rating, Status
+	- Make the Search renter... function to search
+- In admin_transactions.html:
+	- Make the filters have Transaction ID, Date, Escrow, Status
+	- Make the Search... funtion to search
+- In admin_listing.html:
+	- Make the style same like admin_transaction.html
+	- Create Filters and Search like in admin_transaction.html, Don't create export.
+	- Make the filters have Category, Views, Bookings, Status
+- In admin_reports.html:
+	- Make the filters have Report ID, Date, Status
+	- Make the Search... function to search
+- In admin_chatmonitor.html:
+	- Make the filters have Chat ID, Timestamp, Status
+	- Make the Search... function to search
+
+Task:
+- Create new file name: admin.html
+- Make all admin_... .html file into one file: admin.html

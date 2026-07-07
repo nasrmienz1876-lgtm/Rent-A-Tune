@@ -1,0 +1,826 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rent A Tune | Login / Sign Up</title>
+    <style>
+:root {
+    /* Design Tokens */
+    --primary: #0040e0;
+    --primary-container: #2e5bff;
+    --on-primary-container: #efefff;
+    --secondary-container: #feb700;
+    --secondary-fixed-dim: #ffba20;
+    --on-secondary-fixed: #271900;
+    --background: #f8f9ff;
+    --on-surface: #0b1c30;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #eff4ff;
+    --surface-container: #e5eeff;
+    --on-surface-variant: #434656;
+    --outline: #747688;
+    --outline-variant: #c4c5d9;
+    
+    /* Typography */
+    --font-display: 'Source Serif 4', serif;
+    --font-headline: 'Source Serif 4', serif;
+    --font-body: 'Montserrat', sans-serif;
+    
+    /* Spacing */
+    --margin-mobile: 16px;
+    --margin-desktop: 48px;
+    --gutter: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    font-family: var(--font-body);
+    color: var(--on-surface);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* Layout Structure */
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .auth-container {
+        flex-direction: row;
+    }
+}
+
+/* Marketing Section (Left) */
+.marketing-section {
+    position: relative;
+    width: 100%;
+    background-color: var(--on-surface);
+    padding: var(--margin-mobile);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    min-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .marketing-section {
+        width: 50%;
+        min-height: 100vh;
+        padding: var(--margin-desktop);
+    }
+}
+
+.background-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+}
+
+.background-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--on-surface), rgba(11, 28, 48, 0.8), transparent);
+}
+
+.marketing-content {
+    position: relative;
+    z-index: 10;
+}
+
+.brand-logo {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--secondary-fixed-dim);
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+}
+
+.hero-title {
+    font-family: var(--font-headline);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
+    color: white;
+    margin-bottom: 32px;
+    max-width: 576px;
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 48px;
+        line-height: 56px;
+    }
+}
+
+.features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 448px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.feature-icon-box {
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.icon-blue { background-color: var(--primary-container); }
+.icon-gold { background-color: var(--secondary-container); color: var(--on-secondary-fixed); }
+.icon-primary { background-color: var(--primary); }
+
+.feature-text h3 {
+    font-family: var(--font-headline);
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.feature-text p {
+    font-size: 16px;
+    color: var(--outline-variant);
+}
+
+.established-badge {
+    position: relative;
+    z-index: 10;
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--outline-variant);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.badge-line {
+    width: 48px;
+    height: 1px;
+    background-color: var(--outline-variant);
+}
+
+/* Form Section (Right) */
+.form-section {
+    width: 100%;
+    background-color: var(--surface-container-lowest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--margin-mobile);
+}
+
+@media (min-width: 768px) {
+    .form-section {
+        width: 50%;
+        padding: var(--gutter);
+    }
+}
+
+.form-card {
+    width: 100%;
+    max-width: 448px;
+}
+
+/* Tabs */
+.tab-headers {
+    display: flex;
+    border-bottom: 1px solid var(--outline-variant);
+    margin-bottom: 40px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding-bottom: 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--outline);
+    text-decoration: none
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+}
+
+.tab-btn:hover:not(.active) {
+    color: var(--on-surface);
+}
+
+/* Forms */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.role-toggle {
+    background-color: var(--surface-container-low);
+    padding: 8px;
+    border-radius: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.role-option {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+}
+
+.role-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.role-label {
+    display: block;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    color: var(--outline);
+}
+
+.role-option input:checked + .role-label {
+    background-color: white;
+    color: var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-surface);
+    letter-spacing: 0.05em;
+}
+
+input[type="text"],
+input[type="identification"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    font-family: var(--font-body);
+    font-size: 16px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--outline);
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    background-color: #0035be;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+.divider {
+    position: relative;
+    height: 1px;
+    background-color: var(--surface-container-low);
+    margin: 32px 0;
+    text-align: center;
+}
+
+.divider::after {
+    content: "OR";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 0 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--outline);
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: none;
+    border: 2px solid var(--on-surface);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.social-btn:hover {
+    background-color: var(--surface-container);
+}
+
+.footnotes {
+    margin-top: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.terms-text {
+    font-size: 14px;
+    color: var(--outline);
+}
+
+.terms-text a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.terms-text a:hover {
+    text-decoration: underline;
+}
+
+.admin-link-wrapper {
+    padding-top: 16px;
+    border-top: 1px solid var(--surface-container-low);
+}
+
+.admin-link {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--outline);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+}
+
+.admin-link:hover {
+    color: var(--primary);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.form-message {
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="auth-container">
+
+        <!-- Left Side: Brand Marketing Content -->
+        <section class="marketing-section">
+            <div class="background-wrapper">
+                <img class="background-image" data-alt="A cinematic, high-contrast shot of a professional music stage before a performance. Soft golden stage lights pierce through a light haze, illuminating high-end musical equipment including a vintage guitar on a stand and a grand piano. The color palette is dominated by deep charcoals and warm musical golds, reflecting a premium, professional musical atmosphere with a clean light-mode aesthetic in the highlights." src="../images/signup_login.png" />
+                <div class="background-overlay"></div>
+            </div>
+
+            <div class="marketing-content">
+                <div class="brand-logo">Rent A Tune</div>
+                <h1 class="hero-title">The Professional Stage is Just a Click Away.</h1>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon-box icon-blue">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">queue_music</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Rent gear</h3>
+                            <p>Access premium instruments from local professionals for your next gig or session.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon-box icon-gold">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_note</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Book talent</h3>
+                            <p>Find session musicians and professional bands ready to elevate your event.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon-box icon-primary">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Secure payments</h3>
+                            <p>Experience peace of mind with our secure escrow and guaranteed payment system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="established-badge">
+                <div class="badge-line"></div>
+                <span>ESTABLISHED 2026</span>
+            </div>
+        </section>
+
+        <!-- Right Side: Auth Tabs & Forms -->
+        <section class="form-section">
+            <div class="form-card">
+                <div class="tab-headers">
+                    <button type="button" class="tab-btn" id="signupTabBtn" onclick="showTab('signup')">Sign Up</button>
+                    <button type="button" class="tab-btn" id="loginTabBtn" onclick="showTab('login')">Login</button>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <form action="#" class="registration-form" id="loginForm">
+                    <div class="role-toggle">
+                        <label class="role-option">
+                            <input checked name="loginRole" type="radio" value="rent"/>
+                            <span class="role-label">User</span>
+                        </label>
+
+                        <label class="role-option">
+                            <input name="loginRole" type="radio" value="list"/>
+                            <span class="role-label">Renter</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input id="loginUsername" placeholder="ali123" required type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-wrapper">
+                            <input id="loginPassword" placeholder="••••••••" required type="password" />
+                            <button class="password-toggle" type="button" id="loginPasswordToggle">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" type="submit">Login</button>
+                    <p class="form-message" id="loginFormMsg" style="color: var(--primary);"></p>
+
+                    <div class="footnotes">
+                        <a class="terms-text" href="#" id="forgotPasswordLink">Forgot username/password?</a>
+                    </div>
+                </form>
+
+                <!-- SIGN UP FORM -->
+                <form action="#" class="registration-form" id="signupForm" style="display:none;">
+                    <div class="role-toggle">
+                        <label class="role-option">
+                            <input checked name="signupRole" type="radio" value="rent"/>
+                            <span class="role-label">I want to Rent gear</span>
+                        </label>
+
+                        <label class="role-option">
+                            <input name="signupRole" type="radio" value="list"/>
+                            <span class="role-label">I want to List gear</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input id="signupFullName" placeholder="Ali Rahman" required type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Identity Card Number</label>
+                        <input id="signupIcNumber" placeholder="000000-00-0000" required type="text" />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input id="signupUsername" placeholder="ali123" required type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input id="signupPhone" placeholder="+60 123 456 789" required type="tel" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input id="signupEmail" placeholder="alimancah@gmail.com" required type="email" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-wrapper">
+                            <input id="signupPassword" placeholder="••••••••" required type="password" />
+                            <button class="password-toggle" type="button" id="signupPasswordToggle">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" type="submit">Create Account</button>
+                    <p class="form-message" id="signupFormMsg" style="color: var(--primary);"></p>
+
+                    <div class="footnotes">
+                        <p class="terms-text">By signing up, you agree to our <a href="support.html#terms">Terms of Service</a> and <a href="support.html#privacy">Privacy Policy</a>.</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module">
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+        import { auth, db } from '../shared/firebase-init.js';
+        import { signUp, logIn, resetPassword, ROLE_HOME } from '../shared/auth-helpers.js';
+
+        /* ---------- Toast helper ---------- */
+        function showToast(msg) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        /* ---------- Tab switching (kept on one file/page, no navigation) ---------- */
+        function showTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const loginTab = document.getElementById('loginTabBtn');
+            const signupTab = document.getElementById('signupTabBtn');
+
+            if (tab === 'login') {
+                loginForm.style.display = '';
+                signupForm.style.display = 'none';
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                document.title = 'Rent A Tune | Login';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = '';
+                loginTab.classList.remove('active');
+                signupTab.classList.add('active');
+                document.title = 'Rent A Tune | Sign Up';
+            }
+            history.replaceState(null, '', '#' + tab);
+        }
+        window.showTab = showTab;
+
+        /* Initialize tab based on URL hash (defaults to login) */
+        (function () {
+            const hash = window.location.hash.replace('#', '');
+            showTab(hash === 'signup' ? 'signup' : 'login');
+        })();
+
+        /* Preselect the signup role when arriving via a "?role=renter" link (e.g. from home.html) */
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('role') === 'renter') {
+                const listRadio = document.querySelector('input[name="signupRole"][value="list"]');
+                if (listRadio) listRadio.checked = true;
+            }
+        })();
+
+        /* ---------- Redirect away if already signed in ---------- */
+        let redirectHandled = false;
+        onAuthStateChanged(auth, async (user) => {
+            if (!user || redirectHandled) return;
+            redirectHandled = true;
+            try {
+                const snap = await getDoc(doc(db, 'users', user.uid));
+                const role = snap.exists() ? snap.data().role : 'user';
+                window.location.href = ROLE_HOME[role] || ROLE_HOME.user;
+            } catch (err) {
+                window.location.href = ROLE_HOME.user;
+            }
+        });
+
+        /* ---------- Password visibility toggles ---------- */
+        function setupPasswordToggle(btnId, inputId) {
+            document.getElementById(btnId).addEventListener('click', function () {
+                const input = document.getElementById(inputId);
+                const icon = this.querySelector('.material-symbols-outlined');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility_off';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility';
+                }
+            });
+        }
+        setupPasswordToggle('loginPasswordToggle', 'loginPassword');
+        setupPasswordToggle('signupPasswordToggle', 'signupPassword');
+
+        /* ---------- Login form submission ---------- */
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const msgEl = document.getElementById('loginFormMsg');
+            const submitBtn = this.querySelector('.submit-btn');
+            if (!username || !password) {
+                showToast('Please enter your username and password.');
+                return;
+            }
+            submitBtn.disabled = true;
+            // Set this BEFORE calling logIn() — signing in fires onAuthStateChanged immediately,
+            // which would otherwise race the auto-redirect listener below against this handler.
+            redirectHandled = true;
+            try {
+                const { role } = await logIn(username, password);
+                const selectedRole = this.querySelector('input[name="loginRole"]:checked').value === 'list' ? 'renter' : 'user';
+                msgEl.style.color = 'var(--primary)';
+                if (role !== selectedRole) {
+                    msgEl.textContent = 'This account is registered as a ' + role + '. Redirecting to your ' + role + ' dashboard...';
+                } else {
+                    msgEl.textContent = 'Login successful! Redirecting to your dashboard...';
+                }
+                msgEl.style.display = 'block';
+                showToast('Welcome back, ' + username + '!');
+                setTimeout(() => { window.location.href = ROLE_HOME[role] || ROLE_HOME.user; }, 900);
+            } catch (err) {
+                redirectHandled = false;
+                submitBtn.disabled = false;
+                showToast(err.message || 'Login failed. Please check your username and password.');
+            }
+        });
+
+        /* ---------- Sign up form submission ---------- */
+        document.getElementById('signupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const inputs = this.querySelectorAll('input[required]');
+            for (const inp of inputs) {
+                if (!inp.value.trim()) {
+                    showToast('Please fill in all required fields.');
+                    return;
+                }
+            }
+            const emailInput = document.getElementById('signupEmail');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                showToast('Please enter a valid email address.');
+                return;
+            }
+            const signupRoleValue = this.querySelector('input[name="signupRole"]:checked').value;
+            const role = signupRoleValue === 'list' ? 'renter' : 'user';
+            const msgEl = document.getElementById('signupFormMsg');
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            // Set this BEFORE calling signUp() — creating the account fires onAuthStateChanged
+            // immediately, before the Firestore profile/username docs finish being written, which
+            // would otherwise let the auto-redirect listener below navigate away mid-signup.
+            redirectHandled = true;
+            try {
+                await signUp({
+                    fullName: document.getElementById('signupFullName').value.trim(),
+                    icNumber: document.getElementById('signupIcNumber').value.trim(),
+                    username: document.getElementById('signupUsername').value.trim(),
+                    phone: document.getElementById('signupPhone').value.trim(),
+                    email: emailInput.value.trim(),
+                    password: document.getElementById('signupPassword').value,
+                    role
+                });
+                msgEl.style.color = 'var(--primary)';
+                msgEl.textContent = 'Account created! Redirecting you to your dashboard...';
+                msgEl.style.display = 'block';
+                showToast('Account created successfully!');
+                setTimeout(() => { window.location.href = ROLE_HOME[role] || ROLE_HOME.user; }, 900);
+            } catch (err) {
+                redirectHandled = false;
+                submitBtn.disabled = false;
+                showToast(err.message || 'Could not create your account. Please try again.');
+            }
+        });
+
+        /* ---------- Forgot password ---------- */
+        document.getElementById('forgotPasswordLink').addEventListener('click', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            if (!username) {
+                showToast('Enter your username above first, then click this link.');
+                return;
+            }
+            try {
+                await resetPassword(username);
+                showToast('If an account matches that username, a reset link has been sent.');
+            } catch (err) {
+                showToast('If an account matches that username, a reset link has been sent.');
+            }
+        });
+    </script>
+</body>
+
+</html>

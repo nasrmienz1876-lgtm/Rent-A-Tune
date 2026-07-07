@@ -1,0 +1,1694 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rent A Tune | Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            /* Color Tokens (merged from faq/privacypolicy/termsofservice/contact) */
+            --on-tertiary: #ffffff;
+            --tertiary: #565555;
+            --on-surface-variant: #434656;
+            --on-primary-container: #efefff;
+            --on-secondary-fixed-variant: #5e4200;
+            --on-secondary-fixed: #271900;
+            --primary: #0040e0;
+            --on-primary-fixed: #001356;
+            --inverse-on-surface: #eaf1ff;
+            --secondary-fixed: #ffdea8;
+            --inverse-primary: #b8c3ff;
+            --surface-tint: #124af0;
+            --secondary-fixed-dim: #ffba20;
+            --surface-container-lowest: #ffffff;
+            --secondary-container: #feb700;
+            --on-surface: #0b1c30;
+            --inverse-surface: #213145;
+            --error-container: #ffdad6;
+            --primary-container: #2e5bff;
+            --outline: #747688;
+            --on-primary-fixed-variant: #0035be;
+            --on-tertiary-fixed: #1c1b1b;
+            --on-tertiary-container: #f3f0ef;
+            --tertiary-fixed-dim: #c8c6c5;
+            --primary-fixed-dim: #b8c3ff;
+            --on-secondary: #ffffff;
+            --on-background: #0b1c30;
+            --error: #ba1a1a;
+            --surface-variant: #d3e4fe;
+            --surface-bright: #f8f9ff;
+            --outline-variant: #c4c5d9;
+            --secondary: #7c5800;
+            --tertiary-fixed: #e5e2e1;
+            --surface-container: #e5eeff;
+            --on-error-container: #93000a;
+            --primary-fixed: #dde1ff;
+            --tertiary-container: #6e6d6d;
+            --surface-container-highest: #d3e4fe;
+            --surface-container-high: #dce9ff;
+            --on-tertiary-fixed-variant: #474646;
+            --on-secondary-container: #6b4b00;
+            --surface-container-low: #eff4ff;
+            --surface: #f8f9ff;
+            --on-error: #ffffff;
+            --on-primary: #ffffff;
+            --background: #f8f9ff;
+            --surface-dim: #cbdbf5;
+
+            /* Spacing & Layout Tokens */
+            --margin-mobile: 16px;
+            --gutter: 24px;
+            --container-max: 1280px;
+            --base: 8px;
+            --margin-desktop: 48px;
+
+            /* Border Radius */
+            --radius-default: 0.25rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-full: 9999px;
+
+            /* Typography */
+            --font-body: 'Montserrat', sans-serif;
+            --font-display: 'Source Serif 4', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--surface);
+            color: var(--on-surface);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 24px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            user-select: none;
+            vertical-align: middle;
+        }
+
+        /* Layout Components (shared) */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+        }
+
+        /* Navigation (shared) */
+        .navbar {
+            background-color: var(--surface-container-lowest);
+            border-bottom: 1px solid var(--outline-variant);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: none;
+            align-items: center;
+            background-color: var(--surface-container-low);
+            border: 1px solid var(--outline-variant);
+            border-radius: var(--radius-full);
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .search-bar { display: flex; }
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            width: 200px;
+            outline: none;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--primary-container);
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Support tab switcher (new — needed so the four merged pages can be
+           reached from the top of the page, not only via the footer links) */
+        .support-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 32px 0 0;
+        }
+
+        .support-tab-btn {
+            white-space: nowrap;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all 0.2s;
+            background-color: var(--surface-container);
+            color: var(--on-surface-variant);
+        }
+
+        .support-tab-btn:hover {
+            background-color: var(--surface-container-high);
+        }
+
+        .support-tab-btn.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .support-tab {
+            display: none;
+        }
+
+        .support-tab.active {
+            display: block;
+        }
+
+        /* Footer (shared) */
+        .footer {
+            background-color: var(--surface-container-high);
+            border-top: 1px solid var(--outline-variant);
+            padding: 4rem 0 2rem;
+            margin-top: 96px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .footer-brand h4 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-nav h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-nav ul {
+            list-style: none;
+        }
+
+        .footer-nav li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav a {
+            text-decoration: none;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 0;
+        }
+
+        .footer-nav a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-nav a.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--outline-variant);
+            background-color: var(--surface);
+            font-size: 14px;
+        }
+
+        .btn-send {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 0.5rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom { flex-direction: row; }
+        }
+
+        .footer-bottom-badges {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ==================================================================
+           TAB: FAQ (scoped from faq.html)
+           ================================================================== */
+        #tab-faq .hero {
+            text-align: center;
+            margin-bottom: 64px;
+            padding-top: 64px;
+        }
+
+        #tab-faq .hero-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        #tab-faq .hero-subtitle {
+            font-size: 18px;
+            color: var(--on-surface-variant);
+            max-width: 672px;
+            margin: 0 auto;
+            line-height: 28px;
+        }
+
+        #tab-faq .filters-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 16px;
+            padding-bottom: 16px;
+            margin-bottom: 80px;
+        }
+
+        #tab-faq .filters-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        #tab-faq .filter-btn {
+            white-space: nowrap;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        #tab-faq .filter-btn.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #tab-faq .filter-btn.inactive {
+            background-color: var(--surface-container);
+            color: var(--on-surface-variant);
+        }
+
+        #tab-faq .filter-btn.inactive:hover {
+            background-color: var(--surface-container-high);
+        }
+
+        #tab-faq .faq-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 96px;
+        }
+
+        #tab-faq .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        #tab-faq .section-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        #tab-faq .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gutter);
+        }
+
+        @media (min-width: 768px) {
+            #tab-faq .card-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        #tab-faq .faq-card {
+            background-color: var(--surface-container-lowest);
+            padding: 32px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--outline-variant);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        #tab-faq .faq-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #tab-faq .card-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        #tab-faq .card-text {
+            color: var(--on-surface-variant);
+            line-height: 1.6;
+        }
+
+        #tab-faq .separator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--outline-variant);
+        }
+
+        #tab-faq .line {
+            height: 1px;
+            flex-grow: 1;
+            background-color: var(--outline-variant);
+        }
+
+        #tab-faq .security-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gutter);
+        }
+
+        @media (min-width: 1024px) {
+            #tab-faq .security-grid { grid-template-columns: 2fr 1fr; }
+        }
+
+        #tab-faq .hero-card {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            padding: 40px;
+            border-radius: var(--radius-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        #tab-faq .tag-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        #tab-faq .tag {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #tab-faq .info-card {
+            background-color: var(--surface-container-high);
+            padding: 32px;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tab-faq .large-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        #tab-faq .split-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gutter);
+        }
+
+        @media (min-width: 768px) {
+            #tab-faq .split-section { grid-template-columns: 1fr 1fr; }
+        }
+
+        #tab-faq .feature-box {
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            background-color: var(--surface);
+            border-left: 4px solid var(--primary);
+        }
+
+        #tab-faq .feature-box.secondary {
+            border-left-color: var(--secondary-container);
+        }
+
+        #tab-faq .label-upper {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        #tab-faq .text-primary { color: var(--primary); }
+        #tab-faq .text-secondary { color: var(--secondary); }
+
+        #tab-faq .cta-section {
+            margin-top: 96px;
+            background-color: var(--surface-container-lowest);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--outline-variant);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            #tab-faq .cta-section { grid-template-columns: 1fr 1fr; }
+        }
+
+        #tab-faq .cta-content {
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            #tab-faq .cta-content { padding: 64px; }
+        }
+
+        #tab-faq .cta-image-wrapper {
+            position: relative;
+            min-height: 300px;
+        }
+
+        #tab-faq .cta-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #tab-faq .cta-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 64, 224, 0.1);
+        }
+
+        #tab-faq .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 16px 40px;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: fit-content;
+        }
+
+        #tab-faq .btn-primary:hover {
+            background-color: var(--on-primary-fixed-variant);
+        }
+
+        /* ==================================================================
+           TAB: Privacy Policy (scoped from privacypolicy.html)
+           ================================================================== */
+        #tab-privacy {
+            padding-top: 48px;
+            padding-bottom: 64px;
+        }
+
+        #tab-privacy .hero { text-align: center; margin-bottom: 64px; }
+
+        #tab-privacy .badge {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        #tab-privacy .display-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--on-surface);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        #tab-privacy .hero-desc {
+            font-size: 18px;
+            color: var(--on-surface-variant);
+            max-width: 672px;
+            margin: 0 auto;
+        }
+
+        #tab-privacy .policy-card {
+            max-width: 860px;
+            margin: 0 auto;
+            background-color: var(--surface-container-lowest);
+            padding: 32px;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid var(--surface-container);
+        }
+
+        @media (min-width: 768px) { #tab-privacy .policy-card { padding: 48px; } }
+
+        #tab-privacy .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+
+        #tab-privacy .section-title { font-family: var(--font-display); font-size: 32px; font-weight: 600; }
+
+        #tab-privacy .policy-content section { margin-bottom: 32px; }
+
+        #tab-privacy .content-heading {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--on-surface);
+        }
+
+        #tab-privacy .policy-text { font-size: 16px; color: var(--on-surface-variant); line-height: 1.6; }
+
+        #tab-privacy .divider { height: 1px; background-color: var(--surface-container-high); margin: 16px 0; }
+
+        #tab-privacy .alert-box {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background-color: var(--surface-container-low);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(46, 91, 255, 0.2);
+            margin-bottom: 32px;
+        }
+
+        #tab-privacy .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            color: var(--on-surface);
+        }
+
+        #tab-privacy .alert-text { font-size: 14px; color: var(--on-surface-variant); }
+
+        #tab-privacy .policy-list { padding-left: 20px; margin-top: 12px; }
+        #tab-privacy .policy-list li { margin-bottom: 8px; color: var(--on-surface-variant); }
+
+        #tab-privacy .download-footer {
+            margin-top: 48px;
+            padding: 24px;
+            background-color: rgba(211, 228, 254, 0.5);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        #tab-privacy .update-date { font-size: 12px; font-weight: 500; color: var(--on-surface); margin-bottom: 8px; }
+
+        #tab-privacy .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 12px 32px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #tab-privacy .btn-primary:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: scale(1.02); }
+
+        /* ==================================================================
+           TAB: Terms of Service (scoped from termsofservice.html)
+           ================================================================== */
+        #tab-terms {
+            padding-top: 48px;
+            padding-bottom: 64px;
+        }
+
+        #tab-terms .hero { text-align: center; margin-bottom: 64px; }
+
+        #tab-terms .badge {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        #tab-terms .display-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--on-surface);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        #tab-terms .hero-desc {
+            font-size: 18px;
+            color: var(--on-surface-variant);
+            max-width: 672px;
+            margin: 0 auto;
+        }
+
+        #tab-terms .policy-card {
+            max-width: 860px;
+            margin: 0 auto;
+            background-color: var(--surface-container-lowest);
+            padding: 32px;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid var(--surface-container);
+        }
+
+        @media (min-width: 768px) { #tab-terms .policy-card { padding: 48px; } }
+
+        #tab-terms .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+
+        #tab-terms .section-title { font-family: var(--font-display); font-size: 32px; font-weight: 600; }
+
+        #tab-terms .policy-content section { margin-bottom: 32px; }
+
+        #tab-terms .content-heading {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--on-surface);
+        }
+
+        #tab-terms .policy-text { font-size: 16px; color: var(--on-surface-variant); line-height: 1.6; }
+
+        #tab-terms .divider { height: 1px; background-color: var(--surface-container-high); margin: 16px 0; }
+
+        #tab-terms .alert-box {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background-color: var(--surface-container-low);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(46, 91, 255, 0.2);
+            margin-bottom: 32px;
+        }
+
+        #tab-terms .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            color: var(--on-surface);
+        }
+
+        #tab-terms .alert-text { font-size: 14px; color: var(--on-surface-variant); }
+
+        #tab-terms .policy-list { padding-left: 20px; margin-top: 12px; }
+        #tab-terms .policy-list li { margin-bottom: 8px; color: var(--on-surface-variant); }
+
+        #tab-terms .download-footer {
+            margin-top: 48px;
+            padding: 24px;
+            background-color: rgba(211, 228, 254, 0.5);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        #tab-terms .update-date { font-size: 12px; font-weight: 500; color: var(--on-surface); margin-bottom: 8px; }
+
+        #tab-terms .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 12px 32px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #tab-terms .btn-primary:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: scale(1.02); }
+
+        /* ==================================================================
+           TAB: Contact (scoped from contact.html)
+           ================================================================== */
+        #tab-contact .font-display { font-family: 'Source Serif 4', serif; font-weight: 700; font-size: 48px; line-height: 56px; letter-spacing: -0.02em; }
+        #tab-contact .font-headline-lg { font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 32px; line-height: 40px; }
+        #tab-contact .font-headline-md { font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 24px; line-height: 32px; }
+        #tab-contact .font-body-lg { font-size: 18px; line-height: 28px; font-weight: 400; }
+        #tab-contact .font-body-md { font-size: 16px; line-height: 24px; font-weight: 400; }
+        #tab-contact .font-body-sm { font-size: 14px; line-height: 20px; font-weight: 400; }
+        #tab-contact .font-label-lg { font-size: 14px; line-height: 20px; letter-spacing: 0.05em; font-weight: 600; }
+        #tab-contact .font-label-md { font-size: 12px; line-height: 16px; font-weight: 500; }
+
+        #tab-contact {
+            padding-top: 64px;
+            padding-bottom: 64px;
+        }
+
+        #tab-contact .hero-section {
+            margin-bottom: 64px;
+        }
+
+        #tab-contact .hero-title {
+            color: var(--on-surface);
+            margin-bottom: 16px;
+        }
+
+        #tab-contact .hero-description {
+            color: var(--on-surface-variant);
+            max-width: 672px;
+        }
+
+        #tab-contact .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gutter);
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            #tab-contact .content-grid {
+                grid-template-columns: repeat(12, 1fr);
+            }
+            #tab-contact .form-container { grid-column: span 8; }
+            #tab-contact .sidebar { grid-column: span 4; }
+        }
+
+        #tab-contact .form-container {
+            background-color: var(--surface-container-lowest);
+            padding: 32px;
+            border-radius: 0.75rem;
+            border: 1px solid var(--surface-container);
+        }
+
+        @media (min-width: 768px) {
+            #tab-contact .form-container { padding: 48px; }
+        }
+
+        #tab-contact .form-title {
+            margin-bottom: 32px;
+        }
+
+        #tab-contact .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        #tab-contact .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            #tab-contact .form-row { grid-template-columns: 1fr 1fr; }
+        }
+
+        #tab-contact .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #tab-contact .form-label {
+            color: var(--on-surface-variant);
+        }
+
+        #tab-contact .form-input, #tab-contact .form-select, #tab-contact .form-textarea {
+            background-color: var(--surface);
+            border: 1px solid var(--outline-variant);
+            border-radius: 0.5rem;
+            padding: 12px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        #tab-contact .form-input:focus, #tab-contact .form-select:focus, #tab-contact .form-textarea:focus {
+            border-color: transparent;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        #tab-contact .submit-btn {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 16px 32px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #tab-contact .submit-btn:hover {
+            background-color: var(--primary-container);
+            transform: scale(1.02);
+        }
+
+        #tab-contact .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        #tab-contact .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gutter);
+        }
+
+        #tab-contact .card {
+            border-radius: 0.75rem;
+            padding: 32px;
+        }
+
+        #tab-contact .info-card {
+            background-color: var(--surface-container-high);
+            border: 1px solid var(--surface-container-highest);
+        }
+
+        #tab-contact .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        #tab-contact .card-header .material-symbols-outlined {
+            color: var(--primary);
+        }
+
+        #tab-contact .info-item {
+            margin-bottom: 16px;
+        }
+
+        #tab-contact .info-label {
+            color: var(--on-surface-variant);
+            margin-bottom: 4px;
+        }
+
+        #tab-contact .bold-text {
+            font-weight: 700;
+        }
+
+        #tab-contact .divider {
+            border: 0;
+            border-top: 1px solid var(--outline-variant);
+            margin: 32px 0;
+        }
+
+        #tab-contact .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #tab-contact .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        #tab-contact .contact-link span:last-child {
+            border-bottom: 1px solid rgba(0, 64, 224, 0.2);
+        }
+
+        #tab-contact .contact-link:hover {
+            color: var(--primary-container);
+        }
+
+        #tab-contact .contact-link .material-symbols-outlined {
+            transition: transform 0.2s;
+        }
+
+        #tab-contact .contact-link:hover .material-symbols-outlined {
+            transform: scale(1.1);
+        }
+
+        #tab-contact .escrow-card {
+            background-color: var(--primary-container);
+            color: var(--on-primary-container);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #tab-contact .escrow-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        #tab-contact .escrow-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        #tab-contact .escrow-description {
+            opacity: 0.9;
+        }
+
+        #tab-contact .bg-icon-watermark {
+            position: absolute;
+            bottom: -32px;
+            right: -32px;
+            opacity: 0.1;
+            font-size: 160px;
+        }
+
+        #tab-contact .image-card {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+
+        #tab-contact .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #tab-contact .section-separator {
+            margin-bottom: 80px;
+        }
+
+        #tab-contact .separator-inner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        #tab-contact .separator-line {
+            height: 1px;
+            flex-grow: 1;
+            background-color: var(--outline-variant);
+        }
+
+        #tab-contact .separator-icon {
+            color: var(--outline-variant);
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="container nav-content">
+        <div style="display: flex; align-items: center;">
+            <a class="logo" href="home.html">Rent A Tune</a>
+            <div class="nav-links">
+                <a class="nav-link" href="marketplace.html#instrument">Instrument Rentals</a>
+                <a class="nav-link" href="marketplace.html#band">Band Booking</a>
+                <a class="nav-link" href="marketplace.html#bundles">Bundles</a>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
+                <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
+                <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
+            </form>
+            <div style="position: relative;">
+                <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
+                    <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
+                    <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
+                </div>
+            </div>
+            <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
+                <span class="material-symbols-outlined">chat</span>
+            </button>
+            <a href="login.html" id="profileLink">
+                <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="support-tabs">
+        <button class="support-tab-btn active" data-tab="tab-faq" type="button">FAQ</button>
+        <button class="support-tab-btn" data-tab="tab-privacy" type="button">Privacy Policy</button>
+        <button class="support-tab-btn" data-tab="tab-terms" type="button">Terms of Service</button>
+        <button class="support-tab-btn" data-tab="tab-contact" type="button">Contact</button>
+    </div>
+
+    <!-- ============================= TAB: FAQ ============================= -->
+    <div id="tab-faq" class="support-tab active">
+        <header class="hero">
+            <h1 class="hero-title">How can we help?</h1>
+            <p class="hero-subtitle">Everything you need to know about the Professional Stage on Rent A Tune. From gear care to secure payments.</p>
+        </header>
+        <div class="filters-scroll">
+            <button class="filter-btn active">General</button>
+            <button class="filter-btn inactive">For Renters</button>
+            <button class="filter-btn inactive">For Users</button>
+            <button class="filter-btn inactive">Security &amp; Payments</button>
+        </div>
+        <div class="faq-wrapper">
+            <!-- General Section -->
+            <section id="general">
+                <div class="section-header">
+                    <span class="material-symbols-outlined text-primary" style="font-size: 32px;">info</span>
+                    <h2 class="section-title">General</h2>
+                </div>
+                <div class="card-grid">
+                    <div class="faq-card">
+                        <h3 class="card-title">Why off-platform contact is banned?</h3>
+                        <p class="card-text">Safety is our priority. Keeping all communication and transactions on-platform ensures you are protected by our Secure Escrow system and Gear Insurance. Off-platform contact voids all guarantees and may result in permanent account suspension.</p>
+                    </div>
+                    <div class="faq-card">
+                        <h3 class="card-title">How does account verification work?</h3>
+                        <p class="card-text">Every member of the Rent A Tune community undergoes a multi-step verification process, including identity checks and social link validation, to ensure a trustworthy environment for professional gear exchange.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Separator -->
+            <div class="separator">
+                <div class="line"></div>
+                <span class="material-symbols-outlined" style="font-size: 14px;">music_note</span>
+                <div class="line"></div>
+            </div>
+            <!-- Security & Payments Section -->
+            <section id="security-payments">
+                <div class="section-header">
+                    <span class="material-symbols-outlined text-secondary" style="font-size: 32px;">security</span>
+                    <h2 class="section-title">Security &amp; Payments</h2>
+                </div>
+                <div class="security-grid">
+                    <div class="hero-card">
+                        <div>
+                            <h3 class="section-title" style="margin-bottom: 24px;">How Escrow Works</h3>
+                            <p style="font-size: 18px; line-height: 28px; opacity: 0.9; margin-bottom: 32px;">When you book a rental or a band, your payment is held in our secure Rent A Tune Escrow vault. Funds are only released to the provider 24 hours after the rental begins or the performance is completed successfully, ensuring satisfaction on both ends.</p>
+                        </div>
+                        <div class="tag-row">
+                            <span class="tag">100% Secured</span>
+                            <span class="tag">Instant Payouts</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="material-symbols-outlined large-icon">payments</span>
+                        <h3 class="card-title">Payment Methods</h3>
+                        <p class="card-text">We accept all major credit cards, Apple Pay, and professional bank transfers for high-value instrument rentals.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- For Renters & Users Split -->
+            <section class="split-section">
+                <div id="for-renters">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined text-primary" style="font-size: 32px;">queue_music</span>
+                        <h2 class="section-title">For Gear Owners</h2>
+                    </div>
+                    <div class="feature-box">
+                        <h4 class="label-upper text-primary">Protection</h4>
+                        <h3 class="card-title" style="font-size: 24px; margin-bottom: 12px;">What happens if gear is damaged?</h3>
+                        <p class="card-text">Rent A Tune provides comprehensive damage coverage for every rental. If gear is returned with damage, our support team mediates the repair process using the security deposit and our dedicated insurance fund.</p>
+                    </div>
+                </div>
+                <div id="for-users">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined text-primary" style="font-size: 32px;">person</span>
+                        <h2 class="section-title">For Performers</h2>
+                    </div>
+                    <div class="feature-box secondary">
+                        <h4 class="label-upper text-secondary">Booking</h4>
+                        <h3 class="card-title" style="font-size: 24px; margin-bottom: 12px;">Can I cancel a rental?</h3>
+                        <p class="card-text">Yes, cancellations are permitted up to 48 hours before the start date for a full refund. Cancellations within 48 hours are subject to a small processing fee to compensate the gear owner.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- CTA -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="hero-title" style="text-align: left; margin-bottom: 24px;">Still have questions?</h2>
+                    <p class="hero-subtitle" style="text-align: left; margin: 0 0 40px 0;">Our concierge team is available 24/7 to help you tune your rental experience to perfection.</p>
+                    <button class="btn-primary" id="faqContactSupportBtn">Contact Support</button>
+                </div>
+                <div class="cta-image-wrapper">
+                    <img alt="Music Studio" class="cta-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx3xxFO6ZXhwk8OCUwv494xjq-3owXcyQTZN6IXoltZoaB1OjSVwJYIVkDlgt0OSrf0gSwLS6ZBSErc7SQigEloQ6Ohk7Hj1kMMJ2PMzCc0oLTuUy82PS_XNFPvrz9woo9VcJOxluISEOFgkpJwgedNrx2EklDzzQgfKYOWfbMaLrEOzVBE4B4nZ7R5-JSjCNh4sl5QYt6g4MIp60VQeKtB_Ior9sOKoplBGOr-uqVVXQbvj0ZSLVrIDJth12WSCqN5tAUxOwaSHc"/>
+                    <div class="cta-overlay"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ============================= TAB: Privacy Policy ============================= -->
+    <div id="tab-privacy" class="support-tab">
+        <section class="hero">
+            <span class="badge">Trust &amp; Transparency</span>
+            <h1 class="display-title">Privacy Policy</h1>
+            <p class="hero-desc">We are committed to protecting your creative assets and personal information with the same care we give every performance.</p>
+        </section>
+
+        <article class="policy-card">
+            <header class="section-header">
+                <span class="material-symbols-outlined" style="color: var(--primary); font-size: 40px; font-variation-settings: 'FILL' 1;">shield_person</span>
+                <h2 class="section-title">Your Privacy at Rent A Tune</h2>
+            </header>
+            <div class="policy-content">
+                <section>
+                    <h3 class="content-heading">1. Data We Collect</h3>
+                    <p class="policy-text">At Rent A Tune, your privacy is our overture. We collect only the information necessary to facilitate seamless rentals and bookings — this includes contact details, instrument preferences, verification documents, and historical rental data used to personalize your stage experience.</p>
+                </section>
+                <div class="divider"></div>
+                <section>
+                    <div class="alert-box">
+                        <span class="material-symbols-outlined" style="color: var(--primary); margin-top: 4px;">payments</span>
+                        <div>
+                            <h3 class="alert-title">Secure Escrow Payments</h3>
+                            <p class="alert-text">All financial transactions are handled through our encrypted gateway. We use Secure Escrow Payments to ensure funds are only released once the instrument is delivered and the performance is complete, guaranteeing 100% security for both parties.</p>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="content-heading">2. How We Share Information</h3>
+                    <p class="policy-text">We do not sell your personal data. Information is shared only with verified owners and renters to fulfill the logistics of your booking, and with payment processors strictly to complete transactions. Your stage presence is your own; we just provide the platform.</p>
+                </section>
+                <section>
+                    <h3 class="content-heading">3. Cookies &amp; Tracking</h3>
+                    <p class="policy-text">We use essential cookies to keep you signed in and remember your preferences, and limited analytics cookies to understand how the platform is used so we can keep improving it. You can manage cookie preferences in your browser at any time.</p>
+                </section>
+                <section>
+                    <h3 class="content-heading">4. Your Rights</h3>
+                    <ul class="policy-list">
+                        <li class="policy-text">Right to access and export your account data.</li>
+                        <li class="policy-text">Right to request correction or deletion of non-transactional information.</li>
+                        <li class="policy-text">Right to opt-out of promotional communications at any time.</li>
+                        <li class="policy-text">Right to ask how your data is used in verification or fraud checks.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="content-heading">5. Data Retention &amp; Security</h3>
+                    <p class="policy-text">We retain account and transaction records only as long as needed for legal, tax, and dispute-resolution purposes. All sensitive data is encrypted in transit and at rest, and access is limited to authorized Rent A Tune staff.</p>
+                </section>
+            </div>
+            <div class="download-footer">
+                <p class="update-date">Last Updated: January 2026</p>
+                <button class="btn-primary" id="downloadPrivacyPdfBtn" type="button">Download Full PDF</button>
+            </div>
+        </article>
+    </div>
+
+    <!-- ============================= TAB: Terms of Service ============================= -->
+    <div id="tab-terms" class="support-tab">
+        <section class="hero">
+            <span class="badge">Rules of the Stage</span>
+            <h1 class="display-title">Terms of Service</h1>
+            <p class="hero-desc">These terms govern your use of Rent A Tune. By creating an account or booking through the platform, you agree to the conditions below.</p>
+        </section>
+
+        <article class="policy-card">
+            <header class="section-header">
+                <span class="material-symbols-outlined" style="color: var(--primary); font-size: 40px; font-variation-settings: 'FILL' 1;">gavel</span>
+                <h2 class="section-title">Platform Terms &amp; Conditions</h2>
+            </header>
+            <div class="policy-content">
+                <section>
+                    <h3 class="content-heading">1. Acceptance of Terms</h3>
+                    <p class="policy-text">By registering for or using Rent A Tune, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree, please do not use the platform.</p>
+                </section>
+                <div class="divider"></div>
+                <section>
+                    <div class="alert-box">
+                        <span class="material-symbols-outlined" style="color: var(--primary); margin-top: 4px;">forum</span>
+                        <div>
+                            <h3 class="alert-title">On-Platform Communication Only</h3>
+                            <p class="alert-text">All negotiation, booking, and payment discussions must happen through Rent A Tune's chat and checkout system. Sharing contact details to move a transaction off-platform voids Secure Escrow protection and may result in suspension.</p>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="content-heading">2. Accounts &amp; Verification</h3>
+                    <p class="policy-text">Users and gear owners must provide accurate registration information and complete our identity verification process. Accounts found to be fraudulent, impersonated, or shared without authorization may be suspended or terminated.</p>
+                </section>
+                <section>
+                    <h3 class="content-heading">3. Rentals, Bookings &amp; Escrow</h3>
+                    <ul class="policy-list">
+                        <li class="policy-text">Payments are held in Secure Escrow until the rental period begins or the performance is completed.</li>
+                        <li class="policy-text">Cancellations made 48 hours or more before the start date receive a full refund; later cancellations may incur a processing fee.</li>
+                        <li class="policy-text">Security deposits and Gear Insurance cover documented damage during the rental period.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="content-heading">4. Prohibited Conduct</h3>
+                    <p class="policy-text">Users may not misrepresent gear or band availability, attempt to defraud other users, harass other members, or use the platform for any unlawful purpose. Violations may result in immediate account termination without refund.</p>
+                </section>
+                <section>
+                    <h3 class="content-heading">5. Limitation of Liability</h3>
+                    <p class="policy-text">Rent A Tune facilitates connections between renters, performers, and gear owners but is not a party to the rental or booking agreement itself. We are not liable for indirect or consequential damages arising from a booking, to the extent permitted by law.</p>
+                </section>
+                <section>
+                    <h3 class="content-heading">6. Changes to These Terms</h3>
+                    <p class="policy-text">We may update these Terms of Service from time to time. Continued use of Rent A Tune after changes are posted constitutes acceptance of the revised terms.</p>
+                </section>
+            </div>
+            <div class="download-footer">
+                <p class="update-date">Last Updated: January 2026</p>
+                <button class="btn-primary" id="downloadTermsPdfBtn" type="button">Download Full PDF</button>
+            </div>
+        </article>
+    </div>
+
+    <!-- ============================= TAB: Contact ============================= -->
+    <div id="tab-contact" class="support-tab">
+        <section class="hero-section">
+            <h1 class="font-display hero-title">Contact Admin</h1>
+            <p class="font-body-lg hero-description">If you have a Question or want to Report an Issue to Admin</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="form-container">
+                <h2 class="font-headline-lg form-title">Fill this form</h2>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="font-label-lg form-label">Name</label>
+                            <input id="contactNameInput" class="form-input" placeholder="Mohd Drake" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label class="font-label-lg form-label">Email</label>
+                            <input id="contactEmailInput" class="form-input" placeholder="drake@gmail.com" type="email" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-label-lg form-label">Type</label>
+                        <select id="contactTypeSelect" class="form-select">
+                            <option>Question</option>
+                            <option>System Issue</option>
+                            <option>Scam Attempt</option>
+                            <option>Item Condition</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-label-lg form-label">Message</label>
+                        <textarea id="contactMessageInput" class="form-textarea" placeholder="How can we help you today?" rows="6"></textarea>
+                    </div>
+
+                    <div>
+                        <button class="submit-btn font-label-lg" type="submit" id="contactSubmitBtn">
+                            Send Message
+                            <span class="material-symbols-outlined" style="font-size: 20px;">send</span>
+                        </button>
+                    </div>
+                </form>
+                <p id="contactFormMsg" style="display:none; margin-top:16px; font-size:14px; font-weight:600; color: var(--primary);"></p>
+            </div>
+
+            <aside class="sidebar">
+                <div class="card info-card">
+                    <div class="card-header">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+                        <h3 class="font-headline-md">Operating Hours</h3>
+                    </div>
+
+                    <div class="info-item">
+                        <p class="font-body-md">Monday — Friday</p>
+                        <p class="font-body-md bold-text">09:00 AM — 08:00 PM EST</p>
+                    </div>
+                    <div class="info-item">
+                        <p class="font-body-md">Saturday — Sunday</p>
+                        <p class="font-body-md bold-text">10:00 AM — 04:00 PM EST</p>
+                    </div>
+
+                    <hr class="divider"/>
+
+                    <div class="contact-links">
+                        <a class="contact-link" href="mailto:support@rentatune.com">
+                            <span class="material-symbols-outlined">mail</span>
+                            <span class="font-label-lg">support@rentatune.com</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card escrow-card">
+                    <div class="escrow-content">
+                        <span class="material-symbols-outlined escrow-icon" style="font-variation-settings: 'FILL' 1;">security</span>
+                        <h3 class="font-headline-md mb-3">24/7 Escrow Support</h3>
+                        <p class="font-body-md escrow-description">Your security is our solo performance. We provide around-the-clock monitoring for all escrow-related questions to ensure every transaction is harmonious and safe.</p>
+                    </div>
+                    <span class="material-symbols-outlined bg-icon-watermark">shield</span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h4>Rent A Tune</h4>
+                <p>Elevating the professional music scene with secure, rhythmic logistics for performers and planners.</p>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Marketplace</h5>
+                <ul>
+                    <li><a href="marketplace.html#instrument">Instrument Rentals</a></li>
+                    <li><a href="marketplace.html#band">Band Booking</a></li>
+                    <li><a href="marketplace.html#bundles">Bundles</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="#faq" data-tab="tab-faq" class="active">FAQ</a></li>
+                    <li><a href="#privacy" data-tab="tab-privacy">Privacy Policy</a></li>
+                    <li><a href="#terms" data-tab="tab-terms">Terms of Service</a></li>
+                    <li><a href="#contact" data-tab="tab-contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-nav">
+                <h5>Newsletter</h5>
+                <p style="font-size: 14px; color: var(--on-surface-variant); margin-bottom: 1rem;">Get the latest gear drops and talent availability.</p>
+                <div class="newsletter-form">
+                    <input class="newsletter-input" id="newsletterInput" placeholder="Email address" type="email" />
+                    <button class="btn-send" id="newsletterBtn" type="button"><span class="material-symbols-outlined">send</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Rent A Tune. Secure Escrow Payments Guaranteed.</p>
+            <div class="footer-bottom-badges">
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">payments</span>
+                    <span>Secure Payments</span>
+                </div>
+                <div class="badge-item">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">verified</span>
+                    <span>Vetted Talent</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="module">
+        import { renderAuthNav } from '../shared/auth-helpers.js';
+        import { auth } from '../shared/firebase-init.js';
+        import { createDoc } from '../shared/firestore-helpers.js';
+
+        renderAuthNav('profileLink');
+
+        /* ================= Contact logic ================= */
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('contactNameInput').value.trim();
+            const email = document.getElementById('contactEmailInput').value.trim();
+            const type = document.getElementById('contactTypeSelect').value;
+            const message = document.getElementById('contactMessageInput').value.trim();
+            const msgEl = document.getElementById('contactFormMsg');
+            const submitBtn = document.getElementById('contactSubmitBtn');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!name || !email || !message) {
+                showToast('Please fill in all required fields.');
+                return;
+            }
+            if (!emailPattern.test(email)) {
+                showToast('Please enter a valid email address.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            try {
+                await createDoc('contactMessages', {
+                    name,
+                    email,
+                    type,
+                    message,
+                    userId: auth.currentUser ? auth.currentUser.uid : null,
+                    status: 'new'
+                });
+                msgEl.textContent = 'Thanks, ' + name + '! Your message has been sent — we\'ll respond within 24 hours.';
+                msgEl.style.display = 'block';
+                showToast('Message sent successfully!');
+                document.getElementById('contactForm').reset();
+            } catch (err) {
+                showToast('Could not send your message. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+</script>
+<script>
+        /* ---------- Shared toast helper ---------- */
+        function showToast(msg) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        /* ---------- Navbar notification panel ---------- */
+        function toggleNotifPanel() {
+            const panel = document.getElementById('notifPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (e) {
+            const notifPanel = document.getElementById('notifPanel');
+            const notifBtn = document.getElementById('notifBtn');
+            if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+                notifPanel.style.display = 'none';
+            }
+        });
+
+        /* ---------- Navbar search (this page has no listings, route to marketplace) ---------- */
+        function handleNavSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('navSearchInput').value.trim();
+            if (!q) return false;
+            window.location.href = 'marketplace.html?q=' + encodeURIComponent(q);
+            return false;
+        }
+
+        /* ---------- Support tab switching (FAQ / Privacy / Terms / Contact) ---------- */
+        const SUPPORT_HASHES = { faq: 'tab-faq', privacy: 'tab-privacy', terms: 'tab-terms', contact: 'tab-contact' };
+
+        function activateSupportTab(tabId) {
+            document.querySelectorAll('.support-tab').forEach(t => t.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('.support-tab-btn, .footer-nav a[data-tab]').forEach(link => {
+                link.classList.toggle('active', link.dataset.tab === tabId);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('[data-tab]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                activateSupportTab(this.dataset.tab);
+                const hash = Object.keys(SUPPORT_HASHES).find(key => SUPPORT_HASHES[key] === this.dataset.tab);
+                if (hash) history.replaceState(null, '', '#' + hash);
+            });
+        });
+
+        (function () {
+            const hash = window.location.hash.replace('#', '');
+            if (SUPPORT_HASHES[hash]) activateSupportTab(SUPPORT_HASHES[hash]);
+        })();
+
+        /* ================= FAQ logic ================= */
+        const filterMap = {
+            'General': 'general',
+            'For Renters': 'for-renters',
+            'For Users': 'for-users',
+            'Security & Payments': 'security-payments'
+        };
+        document.querySelectorAll('#tab-faq .filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('#tab-faq .filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.add('inactive');
+                });
+                this.classList.add('active');
+                this.classList.remove('inactive');
+                const key = this.textContent.trim();
+                const targetId = filterMap[key];
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    showToast('Showing FAQs for "' + key + '".');
+                }
+            });
+        });
+
+        document.getElementById('faqContactSupportBtn').addEventListener('click', function () {
+            activateSupportTab('tab-contact');
+            history.replaceState(null, '', '#contact');
+        });
+
+        /* ================= Privacy Policy logic ================= */
+        document.getElementById('downloadPrivacyPdfBtn').addEventListener('click', function () {
+            showToast('Generating Privacy Policy PDF for download...');
+        });
+
+        /* ================= Terms of Service logic ================= */
+        document.getElementById('downloadTermsPdfBtn').addEventListener('click', function () {
+            showToast('Generating Terms of Service PDF for download...');
+        });
+
+        /* ---------- Newsletter subscribe (shared) ---------- */
+        document.getElementById('newsletterBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            const input = document.getElementById('newsletterInput');
+            const email = input.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showToast('Please enter a valid email address.');
+                return;
+            }
+            showToast('Subscribed! Watch your inbox for gear drops and talent availability.');
+            input.value = '';
+        });
+    </script>
+</body></html>

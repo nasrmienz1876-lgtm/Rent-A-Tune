@@ -1,0 +1,14 @@
+Read and analyze all the files and understand how the website work. Don't change anything I didn't ask for. Do the task in order, make sure first task at the top is done then continue to second and so on.
+
+Task:
+- Merge only .css file into .html file that have the same name
+- Ensure all the button at every pages is function
+
+Task:
+- Make style in 1_renter_chat.html the same like all other renter_... .html
+- Rename 1_renter_chat.html to renter_chat.html
+- Ensure all the button at every pages is function
+
+Task:
+- Create new file name: renter.html
+- Make all renter_... .html file into one file: renter.html

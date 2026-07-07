@@ -1,0 +1,2439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rent A Tune | Marketplace</title>
+    <style>
+:root {
+    /* Design System Tokens (merged from instrument/band/bundles) */
+    --primary: #0040e0;
+    --on-primary: #ffffff;
+    --primary-container: #2e5bff;
+    --on-primary-container: #efefff;
+    --secondary: #7c5800;
+    --on-secondary: #ffffff;
+    --secondary-container: #feb700;
+    --on-secondary-container: #6b4b00;
+    --secondary-fixed: #ffdea8;
+    --secondary-fixed-dim: #ffba20;
+    --on-secondary-fixed: #271900;
+    --on-secondary-fixed-variant: #5e4200;
+    --surface: #f8f9ff;
+    --surface-variant: #d3e4fe;
+    --on-surface: #0b1c30;
+    --on-surface-variant: #434656;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #eff4ff;
+    --surface-container: #e5eeff;
+    --surface-container-high: #dce9ff;
+    --surface-container-highest: #d3e4fe;
+    --surface-dim: #cbdbf5;
+    --surface-bright: #f8f9ff;
+    --surface-tint: #124af0;
+    --outline: #747688;
+    --outline-variant: #c4c5d9;
+    --background: #f8f9ff;
+    --inverse-surface: #213145;
+    --inverse-on-surface: #eaf1ff;
+    --inverse-primary: #b8c3ff;
+    --primary-fixed: #dde1ff;
+    --primary-fixed-dim: #b8c3ff;
+    --on-primary-fixed: #001356;
+    --on-primary-fixed-variant: #0035be;
+    --on-tertiary: #ffffff;
+    --tertiary: #565555;
+    --tertiary-container: #6e6d6d;
+    --on-tertiary-container: #f3f0ef;
+    --tertiary-fixed: #e5e2e1;
+    --tertiary-fixed-dim: #c8c6c5;
+    --on-tertiary-fixed: #1c1b1b;
+    --on-tertiary-fixed-variant: #474646;
+    --error: #ba1a1a;
+    --on-error: #ffffff;
+    --error-container: #ffdad6;
+    --on-error-container: #93000a;
+    --on-background: #0b1c30;
+
+    /* Spacing */
+    --gutter: 24px;
+    --margin-desktop: 48px;
+    --container-max: 1280px;
+
+    /* Fonts */
+    --font-display: 'Source Serif 4', serif;
+    --font-body: 'Montserrat', sans-serif;
+
+    /* Borders */
+    --radius-default: 0.25rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--on-surface);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+/* Navigation (shared across all tabs) */
+.navbar {
+    background-color: var(--surface-container-lowest);
+    border-bottom: 1px solid var(--outline-variant);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    margin-right: 2rem;
+}
+
+.nav-links {
+    display: none;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex;
+    }
+}
+
+.nav-link {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 4px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-bar {
+    display: none;
+    align-items: center;
+    background-color: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+    .search-bar {
+        display: flex;
+    }
+}
+
+.search-input {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    width: 200px;
+    outline: none;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary-container);
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Tab visibility */
+.market-tab {
+    display: none;
+}
+
+.market-tab.active {
+    display: block;
+}
+
+/* Footer (shared across all tabs) */
+.footer {
+    background-color: var(--surface-container-high);
+    border-top: 1px solid var(--outline-variant);
+    padding: 4rem 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.footer-brand h4 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    margin-bottom: 1.5rem;
+}
+
+.footer-nav h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-nav ul {
+    list-style: none;
+}
+
+.footer-nav li {
+    margin-bottom: 1rem;
+}
+
+.footer-nav a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline;
+    padding: 0;
+}
+
+.footer-nav a:hover {
+    color: var(--secondary);
+}
+
+.footer-nav a.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--outline-variant);
+    background-color: var(--surface);
+    font-size: 14px;
+}
+
+.btn-send {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.footer-bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+}
+
+@media (min-width: 768px) {
+    .footer-bottom {
+        flex-direction: row;
+    }
+}
+
+.footer-bottom-badges {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ======================================================================
+   TAB: Instrument Rentals (scoped from instrument.html)
+   ====================================================================== */
+#tab-instrument {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 2rem var(--gutter);
+}
+
+#tab-instrument .disclaimer {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--secondary-container);
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+#tab-instrument .disclaimer h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+#tab-instrument .disclaimer p {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+#tab-instrument .content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter);
+}
+
+@media (min-width: 768px) {
+    #tab-instrument .content-layout {
+        grid-template-columns: 250px 1fr;
+    }
+}
+
+#tab-instrument aside {
+    background-color: var(--surface-container-lowest);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--outline-variant);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+#tab-instrument aside h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#tab-instrument .filter-group {
+    margin-bottom: 2rem;
+}
+
+#tab-instrument .filter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+#tab-instrument .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#tab-instrument .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#tab-instrument .checkbox-item input {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid var(--outline-variant);
+    border-radius: 4px;
+}
+
+#tab-instrument .divider {
+    height: 1px;
+    background-color: var(--outline-variant);
+    margin: 1.5rem 0;
+}
+
+#tab-instrument .range-slider {
+    width: 100%;
+    height: 6px;
+    background: var(--surface-container-high);
+    border-radius: 3px;
+    appearance: none;
+    accent-color: var(--primary);
+}
+
+#tab-instrument .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--outline);
+    margin-top: 0.5rem;
+}
+
+#tab-instrument .select-filter {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    font-family: inherit;
+}
+
+#tab-instrument .apply-btn {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#tab-instrument .apply-btn:hover {
+    opacity: 0.9;
+}
+
+#tab-instrument .grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+#tab-instrument .results-count {
+    color: var(--on-surface-variant);
+    font-size: 1rem;
+}
+
+#tab-instrument .results-count span {
+    font-weight: 700;
+    color: var(--on-surface);
+}
+
+#tab-instrument .sort-by {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--outline);
+}
+
+#tab-instrument .sort-by select {
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    color: var(--on-surface);
+    font-family: inherit;
+}
+
+#tab-instrument .instrument-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--gutter);
+}
+
+#tab-instrument .card {
+    background-color: var(--surface-container-lowest);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--outline-variant);
+    transition: transform 0.3s ease;
+}
+
+#tab-instrument .card:hover {
+    transform: scale(1.02);
+}
+
+#tab-instrument .card-image-wrapper {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+#tab-instrument .card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#tab-instrument .badge-price {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#tab-instrument .badge-status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#tab-instrument .badge-exclusive {
+    background-color: var(--secondary-fixed-dim);
+    color: var(--on-secondary-fixed);
+}
+
+#tab-instrument .card-content {
+    padding: 1.5rem;
+}
+
+#tab-instrument .card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+#tab-instrument .card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#tab-instrument .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+#tab-instrument .rating .material-symbols-outlined {
+    font-size: 14px;
+    font-variation-settings: 'FILL' 1;
+}
+
+#tab-instrument .card-description {
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    margin-bottom: 1.5rem;
+    height: 3rem;
+    overflow: hidden;
+}
+
+#tab-instrument .chat-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+#tab-instrument .chat-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 64, 224, 0.2);
+}
+
+#tab-instrument .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+#tab-instrument .page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--outline-variant);
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#tab-instrument .page-btn:hover {
+    background-color: var(--surface-container-high);
+}
+
+#tab-instrument .page-info {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+#tab-instrument .page-info span {
+    color: var(--primary);
+}
+
+/* ======================================================================
+   TAB: Band Booking (scoped from band.html)
+   ====================================================================== */
+#tab-band h1, #tab-band h2, #tab-band h3, #tab-band .brand-logo {
+    font-family: var(--font-display);
+}
+
+#tab-band .text-display { font-size: 48px; line-height: 56px; font-weight: 700; letter-spacing: -0.02em; }
+#tab-band .text-headline-lg { font-size: 32px; line-height: 40px; font-weight: 600; }
+#tab-band .text-headline-md { font-size: 24px; line-height: 32px; font-weight: 600; }
+#tab-band .text-body-lg { font-size: 18px; line-height: 28px; }
+#tab-band .text-body-md { font-size: 16px; line-height: 24px; }
+#tab-band .text-body-sm { font-size: 14px; line-height: 20px; }
+#tab-band .text-label-lg { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+#tab-band .text-label-md { font-size: 12px; line-height: 16px; font-weight: 500; }
+
+#tab-band .hero-section {
+    padding: 3rem 0;
+}
+
+#tab-band .filter-bar {
+    background-color: var(--surface-container-lowest);
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 1024px) {
+    #tab-band .filter-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+#tab-band .genre-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+#tab-band .chip {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-full);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--surface-container-high);
+    color: var(--on-surface-variant);
+}
+
+#tab-band .chip.active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+}
+
+#tab-band .filter-actions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    #tab-band .filter-actions { width: auto; }
+}
+
+#tab-band .select-wrapper select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--outline-variant);
+    background-color: var(--surface);
+    font-weight: 600;
+    outline: none;
+}
+
+#tab-band .btn-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--on-surface);
+    color: var(--surface);
+    border-radius: var(--radius-lg);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+#tab-band .marketplace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter);
+    margin-bottom: 5rem;
+}
+
+@media (min-width: 768px) { #tab-band .marketplace-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { #tab-band .marketplace-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1280px) { #tab-band .marketplace-grid { grid-template-columns: repeat(4, 1fr); } }
+
+#tab-band .card {
+    background-color: var(--surface-container-lowest);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(116, 118, 136, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#tab-band .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+#tab-band .card-media {
+    aspect-ratio: 1/1;
+    position: relative;
+    overflow: hidden;
+}
+
+#tab-band .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+#tab-band .card:hover .card-media img {
+    transform: scale(1.1);
+}
+
+#tab-band .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-default);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#tab-band .badge-exclusive { background-color: var(--secondary-container); color: var(--on-secondary-container); }
+#tab-band .badge-available { background-color: var(--primary); color: var(--on-primary); }
+#tab-band .badge-booked { background-color: #e2e8f0; color: #475569; }
+
+#tab-band .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#tab-band .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+#tab-band .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+#tab-band .card-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#tab-band .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#tab-band .price-label {
+    color: var(--on-surface-variant);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+#tab-band .price-value {
+    color: var(--primary);
+    font-size: 24px;
+    font-weight: 600;
+    font-family: var(--font-display);
+}
+
+#tab-band .btn-booking {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#tab-band .separator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 5rem 0;
+}
+
+#tab-band .separator-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--outline-variant);
+    opacity: 0.5;
+}
+
+#tab-band .bundles-header {
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+#tab-band .view-all-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid var(--surface-container-highest);
+    padding-bottom: 4px;
+}
+
+#tab-band .bundles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter);
+    margin-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+    #tab-band .bundles-grid { grid-template-columns: repeat(12, 1fr); }
+}
+
+#tab-band .bundle-large {
+    grid-column: span 8;
+    background-color: var(--on-surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+}
+
+#tab-band .bundle-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+#tab-band .bundle-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+}
+
+#tab-band .bundle-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--on-surface) 0%, rgba(11, 28, 48, 0.8) 60%, transparent 100%);
+}
+
+#tab-band .bundle-content {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+}
+
+#tab-band .tag-best-value {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-default);
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+#tab-band .bundle-title {
+    font-size: 40px;
+    color: var(--surface-container-lowest);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+#tab-band .bundle-desc {
+    color: var(--surface-variant);
+    margin-bottom: 2rem;
+}
+
+#tab-band .bundle-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+#tab-band .btn-primary {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#tab-band .btn-outline {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid var(--surface-variant);
+    color: var(--surface-container-lowest);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#tab-band .bundle-small {
+    grid-column: span 4;
+    background-color: var(--surface-container-high);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--outline-variant);
+}
+
+#tab-band .bundle-small-icon {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+#tab-band .savings-box {
+    margin-top: auto;
+}
+
+#tab-band .btn-dark {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--on-surface);
+    color: var(--surface-container-lowest);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* ======================================================================
+   TAB: Bundles (scoped from bundles.html)
+   ====================================================================== */
+#tab-bundles h1, #tab-bundles h2, #tab-bundles h3 {
+    font-family: var(--font-display);
+}
+
+#tab-bundles .hero {
+    position: relative;
+    height: 614px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--on-surface);
+}
+
+#tab-bundles .hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+}
+
+#tab-bundles .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#tab-bundles .hero-content {
+    position: relative;
+    width: 100%;
+}
+
+#tab-bundles .hero-text {
+    max-width: 42rem;
+}
+
+#tab-bundles .badge-premium {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 0.25rem 1rem;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+#tab-bundles .hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--on-primary);
+    margin-bottom: 1rem;
+    line-height: 56px;
+}
+
+#tab-bundles .hero-description {
+    font-size: 18px;
+    color: var(--primary-fixed);
+    margin-bottom: 2rem;
+    line-height: 28px;
+}
+
+#tab-bundles .main-container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+#tab-bundles .section-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    #tab-bundles .section-header {
+        flex-direction: row;
+    }
+}
+
+#tab-bundles .section-title-group {
+    width: 100%;
+}
+
+#tab-bundles .section-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--on-surface);
+}
+
+#tab-bundles .title-accent {
+    width: 6rem;
+    height: 4px;
+    background-color: var(--secondary-fixed-dim);
+    border-radius: var(--radius-full);
+}
+
+#tab-bundles .section-intro {
+    font-size: 16px;
+    color: var(--on-surface-variant);
+    max-width: 28rem;
+    text-align: right;
+}
+
+#tab-bundles .bundle-stack {
+    display: grid;
+    gap: 3rem;
+}
+
+#tab-bundles .bundle-wide {
+    background-color: var(--surface-container-lowest);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(116, 118, 136, 0.1);
+    transition: transform 0.3s;
+}
+
+#tab-bundles .bundle-wide:hover {
+    transform: scale(1.01);
+}
+
+@media (min-width: 1024px) {
+    #tab-bundles .bundle-wide {
+        flex-direction: row;
+    }
+}
+
+#tab-bundles .bundle-media-large {
+    position: relative;
+    min-height: 400px;
+    flex: 1;
+}
+
+@media (min-width: 1024px) {
+    #tab-bundles .bundle-media-large {
+        width: 50%;
+    }
+}
+
+#tab-bundles .bundle-media-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#tab-bundles .floating-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background-color: var(--secondary-fixed);
+    color: var(--on-secondary-fixed);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-default);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+#tab-bundles .bundle-content-large {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+@media (min-width: 1024px) {
+    #tab-bundles .bundle-content-large {
+        width: 50%;
+    }
+}
+
+#tab-bundles .bundle-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+#tab-bundles .bundle-title-primary {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+#tab-bundles .pricing-block {
+    text-align: right;
+}
+
+#tab-bundles .pricing-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--on-surface-variant);
+    text-transform: uppercase;
+}
+
+#tab-bundles .price {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+#tab-bundles .price-sub {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#tab-bundles .bundle-desc {
+    font-size: 16px;
+    color: var(--on-surface-variant);
+    margin-bottom: 2rem;
+}
+
+#tab-bundles .bundle-includes-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#tab-bundles .includes-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem 1.5rem;
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    #tab-bundles .includes-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#tab-bundles .includes-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 16px;
+}
+
+#tab-bundles .includes-icon {
+    color: var(--secondary);
+    font-size: 18px;
+}
+
+#tab-bundles .bundle-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(116, 118, 136, 0.15);
+}
+
+@media (min-width: 640px) {
+    #tab-bundles .bundle-actions {
+        flex-direction: row;
+    }
+}
+
+#tab-bundles .btn {
+    padding: 1rem 2rem;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+}
+
+#tab-bundles .btn-primary {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+#tab-bundles .btn-primary:hover {
+    background-color: var(--primary-container);
+}
+
+#tab-bundles .btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--on-surface);
+    color: var(--on-surface);
+}
+
+#tab-bundles .btn-outline:hover {
+    background-color: var(--surface-container-high);
+}
+
+#tab-bundles .bundle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    #tab-bundles .bundle-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#tab-bundles .bundle-card {
+    background-color: var(--surface-container-lowest);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(116, 118, 136, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+#tab-bundles .bundle-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+#tab-bundles .card-media {
+    aspect-ratio: 16/9;
+    position: relative;
+}
+
+#tab-bundles .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#tab-bundles .card-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-default);
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+#tab-bundles .badge-info {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+}
+
+#tab-bundles .badge-signature {
+    background-color: var(--secondary-fixed);
+    color: var(--on-secondary-fixed);
+}
+
+#tab-bundles .card-content {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#tab-bundles .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+#tab-bundles .card-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+#tab-bundles .card-price {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+#tab-bundles .card-desc {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    margin-bottom: 1.5rem;
+}
+
+#tab-bundles .feature-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+#tab-bundles .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--surface-container-low);
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+}
+
+#tab-bundles .feature-icon {
+    color: var(--primary);
+}
+
+#tab-bundles .feature-label {
+    font-weight: 500;
+}
+
+#tab-bundles .feature-sub {
+    font-size: 11px;
+    color: var(--on-surface-variant);
+}
+
+#tab-bundles .w-full {
+    width: 100%;
+}
+
+#tab-bundles .separator {
+    padding: 6rem 0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+#tab-bundles .line {
+    height: 1px;
+    background-color: var(--outline-variant);
+    flex-grow: 1;
+}
+
+#tab-bundles .sep-icon {
+    color: var(--outline-variant);
+}
+
+#tab-bundles .cta-section {
+    background-color: var(--on-surface);
+    border-radius: 1.5rem;
+    padding: 5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    #tab-bundles .cta-section {
+        padding: 5rem;
+    }
+}
+
+#tab-bundles .cta-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(0, 64, 224, 0.1), rgba(124, 88, 0, 0.05));
+    pointer-events: none;
+}
+
+#tab-bundles .cta-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--on-primary);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    #tab-bundles .cta-title {
+        font-size: 48px;
+    }
+}
+
+#tab-bundles .cta-desc {
+    font-size: 18px;
+    color: var(--primary-fixed);
+    max-width: 42rem;
+    margin: 0 auto 2.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+#tab-bundles .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 640px) {
+    #tab-bundles .cta-buttons {
+        flex-direction: row;
+    }
+}
+
+#tab-bundles .btn-pill {
+    padding: 1.25rem 2.5rem;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+#tab-bundles .btn-gold {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+#tab-bundles .btn-gold:hover {
+    transform: scale(1.05);
+}
+
+#tab-bundles .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--primary-fixed);
+    color: var(--primary-fixed);
+}
+
+#tab-bundles .btn-ghost:hover {
+    background-color: var(--primary-fixed);
+    color: var(--on-primary-fixed);
+}
+    </style>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar (shared) -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div style="display: flex; align-items: center;">
+                <a class="logo" href="home.html">Rent A Tune</a>
+                <div class="nav-links">
+                    <a class="nav-link active" href="#instrument" data-tab="tab-instrument">Instrument Rentals</a>
+                    <a class="nav-link" href="#band" data-tab="tab-band">Band Booking</a>
+                    <a class="nav-link" href="#bundles" data-tab="tab-bundles">Bundles</a>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <form class="search-bar" id="navSearchForm" onsubmit="return handleNavSearch(event)">
+                    <span class="material-symbols-outlined" style="color: var(--outline)">search</span>
+                    <input class="search-input" id="navSearchInput" placeholder="Search instruments or bands..." type="text" />
+                </form>
+                <div style="position: relative;">
+                    <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
+                        <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
+                        <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
+                        <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
+                        <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
+                    </div>
+                </div>
+                <button type="button" id="chatBtn" onclick="window.location.href='chatnego.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
+                    <span class="material-symbols-outlined">chat</span>
+                </button>
+                <a href="login.html" id="profileLink">
+                    <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- ============================= TAB: Instrument Rentals ============================= -->
+        <div id="tab-instrument" class="market-tab active">
+            <section class="disclaimer">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+                <div>
+                    <h4>Rent A Tune Secure Escrow Protection</h4>
+                    <p>To protect your payments and security, never share personal contact details or settle payments outside the Rent A Tune platform. Our anti-scam policy ensures your funds are only released after a successful rental hand-off.</p>
+                </div>
+            </section>
+
+            <div class="content-layout">
+                <aside>
+                    <h2>Filters</h2>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Categories</span>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item"><input checked="" type="checkbox" /> Strings</label>
+                            <label class="checkbox-item"><input type="checkbox" /> Brass</label>
+                            <label class="checkbox-item"><input type="checkbox" /> Woodwinds</label>
+                            <label class="checkbox-item"><input type="checkbox" /> Percussion</label>
+                            <label class="checkbox-item"><input type="checkbox" /> Keys</label>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Price per Day</span>
+                        <input class="range-slider" id="priceRange" max="500" min="10" value="500" type="range" />
+                        <div class="range-labels">
+                            <span>RM10</span>
+                            <span>RM500+</span>
+                        </div>
+                        <div id="priceCurrentValue" style="text-align:center; font-size:12px; color:var(--on-surface-variant); margin-top:6px; font-weight:600;">Up to RM500/day</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Condition</span>
+                        <select class="select-filter" id="conditionFilter">
+                            <option>All Conditions</option>
+                            <option>Mint (Stage Ready)</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                        </select>
+                    </div>
+
+                    <button class="apply-btn" id="applyFiltersBtn" type="button">Apply Filters</button>
+                </aside>
+
+                <section>
+                    <div class="grid-header">
+                        <p class="results-count">Showing <span id="resultsCountNum">0</span> professional instruments</p>
+                        <div class="sort-by">
+                            <span>Sort by:</span>
+                            <select id="sortBySelect">
+                                <option>Most Popular</option>
+                                <option>Price: Low to High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="instrument-grid" id="instrumentGrid">
+                    </div>
+                    <p id="instrumentEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No instruments match yet — check back soon.</p>
+
+                    <div class="pagination">
+                        <button class="page-btn" id="prevPageBtn" type="button"><span class="material-symbols-outlined">chevron_left</span></button>
+                        <span class="page-info" id="pageInfo">Page <span>1</span> of 12</span>
+                        <button class="page-btn" id="nextPageBtn" type="button"><span class="material-symbols-outlined">chevron_right</span></button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ============================= TAB: Band Booking ============================= -->
+        <div id="tab-band" class="market-tab container">
+            <section class="hero-section">
+                <h1 class="text-display" style="margin-bottom: 2rem;">Find Your Perfect Ensemble</h1>
+                <div class="filter-bar">
+                    <div class="genre-chips" id="genreChips">
+                        <button class="chip active" type="button">All Genres</button>
+                        <button class="chip" type="button">Jazz</button>
+                        <button class="chip" type="button">Rock</button>
+                        <button class="chip" type="button">Classical</button>
+                        <button class="chip" type="button">Wedding</button>
+                        <button class="chip" type="button">Electronic</button>
+                    </div>
+                    <div class="filter-actions">
+                        <div class="select-wrapper">
+                            <select id="bandSizeSelect">
+                                <option>Band Size</option>
+                                <option>Soloist</option>
+                                <option>Duo / Trio</option>
+                                <option>Full Band (4-6)</option>
+                                <option>Orchestra (12+)</option>
+                            </select>
+                        </div>
+                        <button class="btn-filter" id="moreFiltersBtn" type="button">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            More Filters
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="marketplace-grid" id="bandGrid"></section>
+            <p id="bandEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No bands match yet — check back soon.</p>
+
+            <div class="separator">
+                <div class="separator-line"></div>
+                <span class="material-symbols-outlined">auto_awesome</span>
+                <div class="separator-line"></div>
+            </div>
+
+            <section class="bundles-section">
+                <div class="bundles-header">
+                    <div>
+                        <span class="text-label-lg" style="color: var(--primary); display: block; margin-bottom: 0.5rem;">Premium Offerings</span>
+                        <h2 class="text-display">Stage &amp; Ensemble Bundles</h2>
+                    </div>
+                    <a class="view-all-link text-label-lg" href="#bundles" data-tab="tab-bundles">View All Bundles</a>
+                </div>
+
+                <div class="bundles-grid">
+                    <article class="bundle-large">
+                        <div class="bundle-bg">
+                            <img alt="Orchestra" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcVFk5lPBkASV6v0j7OZBDFPPqLd7HWyEQjdUh10OZsJWMkyQKN0OMgE1Oi_OvqvDr83amf1i7pWskg98a8eGaKH8y81NziG8rZ13GryYVBxkuzNyWwvp9rwpGLcUON8lXQaXhzFvVRWX8OfGYvXY0FlHmayj2kUvIFt4fhgOROQ_Ui1RYARuEE13HsLJYMwOvCeXSiNzrcSJQWf413yqjrp7-2FltmkfbiFHABljXFvmlj7ENbyQpo5FWXtBIaFNbuTqF7z0QmVw" />
+                            <div class="bundle-gradient"></div>
+                        </div>
+                        <div class="bundle-content">
+                            <span class="tag-best-value">BEST VALUE</span>
+                            <h3 class="bundle-title">The Grand Gala Ensemble</h3>
+                            <p class="bundle-desc text-body-lg">A complete 24-piece orchestral setup including full audio engineering and professional stage lighting. Perfect for corporate summits and grand wedding receptions.</p>
+                            <div class="bundle-actions">
+                                <button class="btn-primary">Chat with Coordinator</button>
+                                <button class="btn-outline">View Specs</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bundle-small">
+                        <div class="bundle-small-icon">
+                            <span class="material-symbols-outlined" style="font-size: 48px;">speaker_group</span>
+                        </div>
+                        <h3 class="text-headline-lg" style="margin-bottom: 1rem;">Live Stage Bundle</h3>
+                        <p class="text-body-md" style="color: var(--on-surface-variant); margin-bottom: 2rem;">Standard 4-piece band booking + Full PA System + Basic Lighting Rig. Everything you need for a private party in one click.</p>
+                        <div class="savings-box">
+                            <p class="text-label-md" style="color: var(--on-surface-variant); margin-bottom: 0.25rem;">Bundle Savings</p>
+                            <p class="text-headline-md" style="color: var(--secondary); margin-bottom: 1.5rem;">Save 15% on Gear</p>
+                            <button class="btn-dark">
+                                <span class="material-symbols-outlined">forum</span>
+                                Discuss Bundle
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+
+        <!-- ============================= TAB: Bundles ============================= -->
+        <div id="tab-bundles" class="market-tab">
+            <header class="hero">
+                <div class="hero-bg">
+                    <img alt="Orchestral stage setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1F62DRsbMt4PdwpPCcOnwFmHw5Q-03xccpk2dAPQV9IMD_XeWEJf-l7XBEf1p-BFR4F5eifgB0onterMGfXSgkMnpxUI-Zr-AJYTwMNprxxTQu95FGmw13gTjzwSML0he8VdzGsDD8xUiwK6CWfx9fz6vnSh6xBbu4klpteq_bb5cumoz8XFF-l7Htv0exIvcc65ZmKaK5f-hAsDTeWDVlNx9WQZUo-vTugDbVMzp5K6vO9wJFOMM8WNZKXKwQtaApkZjfuJNvWk" />
+                </div>
+                <div class="container hero-content">
+                    <div class="hero-text">
+                        <span class="badge-premium">Premium Curation</span>
+                        <h1 class="hero-title">Elite Bundle Rentals</h1>
+                        <p class="hero-description">Curated ensembles and full-scale stage setups for world-class performances. From gala orchestras to arena rock packages.</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container main-container">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <h2 class="section-title">The Gold Standard</h2>
+                        <div class="title-accent"></div>
+                    </div>
+                    <p class="section-intro">All bundles include a dedicated Logistics Coordinator and white-glove setup/strike service as standard.</p>
+                </div>
+
+                <div class="bundle-stack">
+                    <section class="bundle-wide">
+                        <div class="bundle-media-large">
+                            <img alt="Professional chamber orchestra" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj0NJ8QVYwM6f_pmcp4IGfVyA87D7Vzp2sU6J-s_7X6oHmzuU86-Vzb9GcZV7jilFNWotofQH2tDthtnoI32uy6S5OKy82-Zp5NTYLD3zlfh44VyMDrjjDDxcXoKQYaSlt3lG7lYdCQGs-pBsdHECM2DxD2xh8olsazLFOAnpg1-rB4z6UCzf1ywrW7jvfMk9-c95q5NEarVstTxxYszyVYuZ6EdoqFF_FPylLYzwQZkymoyIy7vv1WIJlQxjQK3HLLzDkmKI9jUU" />
+                            <div class="floating-badge">Exclusive Bundle</div>
+                        </div>
+
+                        <div class="bundle-content-large">
+                            <div>
+                                <div class="bundle-header-row">
+                                    <h3 class="bundle-title-primary">The Grand Gala Ensemble</h3>
+                                    <div class="pricing-block">
+                                        <p class="pricing-label">Starting At</p>
+                                        <p class="price">RM12,500 <span class="price-sub">/Event</span></p>
+                                    </div>
+                                </div>
+                                <p class="bundle-desc">A comprehensive 24-piece orchestral setup designed for prestigious corporate events, weddings, and awards ceremonies.</p>
+
+                                <h4 class="bundle-includes-title">
+                                    <span class="material-symbols-outlined feature-icon">inventory_2</span>
+                                    What's Included
+                                </h4>
+                                <ul class="includes-list">
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> 24-Piece String &amp; Brass Section</li>
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Steinway &amp; Sons Model D Grand</li>
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> 48-Channel Digital Audio Console</li>
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Wireless In-Ear Monitoring System</li>
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> Professional Stage Lighting Rig</li>
+                                    <li class="includes-item"><span class="material-symbols-outlined includes-icon">check_circle</span> On-Site Technical Supervisor</li>
+                                </ul>
+                            </div>
+
+                            <div class="bundle-actions">
+                                <button class="btn btn-primary" type="button" id="discussGalaBtn">
+                                    <span class="material-symbols-outlined">forum</span>
+                                    Discuss Bundle Details
+                                </button>
+                                <button class="btn btn-outline" type="button" id="technicalRiderBtn">
+                                    View Technical Rider
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="bundle-grid">
+                        <section class="bundle-card">
+                            <div class="card-media">
+                                <img alt="Rock band stage setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8XIP14aHNWfsqemZKf99bXonu0DEZ4I-N-e0KxdNp8nk9O25NjzZnQ4-j8XRp1uizKopmBR0NPYPqr4csC8EfGZ5tqahn08tfOzfZSLnRoK-uTdikch6cGrdP8uoTnc8tSiSoZeU2vIZbQgP7uJqEqPnreiNr6o9UZCokcDvlAHbHQXuwWULEtAT-XOxPQhG551tooiEIwkWCTDG_eotEPX2SlLQOkkPGq_nWSaAYouM2RtIU3f3Ljf4C_mPWYCPWVIAu-7sLIFs" />
+                                <div class="card-badge badge-info">Tour-Ready</div>
+                            </div>
+
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3 class="card-title">Live Stage Bundle</h3>
+                                    <p class="card-price">RM4,200</p>
+                                </div>
+                                <p class="card-desc">Optimized for high-energy live performances in medium to large venues. Plug and play professional gear.</p>
+
+                                <div class="feature-stack">
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">speaker</span>
+                                        <div>
+                                            <p class="feature-label">Full PA &amp; Subwoofer System</p>
+                                            <p class="feature-sub">L-Acoustics K2 Array</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">album</span>
+                                        <div>
+                                            <p class="feature-label">Pro Backline Package</p>
+                                            <p class="feature-sub">DW Collector's Kit &amp; Boutique Amps</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">light_mode</span>
+                                        <div>
+                                            <p class="feature-label">Lighting &amp; Atmosphere</p>
+                                            <p class="feature-sub">Intelligent Movers &amp; Hazer</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary w-full">
+                                    <span class="material-symbols-outlined">chat</span>
+                                    Chat with Coordinator
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="bundle-card">
+                            <div class="card-media">
+                                <img alt="Jazz lounge setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZBz2vuEuDaxaokZzb3zMNPVtopcih1mRwqDJsnxLE22AM9pjagUJr_gKSFmaEz3AdaKwuhgGxUwu8pZYDkAMT3ifLCjtevSDugaAXw59GHyQ1c9mDbrcCnYek1Gb_FbseMrZp5sy9Iqyj1xvW54H1pKVk1IcKRkLANCkinejOWMH_1lWJ9BBKlmY_bKUUzPaczeMpDEKDGXc4-5n-walipHgzTtQ1wU6Ev1ZboS6M8zaeXiPVKW0HaSYyw0GRCNu6c_tgwcZhqa0" />
+                                <div class="card-badge badge-signature">Signature Series</div>
+                            </div>
+
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3 class="card-title">Jazz Lounge Quintet</h3>
+                                    <p class="card-price">RM3,800</p>
+                                </div>
+                                <p class="card-desc">A curated selection of warm, acoustic instruments for intimate lounge settings and upscale jazz nights.</p>
+
+                                <div class="feature-stack">
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">piano</span>
+                                        <div>
+                                            <p class="feature-label">Yamaha C7 Conservatory Grand</p>
+                                            <p class="feature-sub">Includes Professional Tuning</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">mic</span>
+                                        <div>
+                                            <p class="feature-label">Vintage Microphone Kit</p>
+                                            <p class="feature-sub">Neumann &amp; AKG Classics</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="material-symbols-outlined feature-icon">speaker_group</span>
+                                        <div>
+                                            <p class="feature-label">Bose L1 Pro Audio System</p>
+                                            <p class="feature-sub">Discreet High-Fidelity Sound</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary w-full">
+                                    <span class="material-symbols-outlined">chat</span>
+                                    Discuss Bundle
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="separator">
+                    <div class="line"></div>
+                    <span class="material-symbols-outlined sep-icon">music_note</span>
+                    <div class="line"></div>
+                </div>
+
+                <section class="cta-section">
+                    <div class="cta-gradient"></div>
+                    <h2 class="cta-title">Need a Bespoke Stage Configuration?</h2>
+                    <p class="cta-desc">Our event specialists work with touring managers and creative directors to build custom bundles tailored to your specific venue and performance requirements.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-pill btn-gold" type="button" id="scheduleConsultBtn">Schedule Expert Consultation</button>
+                        <button class="btn btn-pill btn-ghost" type="button" id="browseAssetsBtn">Browse All Assets</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (shared) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h4>Rent A Tune</h4>
+                    <p>Elevating the professional music scene with secure, rhythmic logistics for performers and planners.</p>
+                </div>
+
+                <div class="footer-nav">
+                    <h5>Marketplace</h5>
+                    <ul>
+                        <li><a href="#instrument" data-tab="tab-instrument">Instrument Rentals</a></li>
+                        <li><a href="#band" data-tab="tab-band">Band Booking</a></li>
+                        <li><a href="#bundles" data-tab="tab-bundles">Bundles</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-nav">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="support.html#faq">FAQ</a></li>
+                        <li><a href="support.html#privacy">Privacy Policy</a></li>
+                        <li><a href="support.html#terms">Terms of Service</a></li>
+                        <li><a href="support.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-nav">
+                    <h5>Newsletter</h5>
+                    <p style="font-size: 14px; color: var(--on-surface-variant); margin-bottom: 1rem;">Get the latest gear drops and talent availability.</p>
+                    <div class="newsletter-form">
+                        <input class="newsletter-input" id="newsletterInput" placeholder="Email address" type="email" />
+                        <button class="btn-send" id="newsletterBtn" type="button"><span class="material-symbols-outlined">send</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Rent A Tune. Secure Escrow Payments Guaranteed.</p>
+                <div class="footer-bottom-badges">
+                    <div class="badge-item">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">payments</span>
+                        <span>Secure Payments</span>
+                    </div>
+                    <div class="badge-item">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">verified</span>
+                        <span>Vetted Talent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { renderAuthNav } from '../shared/auth-helpers.js';
+        import { auth } from '../shared/firebase-init.js';
+        import { getMany, getOne, createDoc, escapeHtml, where } from '../shared/firestore-helpers.js';
+
+        renderAuthNav('profileLink');
+
+        const CATEGORY_FAMILY = {
+            'Electric Guitar': 'Strings', 'Acoustic Guitar': 'Strings', 'Bass Guitar': 'Strings',
+            'Violin': 'Strings', 'Cello': 'Strings',
+            'Drum Kit': 'Percussion', 'Microphone': 'Percussion',
+            'Piano / Keyboard': 'Keys',
+            'Trumpet': 'Brass', 'Saxophone': 'Brass'
+        };
+
+        async function startChatWithListing(listing) {
+            if (!auth.currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const myUid = auth.currentUser.uid;
+            if (myUid === listing.ownerId) {
+                showToast('This is your own listing.');
+                return;
+            }
+            showToast('Opening chat with ' + (listing.ownerName || 'the owner') + '...');
+            try {
+                const existing = await getMany('conversations',
+                    where('listingId', '==', listing.id),
+                    where('participantIds', 'array-contains', myUid)
+                );
+                let conversationId;
+                if (existing.length > 0) {
+                    conversationId = existing[0].id;
+                } else {
+                    const myProfile = await getOne('users', myUid);
+                    conversationId = await createDoc('conversations', {
+                        listingId: listing.id,
+                        listingTitle: listing.title,
+                        listingImage: (listing.photos && listing.photos[0]) || '',
+                        listingPrice: listing.price,
+                        participantIds: [myUid, listing.ownerId],
+                        participantNames: {
+                            [myUid]: (myProfile && (myProfile.fullName || myProfile.username)) || 'User',
+                            [listing.ownerId]: listing.ownerName || 'Renter'
+                        },
+                        status: 'negotiation',
+                        bookingId: null,
+                        lastMessage: '',
+                        lastMessageAt: null
+                    });
+                }
+                window.location.href = 'chatnego.html?convo=' + conversationId;
+            } catch (err) {
+                showToast('Could not start chat. Please try again.');
+            }
+        }
+
+        function renderInstrumentCard(listing, orderIndex) {
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.dataset.category = CATEGORY_FAMILY[listing.category] || 'Strings';
+            card.dataset.price = listing.price;
+            card.dataset.condition = listing.condition || 'Good';
+            card.dataset.order = orderIndex;
+            card.dataset.listingId = listing.id;
+
+            const img = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+            const statusLabel = listing.status === 'rented' ? 'Rented' : (listing.status === 'pending' ? 'Pending' : 'Available');
+
+            card.innerHTML =
+                '<div class="card-image-wrapper">' +
+                    '<img alt="' + escapeHtml(listing.title) + '" src="' + escapeHtml(img) + '" />' +
+                    '<span class="badge-price">RM' + listing.price + ' /day</span>' +
+                    '<span class="badge-status">' + escapeHtml(statusLabel) + '</span>' +
+                '</div>' +
+                '<div class="card-content">' +
+                    '<div class="card-title-row">' +
+                        '<h3 class="card-title">' + escapeHtml(listing.title) + '</h3>' +
+                        '<div class="rating">' +
+                            '<span class="material-symbols-outlined">star</span>' +
+                            '<span>' + (listing.rating || 0).toFixed(1) + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<p class="card-description">' + escapeHtml(listing.description) + '</p>' +
+                    '<button class="chat-btn" type="button">' +
+                        '<span class="material-symbols-outlined">chat</span>' +
+                        'Chat with Owner' +
+                    '</button>' +
+                '</div>';
+
+            card.querySelector('.chat-btn').addEventListener('click', () => startChatWithListing(listing));
+            return card;
+        }
+
+        function renderBandCard(listing) {
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.dataset.genre = listing.category || '';
+            card.dataset.size = listing.members || '';
+            card.dataset.listingId = listing.id;
+
+            const img = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+            const badgeClass = listing.status === 'rented' ? 'badge-booked' : (listing.status === 'pending' ? 'badge-exclusive' : 'badge-available');
+            const badgeLabel = listing.status === 'rented' ? 'Booked' : (listing.status === 'pending' ? 'Pending' : 'Available');
+
+            card.innerHTML =
+                '<div class="card-media">' +
+                    '<img alt="' + escapeHtml(listing.title) + '" src="' + escapeHtml(img) + '" />' +
+                    '<span class="badge ' + badgeClass + '">' + escapeHtml(badgeLabel) + '</span>' +
+                '</div>' +
+                '<div class="card-content">' +
+                    '<div class="card-header">' +
+                        '<h3 class="text-headline-md">' + escapeHtml(listing.title) + '</h3>' +
+                        '<div class="rating">' +
+                            '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">star</span>' +
+                            '<span>' + (listing.rating || 0).toFixed(1) + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<p class="text-body-sm" style="color: var(--on-surface-variant); margin-bottom: 1rem;">' + escapeHtml(listing.category) + ' • ' + escapeHtml(listing.members) + '</p>' +
+                    '<div class="card-footer">' +
+                        '<div class="price-row">' +
+                            '<span class="price-label">Starting at</span>' +
+                            '<span class="price-value">RM' + listing.price + '</span>' +
+                        '</div>' +
+                        '<button class="btn-booking" type="button">' +
+                            '<span class="material-symbols-outlined">chat</span>' +
+                            'Discuss Booking' +
+                        '</button>' +
+                    '</div>' +
+                '</div>';
+
+            card.querySelector('.btn-booking').addEventListener('click', () => startChatWithListing(listing));
+            return card;
+        }
+
+        async function loadInstrumentListings() {
+            const grid = document.getElementById('instrumentGrid');
+            const listings = await getMany('listings', where('listingType', '==', 'instrument'));
+            grid.innerHTML = '';
+            listings.forEach((listing, i) => grid.appendChild(renderInstrumentCard(listing, i + 1)));
+            document.getElementById('resultsCountNum').textContent = listings.length;
+            document.getElementById('instrumentEmptyMsg').style.display = listings.length ? 'none' : '';
+
+            // Apply a pending "?q=" search (e.g. redirected from home.html/support.html) now
+            // that the real cards actually exist — running it earlier would filter an empty grid.
+            const pendingQuery = new URLSearchParams(window.location.search).get('q');
+            if (pendingQuery && window.applyFilters) window.applyFilters(pendingQuery.toLowerCase());
+        }
+
+        async function loadBandListings() {
+            const grid = document.getElementById('bandGrid');
+            const listings = await getMany('listings', where('listingType', '==', 'band'));
+            grid.innerHTML = '';
+            listings.forEach(listing => grid.appendChild(renderBandCard(listing)));
+            document.getElementById('bandEmptyMsg').style.display = listings.length ? 'none' : '';
+        }
+
+        loadInstrumentListings();
+        loadBandListings();
+    </script>
+    <script>
+        /* ---------- Shared toast helper ---------- */
+        function showToast(msg) {
+            let toast = document.getElementById('appToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'appToast';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:1000;opacity:0;transition:opacity 0.3s;max-width:90vw;text-align:center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        /* ---------- Navbar notification / chat panels ---------- */
+        function toggleNotifPanel() {
+            const panel = document.getElementById('notifPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (e) {
+            const notifPanel = document.getElementById('notifPanel');
+            const notifBtn = document.getElementById('notifBtn');
+            if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
+                notifPanel.style.display = 'none';
+            }
+        });
+
+        /* ---------- Tab switching (Instrument Rentals / Band Booking / Bundles) ---------- */
+        const TAB_HASHES = { instrument: 'tab-instrument', band: 'tab-band', bundles: 'tab-bundles' };
+
+        function activateTab(tabId) {
+            document.querySelectorAll('.market-tab').forEach(t => t.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('[data-tab]').forEach(link => {
+                link.classList.toggle('active', link.dataset.tab === tabId);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('[data-tab]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                activateTab(this.dataset.tab);
+                const hash = Object.keys(TAB_HASHES).find(key => TAB_HASHES[key] === this.dataset.tab);
+                if (hash) history.replaceState(null, '', '#' + hash);
+            });
+        });
+
+        (function () {
+            const hash = window.location.hash.replace('#', '');
+            if (TAB_HASHES[hash]) activateTab(TAB_HASHES[hash]);
+        })();
+
+        /* ---------- Load search query from URL (e.g. redirected from support.html) ----------
+           The actual filtering runs from the module script below, once the real listings have
+           finished loading — applyFilters() here would run against an still-empty grid, since
+           the module script's Firestore fetch hasn't resolved yet at this point. */
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('q');
+            if (q) {
+                document.getElementById('navSearchInput').value = q;
+                activateTab('tab-instrument');
+                history.replaceState(null, '', '#instrument');
+            }
+        })();
+        window.applyFilters = applyFilters;
+
+        /* ---------- Navbar search (routes to the relevant tab) ---------- */
+        function handleNavSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('navSearchInput').value.trim();
+            const activeTab = document.querySelector('.market-tab.active').id;
+            if (activeTab === 'tab-band') {
+                filterBandsBySearch(q);
+            } else {
+                activateTab('tab-instrument');
+                history.replaceState(null, '', '#instrument');
+                applyFilters(q.toLowerCase());
+            }
+            return false;
+        }
+
+        /* ================= Instrument Rentals logic ================= */
+        function getCheckedCategories() {
+            return Array.from(document.querySelectorAll('#tab-instrument .checkbox-list input[type="checkbox"]:checked'))
+                .map(cb => cb.parentElement.textContent.trim());
+        }
+
+        function applyFilters(searchTerm) {
+            searchTerm = (searchTerm !== undefined ? searchTerm : document.getElementById('navSearchInput').value).toLowerCase();
+            const categories = getCheckedCategories();
+            const maxPrice = parseInt(document.getElementById('priceRange').value, 10);
+            const condition = document.getElementById('conditionFilter').value;
+            const cards = document.querySelectorAll('#tab-instrument .instrument-grid .card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cat = card.dataset.category;
+                const price = parseInt(card.dataset.price, 10);
+                const cond = card.dataset.condition;
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                let show = true;
+
+                if (categories.length > 0 && !categories.includes(cat)) show = false;
+                if (price > maxPrice) show = false;
+                if (condition !== 'All Conditions' && cond !== condition) show = false;
+                if (searchTerm && !title.includes(searchTerm)) show = false;
+
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            document.getElementById('resultsCountNum').textContent = visibleCount;
+            showToast('Filters applied — ' + visibleCount + ' instrument' + (visibleCount === 1 ? '' : 's') + ' found.');
+        }
+
+        document.getElementById('applyFiltersBtn').addEventListener('click', function () {
+            applyFilters();
+        });
+
+        document.getElementById('priceRange').addEventListener('input', function () {
+            document.getElementById('priceCurrentValue').textContent = 'Up to RM' + this.value + '/day';
+        });
+
+        document.getElementById('sortBySelect').addEventListener('change', function () {
+            const grid = document.querySelector('#tab-instrument .instrument-grid');
+            const cards = Array.from(grid.querySelectorAll('.card'));
+            if (this.value === 'Price: Low to High') {
+                cards.sort((a, b) => parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10));
+            } else {
+                cards.sort((a, b) => parseInt(a.dataset.order, 10) - parseInt(b.dataset.order, 10));
+            }
+            cards.forEach(c => grid.appendChild(c));
+            showToast('Sorted by "' + this.value + '".');
+        });
+
+        // (chat-btn clicks are now wired per-card in the module script below, since real
+        // listings are rendered dynamically and need to start a real conversation)
+
+        let currentPage = 1;
+        const totalPages = 12;
+        function updatePagination() {
+            document.getElementById('pageInfo').innerHTML = 'Page <span>' + currentPage + '</span> of ' + totalPages;
+        }
+        document.getElementById('prevPageBtn').addEventListener('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                showToast('Loading page ' + currentPage + '...');
+            }
+        });
+        document.getElementById('nextPageBtn').addEventListener('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                showToast('Loading page ' + currentPage + '...');
+            }
+        });
+
+        /* ================= Band Booking logic ================= */
+        function filterBandsBySearch(q) {
+            const cards = document.querySelectorAll('#tab-band .marketplace-grid .card');
+            let count = 0;
+            cards.forEach(card => {
+                const title = card.querySelector('.text-headline-md').textContent.toLowerCase();
+                const show = q === '' || title.includes(q.toLowerCase());
+                card.style.display = show ? '' : 'none';
+                if (show) count++;
+            });
+            showToast(count + ' matching act' + (count === 1 ? '' : 's') + ' for "' + q + '".');
+        }
+
+        function applyBandFilters() {
+            const activeChip = document.querySelector('#genreChips .chip.active');
+            const genre = activeChip ? activeChip.textContent.trim() : 'All Genres';
+            const size = document.getElementById('bandSizeSelect').value;
+            const cards = document.querySelectorAll('#tab-band .marketplace-grid .card');
+            let count = 0;
+            cards.forEach(card => {
+                let show = true;
+                if (genre !== 'All Genres' && !(card.dataset.genre || '').includes(genre)) show = false;
+                if (size !== 'Band Size' && card.dataset.size !== size) show = false;
+                card.style.display = show ? '' : 'none';
+                if (show) count++;
+            });
+            showToast(count + ' matching act' + (count === 1 ? '' : 's') + ' found.');
+        }
+
+        document.querySelectorAll('#genreChips .chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                document.querySelectorAll('#genreChips .chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                applyBandFilters();
+            });
+        });
+
+        document.getElementById('bandSizeSelect').addEventListener('change', applyBandFilters);
+
+        document.getElementById('moreFiltersBtn').addEventListener('click', function () {
+            showToast('More filters (rate, location, availability) coming soon!');
+        });
+
+        // (btn-booking clicks are now wired per-card in the module script below, for the same
+        // reason as the instrument chat-btn above)
+
+        document.querySelectorAll('#tab-band .bundle-actions .btn-primary, #tab-band .savings-box .btn-dark').forEach(btn => {
+            btn.addEventListener('click', function () {
+                showToast('Opening chat with your event coordinator...');
+                setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
+            });
+        });
+        document.querySelectorAll('#tab-band .bundle-actions .btn-outline').forEach(btn => {
+            btn.addEventListener('click', function () {
+                showToast(this.textContent.trim() + ' — full specs will be shown here shortly!');
+            });
+        });
+
+        /* ================= Bundles logic ================= */
+        document.getElementById('discussGalaBtn').addEventListener('click', function () {
+            showToast('Opening chat with a coordinator about the Grand Gala Ensemble...');
+            setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
+        });
+        document.getElementById('technicalRiderBtn').addEventListener('click', function () {
+            showToast('Technical rider PDF will be emailed to you shortly.');
+        });
+        document.querySelectorAll('#tab-bundles .card-content .btn.w-full').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const title = this.closest('.card-content').querySelector('.card-title').textContent;
+                showToast('Opening chat about "' + title + '"...');
+                setTimeout(() => { window.location.href = 'chatnego.html'; }, 600);
+            });
+        });
+        document.getElementById('scheduleConsultBtn').addEventListener('click', function () {
+            showToast('Consultation request received — our specialists will reach out soon!');
+        });
+        document.getElementById('browseAssetsBtn').addEventListener('click', function () {
+            activateTab('tab-instrument');
+            history.replaceState(null, '', '#instrument');
+        });
+
+        /* ---------- Newsletter subscribe (shared) ---------- */
+        document.getElementById('newsletterBtn').addEventListener('click', function () {
+            const input = document.getElementById('newsletterInput');
+            const email = input.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showToast('Please enter a valid email address.');
+                return;
+            }
+            showToast('Subscribed! Watch your inbox for gear drops and talent availability.');
+            input.value = '';
+        });
+    </script>
+</body>
+
+</html>
