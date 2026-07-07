@@ -782,7 +782,7 @@ body {
 
     <!-- Center: Chat Window -->
     <section class="chat-main-col">
-        <div class="chat-container">
+        <div class="chat-container" id="chatContainer">
             <div class="chat-header">
                 <div class="user-info">
                     <div class="avatar-status">
@@ -1042,9 +1042,16 @@ body {
         area.scrollTop = area.scrollHeight;
     }
 
+    /* Hides the whole chat window (header, listing strip, messages, input) when there's
+       no conversation to show, instead of leaving the static placeholder markup visible. */
+    function setChatContainerVisible(visible) {
+        document.getElementById('chatContainer').style.display = visible ? '' : 'none';
+    }
+
     function openConversation(convoId) {
         const convo = conversationsCache.find(c => c.id === convoId);
         if (!convo) return;
+        setChatContainerVisible(true);
         activeConversationId = convoId;
         document.querySelectorAll('.conversation-item').forEach(item => {
             item.classList.toggle('active', item.dataset.convo === convoId);
@@ -1067,7 +1074,10 @@ body {
         });
         renderConversationList();
 
-        if (conversationsCache.length === 0) return;
+        if (conversationsCache.length === 0) {
+            setChatContainerVisible(false);
+            return;
+        }
         const params = new URLSearchParams(window.location.search);
         const wanted = params.get('convo');
         const target = conversationsCache.find(c => c.id === wanted) || conversationsCache[0];
@@ -1185,6 +1195,7 @@ body {
             if (conversationsCache.length) {
                 openConversation(conversationsCache[0].id);
             } else {
+                setChatContainerVisible(false);
                 history.replaceState(null, '', 'chat.html');
             }
             showToast(other.name + ' has been blocked.');

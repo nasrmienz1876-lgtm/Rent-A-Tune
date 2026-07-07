@@ -78,3 +78,6 @@ Task:
 		1. If user didn't Login, change the profile to button Login/SignUp
 		2. If user already Login, the profile will have at top nav bar
 			- Make the profile where user can click and view their profile details, edit some details, add profile photo, and etc
+
+Task:
+- In chat.html, if user don't have chat with anyone then chat container will be nothing
