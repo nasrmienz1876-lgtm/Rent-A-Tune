@@ -1576,6 +1576,7 @@ body {
                             </button>
                             <div class="more-filters-panel" id="moreFiltersPanel">
                                 <button type="button" class="filter-option" data-sort="Top Rating">Top Rating</button>
+                                <button type="button" class="filter-option" data-sort="Latest">Latest</button>
                                 <button type="button" class="filter-option" data-sort="Price: Low to High">Price: Low to High</button>
                                 <button type="button" class="filter-option" data-sort="Price: High to Low">Price: High to Low</button>
                             </div>
@@ -1925,6 +1926,7 @@ body {
             card.dataset.size = listing.members || '';
             card.dataset.price = listing.price;
             card.dataset.rating = listing.rating || 0;
+            card.dataset.createdAt = (listing.createdAt && typeof listing.createdAt.toMillis === 'function') ? listing.createdAt.toMillis() : 0;
             card.dataset.listingId = listing.id;
 
             const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
@@ -2238,6 +2240,8 @@ body {
                 cards.sort((a, b) => parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10));
             } else if (sortValue === 'Price: High to Low') {
                 cards.sort((a, b) => parseInt(b.dataset.price, 10) - parseInt(a.dataset.price, 10));
+            } else if (sortValue === 'Latest') {
+                cards.sort((a, b) => parseInt(b.dataset.createdAt, 10) - parseInt(a.dataset.createdAt, 10));
             } else {
                 // 'Top Rating' (default) — highest star rating first
                 cards.sort((a, b) => parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating));
