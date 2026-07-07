@@ -1,0 +1,46 @@
+Read and analyze all the files and understand how the website work. Don't change anything I didn't ask for. Do the task in order, make sure first task at the top is done then continue to second and so on.
+
+Task:
+- Make all files in /Rent A Tune organize according to my preference:
+/Rent A Tune
+    /!
+        /1.txt
+        /admin.txt
+        /backend.txt
+        /renter.txt
+        /user.txt
+    /pages
+        /admin
+            /admin.html
+        /renter
+            renter.html
+        /user
+            /chatnego.html
+            /checkout.html
+            /home.html
+            /login.html
+            /marketplace.html
+            /support.html
+    /shared
+        /auth-helpers.js
+        /firebase-init.js
+        /firestore-helpers.js
+        /firebase.txt
+        /firebase.rules
+    /images
+        /home_hero_bg.jpg
+        /signup_login.png
+        /user_profile.jpg
+    /DESIGN.md
+    /index.html
+    /vercel.json
+- Check all the files that connected to other pages or directory, make sure their name of files and location of directory follow the changes that have been made
+- Please change /shared folder to /firebase
+- Check all files if there are any effected because of the changes, fix it
+
+Task:
+- In home.html:
+    - Remove search box
+- In marketplace.html#instrument:
+    - Remove "Rent A Tune Secure Escrow Protection" box at the top
+    - 

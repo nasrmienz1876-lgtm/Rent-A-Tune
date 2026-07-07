@@ -553,7 +553,7 @@
                 <span class="material-symbols-outlined">chat</span>
             </button>
             <a href="login.html" id="profileLink">
-                <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+                <img alt="Profile" class="user-profile" src="../../images/user_profile.jpg" />
             </a>
         </div>
     </div>
@@ -722,8 +722,8 @@
     </div>
 </footer>
 <script type="module">
-    import { requireAuth, renderAuthNav } from '../shared/auth-helpers.js';
-    import { getOne, createDoc, updateDocFields } from '../shared/firestore-helpers.js';
+    import { requireAuth, renderAuthNav } from '../../firebase/auth-helpers.js';
+    import { getOne, createDoc, updateDocFields } from '../../firebase/firestore-helpers.js';
 
     renderAuthNav('profileLink');
 
@@ -761,7 +761,7 @@
     const platformFee = Math.round(subtotal * PLATFORM_FEE_RATE * 100) / 100;
     const total = Math.round((subtotal + deliveryFee + platformFee) * 100) / 100;
 
-    document.getElementById('checkoutProductImg').src = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+    document.getElementById('checkoutProductImg').src = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
     document.getElementById('checkoutStatusBadge').textContent =
         (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
     document.getElementById('checkoutTitle').textContent = listing.title;

@@ -843,7 +843,7 @@ body {
                 <span class="material-symbols-outlined chat-active-icon">chat</span>
             </button>
             <a href="login.html" id="profileLink">
-                <img alt="Profile" class="user-profile" src="../images/user_profile.jpg" />
+                <img alt="Profile" class="user-profile" src="../../images/user_profile.jpg" />
             </a>
         </div>
     </div>
@@ -1009,7 +1009,7 @@ body {
 </footer>
 
 <script type="module">
-    import { renderAuthNav } from '../shared/auth-helpers.js';
+    import { renderAuthNav } from '../../firebase/auth-helpers.js';
     renderAuthNav('profileLink');
 </script>
 <script>
@@ -1054,11 +1054,11 @@ body {
 </script>
 
 <script type="module">
-    import { requireAuth } from '../shared/auth-helpers.js';
+    import { requireAuth } from '../../firebase/auth-helpers.js';
     import {
         getMany, updateDocFields, createSubDoc, subscribeToSubQuery,
         where, orderBy, serverTimestamp, escapeHtml
-    } from '../shared/firestore-helpers.js';
+    } from '../../firebase/firestore-helpers.js';
 
     const { uid: myUid } = await requireAuth(null, '../user/login.html');
 
@@ -1081,7 +1081,7 @@ body {
         const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
         div.innerHTML =
-            '<div class="conversation-avatar"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../images/user_profile.jpg') + '"/></div>' +
+            '<div class="conversation-avatar"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../../images/user_profile.jpg') + '"/></div>' +
             '<div class="conversation-body">' +
                 '<div class="conversation-top-row"><span class="conversation-name">' + escapeHtml(other.name) + '</span><span class="conversation-time">' + escapeHtml(timeLabel) + '</span></div>' +
                 '<div class="conversation-item-title">' + escapeHtml(convo.listingTitle || '') + '</div>' +
@@ -1100,10 +1100,10 @@ body {
 
     function updateActiveHeader(convo) {
         const other = otherParticipant(convo);
-        document.getElementById('activeAvatar').src = convo.listingImage || '../images/user_profile.jpg';
+        document.getElementById('activeAvatar').src = convo.listingImage || '../../images/user_profile.jpg';
         document.getElementById('activeName').textContent = other.name;
         document.getElementById('activeStatus').textContent = '';
-        document.getElementById('listingImg').src = convo.listingImage || '../images/user_profile.jpg';
+        document.getElementById('listingImg').src = convo.listingImage || '../../images/user_profile.jpg';
         document.getElementById('listingTitle').textContent = convo.listingTitle || '';
         document.getElementById('listingPrice').textContent = convo.listingPrice ? ('RM' + convo.listingPrice) : '';
         const status = convo.status || 'negotiation';
@@ -1122,7 +1122,7 @@ body {
                 : '';
             let inner = '';
             if (!isMine) {
-                inner += '<img alt="" class="message-avatar" src="../images/user_profile.jpg"/>';
+                inner += '<img alt="" class="message-avatar" src="../../images/user_profile.jpg"/>';
             }
             inner += '<div class="bubble"><p></p><span class="message-time">' + escapeHtml(time) + '</span></div>';
             wrap.innerHTML = inner;

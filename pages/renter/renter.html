@@ -1971,7 +1971,7 @@ header {
                         <p class="profile-role" id="profileRoleText">Renter</p>
                     </div>
                     <div class="avatar">
-                        <img alt="Renter User Avatar" src="../images/user_profile.jpg" />
+                        <img alt="Renter User Avatar" src="../../images/user_profile.jpg" />
                     </div>
                 </div>
             </div>
@@ -2670,11 +2670,11 @@ header {
     </script>
 
     <script type="module">
-        import { requireAuth, logOut } from '../shared/auth-helpers.js';
+        import { requireAuth, logOut } from '../../firebase/auth-helpers.js';
         import {
             getMany, createDoc, updateDocFields, removeDoc, createSubDoc,
             subscribeToSubQuery, where, orderBy, serverTimestamp
-        } from '../shared/firestore-helpers.js';
+        } from '../../firebase/firestore-helpers.js';
 
         function escapeHtml(str) {
             const div = document.createElement('div');
@@ -2705,7 +2705,7 @@ header {
             card.dataset.listingId = listing.id;
 
             const isBand = listing.listingType === 'band';
-            const img = (listing.photos && listing.photos[0]) || '../images/user_profile.jpg';
+            const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
             const statusClass = listing.status === 'rented' ? ' rented' : (listing.status === 'pending' ? ' pending' : '');
             const statusLabel = (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
             const badgeTypeStyle = isBand ? ' style="background: var(--secondary); color: white;"' : '';
@@ -2917,7 +2917,7 @@ header {
             const lastAt = convo.lastMessageAt && convo.lastMessageAt.toDate ? convo.lastMessageAt.toDate() : null;
             const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
             div.innerHTML =
-                '<div class="avatar-wrap"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../images/user_profile.jpg') + '" /></div>' +
+                '<div class="avatar-wrap"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../../images/user_profile.jpg') + '" /></div>' +
                 '<div class="chat-list-item-body">' +
                     '<div class="chat-list-item-top"><span class="name">' + escapeHtml(other.name) + '</span><span class="time">' + escapeHtml(timeLabel) + '</span></div>' +
                     '<p class="item-title">' + escapeHtml(convo.listingTitle || '') + '</p>' +
@@ -2946,7 +2946,7 @@ header {
                     : '';
                 let inner = '';
                 if (!isMine) {
-                    inner += '<img alt="" src="../images/user_profile.jpg" />';
+                    inner += '<img alt="" src="../../images/user_profile.jpg" />';
                 }
                 inner += '<div class="message-bubble"><p></p><span class="msg-time">' + escapeHtml(time) + '</span></div>';
                 wrap.innerHTML = inner;

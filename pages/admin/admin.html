@@ -1536,7 +1536,7 @@
                                 <p class="v-text">"DM me on Instagram @user"</p>
                                 <div class="v-user">
                                     <div class="v-avatar">
-                                        <img alt="" src="../images/user_profile.jpg" />
+                                        <img alt="" src="../../images/user_profile.jpg" />
                                     </div>
                                     <span>Myself Renter → Nur Lisa</span>
                                 </div>
@@ -1551,7 +1551,7 @@
                                 <p class="v-text">"Call me at 0123456789"</p>
                                 <div class="v-user">
                                     <div class="v-avatar">
-                                        <img alt="" src="../images/user_profile.jpg" />
+                                        <img alt="" src="../../images/user_profile.jpg" />
                                     </div>
                                     <span>Mohd Drake → Music Pro</span>
                                 </div>
@@ -1566,7 +1566,7 @@
                                 <p class="v-text">"Let's discuss on Instagram @user"</p>
                                 <div class="v-user">
                                     <div class="v-avatar">
-                                        <img alt="" src="../images/user_profile.jpg" />
+                                        <img alt="" src="../../images/user_profile.jpg" />
                                     </div>
                                     <span>Ahmad Travis → Play Music</span>
                                 </div>
@@ -2498,8 +2498,8 @@
     </script>
 
     <script type="module">
-        import { requireAuth, logOut } from '../shared/auth-helpers.js';
-        import { getMany, removeDoc, updateDocFields, escapeHtml } from '../shared/firestore-helpers.js';
+        import { requireAuth, logOut } from '../../firebase/auth-helpers.js';
+        import { getMany, removeDoc, updateDocFields, escapeHtml } from '../../firebase/firestore-helpers.js';
 
         const { profile } = await requireAuth(['admin'], '../user/login.html');
         document.getElementById('profileNameText').textContent = profile.fullName || profile.username || 'Admin';

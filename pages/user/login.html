@@ -479,7 +479,7 @@ input:focus {
         <!-- Left Side: Brand Marketing Content -->
         <section class="marketing-section">
             <div class="background-wrapper">
-                <img class="background-image" data-alt="A cinematic, high-contrast shot of a professional music stage before a performance. Soft golden stage lights pierce through a light haze, illuminating high-end musical equipment including a vintage guitar on a stand and a grand piano. The color palette is dominated by deep charcoals and warm musical golds, reflecting a premium, professional musical atmosphere with a clean light-mode aesthetic in the highlights." src="../images/signup_login.png" />
+                <img class="background-image" data-alt="A cinematic, high-contrast shot of a professional music stage before a performance. Soft golden stage lights pierce through a light haze, illuminating high-end musical equipment including a vintage guitar on a stand and a grand piano. The color palette is dominated by deep charcoals and warm musical golds, reflecting a premium, professional musical atmosphere with a clean light-mode aesthetic in the highlights." src="../../images/signup_login.png" />
                 <div class="background-overlay"></div>
             </div>
 
@@ -636,8 +636,8 @@ input:focus {
     <script type="module">
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-        import { auth, db } from '../shared/firebase-init.js';
-        import { signUp, logIn, resetPassword, ROLE_HOME } from '../shared/auth-helpers.js';
+        import { auth, db } from '../../firebase/firebase-init.js';
+        import { signUp, logIn, resetPassword, ROLE_HOME } from '../../firebase/auth-helpers.js';
 
         /* ---------- Toast helper ---------- */
         function showToast(msg) {
