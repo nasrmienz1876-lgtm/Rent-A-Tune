@@ -37,3 +37,16 @@ Task:
 - Check all the files that connected to other pages or directory, make sure their name of files and location of directory follow the changes that have been made
 - Please change /shared folder to /firebase
 - Check all files if there are any effected because of the changes, fix it
+
+Task:
+- In renter.html
+    - Overview
+        - Make all the information in overview sync to the data of renter
+    - My Inventory
+        - Same goes to my inventory. Make all the information sync to data of renter
+    - Chats
+        - Make the request payment function. When renter enable it, user can click and can make payment to buy what have been discussed
+        - If renter didn't have any chat from user, then make the chat window have nothing 
+    - List New
+        - Make bundles listing
+        - Make the listing details that suit. Maybe find information for listing at "marketplace.html#bundles" for example of what to put in listing details

@@ -1665,6 +1665,12 @@ header {
     gap: 16px;
 }
 
+#page-listnew .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
 #page-listnew .grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1991,12 +1997,9 @@ header {
                             <div class="icon-box blue-box">
                                 <span class="material-symbols-outlined filled-icon">payments</span>
                             </div>
-                            <span class="trend text-primary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +25%
-                            </span>
                         </div>
                         <p class="card-label">Total Revenue</p>
-                        <h3 class="card-value">RM1,234.56</h3>
+                        <h3 class="card-value" id="totalRevenueValue">RM0.00</h3>
                     </div>
 
                     <div class="card">
@@ -2004,12 +2007,9 @@ header {
                             <div class="icon-box light-blue-box">
                                 <span class="material-symbols-outlined filled-icon">group</span>
                             </div>
-                            <span class="trend text-primary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +12%
-                            </span>
                         </div>
                         <p class="card-label">Total Rentals</p>
-                        <h3 class="card-value">30</h3>
+                        <h3 class="card-value" id="totalRentalsValue">0</h3>
                     </div>
 
                     <div class="card">
@@ -2017,12 +2017,9 @@ header {
                             <div class="icon-box yellow-box">
                                 <span class="material-symbols-outlined filled-icon">star</span>
                             </div>
-                            <span class="trend text-secondary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +8%
-                            </span>
                         </div>
                         <p class="card-label">Ratings</p>
-                        <h3 class="card-value">4.8</h3>
+                        <h3 class="card-value" id="ratingsValue">—</h3>
                     </div>
 
                     <div class="card">
@@ -2030,10 +2027,10 @@ header {
                             <div class="icon-box red-box">
                                 <span class="material-symbols-outlined filled-icon">chat</span>
                             </div>
-                            <span class="urgent-tag">Attention</span>
+                            <span class="urgent-tag" id="pendingInquiriesTag" style="display:none;">Attention</span>
                         </div>
                         <p class="card-label">Pending Inquiries</p>
-                        <h3 class="card-value">12</h3>
+                        <h3 class="card-value" id="pendingInquiriesValue">0</h3>
                     </div>
                 </section>
 
@@ -2056,93 +2053,9 @@ header {
                                     <th style="text-align: right;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="inquiriesTbody">
-                                <tr>
-                                    <td>
-                                        <div class="user-cell">
-                                            <div class="user-initials">HD</div>
-                                            <div class="user-cell-text">
-                                                <span class="name">Harris Danniel</span>
-                                                <span class="id">ID: #U5</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Kamaka Ukulele</td>
-                                    <td>
-                                        <span class="status-pill pill-red">
-                                            <span class="dot dot-red"></span> Unopened
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <button class="view-btn">Chat</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="user-cell">
-                                            <div class="user-initials">AT</div>
-                                            <div class="user-cell-text">
-                                                <span class="name">Ahmad Travis</span>
-                                                <span class="id">ID: #U9</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Yamaha Grand Piano</td>
-                                    <td>
-                                        <span class="status-pill pill-yellow">
-                                            <span class="dot dot-yellow"></span> Discussing
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <button class="view-btn">Chat</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="user-cell">
-                                            <div class="user-initials">AR</div>
-                                            <div class="user-cell-text">
-                                                <span class="name">Ali Rahman</span>
-                                                <span class="id">ID: #U1</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Yamaha P125</td>
-                                    <td>
-                                        <span class="status-pill pill-yellow">
-                                            <span class="dot dot-yellow"></span> Discussing
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <button class="view-btn">Chat</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="user-cell">
-                                            <div class="user-initials">NM</div>
-                                            <div class="user-cell-text">
-                                                <span class="name">Nasr Muhaimin</span>
-                                                <span class="id">ID: #U2</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Kawai ES120 Electric Piano</td>
-                                    <td>
-                                        <span class="status-pill pill-green">
-                                            <span class="dot dot-green"></span> Completed
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <button class="details-btn">Details</button>
-                                    </td>
-                                </tr>
-
-                            </tbody>
+                            <tbody id="inquiriesTbody"></tbody>
                         </table>
+                        <p id="inquiriesEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No inquiries yet.</p>
                     </div>
                 </section>
             </div>
@@ -2163,15 +2076,15 @@ header {
                     </div>
                     <div class="stat-card">
                         <p class="stat-label">Active Rentals</p>
-                        <div class="stat-value blue">1</div>
+                        <div class="stat-value blue" id="activeRentalsStat">0</div>
                     </div>
                     <div class="stat-card">
                         <p class="stat-label">Upcoming Performance</p>
-                        <div class="stat-value gold">3</div>
+                        <div class="stat-value gold" id="upcomingPerformanceStat">0</div>
                     </div>
                     <div class="stat-card">
                         <p class="stat-label">Monthly Earnings</p>
-                        <div class="stat-value">RM 1,234</div>
+                        <div class="stat-value" id="monthlyEarningsStat">RM 0</div>
                     </div>
                 </section>
 
@@ -2180,6 +2093,7 @@ header {
                         <button class="filter-btn active" data-filter="all">All Items</button>
                         <button class="filter-btn" data-filter="instrument">Instruments</button>
                         <button class="filter-btn" data-filter="band">Bands</button>
+                        <button class="filter-btn" data-filter="bundle">Bundles</button>
                     </div>
                     <div class="search-container">
                         <span class="material-symbols-outlined search-icon">search</span>
@@ -2212,7 +2126,7 @@ header {
                         <p id="chatListEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 24px 16px;">No conversations yet.</p>
                     </div>
 
-                    <div class="chat-window-panel">
+                    <div class="chat-window-panel" id="chatWindowPanel">
                         <div class="chat-window-header">
                             <div class="chat-window-user">
                                 <div class="avatar-wrap">
@@ -2333,7 +2247,7 @@ header {
                             <p>Choose the type of listing you want to create.</p>
                         </div>
 
-                        <div class="grid-2">
+                        <div class="grid-3">
                             <label class="selection-card">
                                 <input checked="" id="typeInstrument" name="listing_type" type="radio" value="instrument" />
                                 <div class="card-content">
@@ -2357,6 +2271,20 @@ header {
                                     <div>
                                         <span style="display: block; font-weight: 600; font-size: 14px;">Band / Ensemble</span>
                                         <span style="display: block; font-size: 14px; color: var(--on-surface-variant); margin-top: 4px;">Live band, string quartet, jazz trio...</span>
+                                    </div>
+                                </div>
+                                <span class="material-symbols-outlined check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            </label>
+
+                            <label class="selection-card">
+                                <input id="typeBundle" name="listing_type" type="radio" value="bundle" />
+                                <div class="card-content">
+                                    <div class="type-icon">
+                                        <span class="material-symbols-outlined" style="font-size: 32px;">inventory_2</span>
+                                    </div>
+                                    <div>
+                                        <span style="display: block; font-weight: 600; font-size: 14px;">Bundle</span>
+                                        <span style="display: block; font-size: 14px; color: var(--on-surface-variant); margin-top: 4px;">Full event package, gear + band...</span>
                                     </div>
                                 </div>
                                 <span class="material-symbols-outlined check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
@@ -2487,6 +2415,85 @@ header {
                         </div>
                     </section>
 
+                    <section id="bundleDetailsSection" style="display: none;">
+                        <div class="section-header">
+                            <h3>Listing Details</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Bundle Name</label>
+                            <input id="bundleName" placeholder="e.g. The Grand Gala Ensemble" type="text" />
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="bundleCategory">
+                                    <option>Orchestral</option>
+                                    <option>Live/Rock</option>
+                                    <option>Jazz</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Price (RM) / Event</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon">RM</span>
+                                    <input id="bundlePrice" placeholder="e.g. 12500" type="number" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="bundleDescription" placeholder="Describe the full bundle package — what makes it special, ideal event types, etc..." rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location</label>
+                            <div class="input-with-icon">
+                                <span class="material-symbols-outlined input-icon">location_on</span>
+                                <input id="bundleLocation" placeholder="e.g. Kuala Lumpur" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="section-header" style="margin-top: 24px;">
+                            <h3>What's Included</h3>
+                            <p>List up to 3 key highlights included in this bundle (shown on the listing).</p>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Highlight 1</label>
+                                <input id="bundleFeature1Label" placeholder="e.g. Steinway &amp; Sons Model D Grand" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label>Highlight 1 Detail</label>
+                                <input id="bundleFeature1Sub" placeholder="e.g. 24-Piece String &amp; Brass Section" type="text" />
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Highlight 2</label>
+                                <input id="bundleFeature2Label" placeholder="e.g. 48-Channel Digital Audio Console" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label>Highlight 2 Detail</label>
+                                <input id="bundleFeature2Sub" placeholder="e.g. Wireless In-Ear Monitoring System" type="text" />
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Highlight 3</label>
+                                <input id="bundleFeature3Label" placeholder="e.g. Professional Stage Lighting Rig" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label>Highlight 3 Detail</label>
+                                <input id="bundleFeature3Sub" placeholder="e.g. On-Site Technical Supervisor" type="text" />
+                            </div>
+                        </div>
+                    </section>
+
                     <section>
                         <div class="section-header">
                             <h3>Photos</h3>
@@ -2530,19 +2537,8 @@ header {
         }
 
         // --- Overview page interactivity ---
-        document.getElementById('inquiriesTbody').addEventListener('click', function (e) {
-            const row = e.target.closest('tr');
-            if (!row) return;
-            const name = row.querySelector('.user-cell-text .name').textContent.trim();
-            const item = row.children[1].textContent.trim();
-
-            if (e.target.closest('.view-btn')) {
-                // "Chat" button -> switch to the Chats tab
-                showRenterPage('chat');
-            } else if (e.target.closest('.details-btn')) {
-                alert('Inquiry Details\nRenter: ' + name + '\nItem: ' + item);
-            }
-        });
+        // (Recent Inquiries rows are rendered from real conversations, and their Chat/Details
+        // clicks handled, in the module script below — since both need real Firestore data.)
 
         // --- My Inventory page interactivity ---
         // (data-category is set directly when each real listing card is rendered — see the module script)
@@ -2648,20 +2644,19 @@ header {
         // --- List New page interactivity ---
         const instrumentRadio = document.getElementById('typeInstrument');
         const bandRadio = document.getElementById('typeBand');
+        const bundleRadio = document.getElementById('typeBundle');
         const instrumentSection = document.getElementById('instrumentDetailsSection');
         const bandSection = document.getElementById('bandDetailsSection');
+        const bundleSection = document.getElementById('bundleDetailsSection');
 
         function toggleListingType() {
-            if (bandRadio.checked) {
-                instrumentSection.style.display = 'none';
-                bandSection.style.display = '';
-            } else {
-                instrumentSection.style.display = '';
-                bandSection.style.display = 'none';
-            }
+            instrumentSection.style.display = instrumentRadio.checked ? '' : 'none';
+            bandSection.style.display = bandRadio.checked ? '' : 'none';
+            bundleSection.style.display = bundleRadio.checked ? '' : 'none';
         }
         instrumentRadio.addEventListener('change', toggleListingType);
         bandRadio.addEventListener('change', toggleListingType);
+        bundleRadio.addEventListener('change', toggleListingType);
         toggleListingType();
         window.toggleListingType = toggleListingType;
 
@@ -2705,12 +2700,13 @@ header {
             card.dataset.listingId = listing.id;
 
             const isBand = listing.listingType === 'band';
+            const isBundle = listing.listingType === 'bundle';
             const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
             const statusClass = listing.status === 'rented' ? ' rented' : (listing.status === 'pending' ? ' pending' : '');
             const statusLabel = (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
-            const badgeTypeStyle = isBand ? ' style="background: var(--secondary); color: white;"' : '';
-            const badgeTypeLabel = isBand ? 'Band' : (listing.category || 'Instrument');
-            const priceUnit = isBand ? '/show' : '/day';
+            const badgeTypeStyle = (isBand || isBundle) ? ' style="background: var(--secondary); color: white;"' : '';
+            const badgeTypeLabel = isBundle ? 'Bundle' : (isBand ? 'Band' : (listing.category || 'Instrument'));
+            const priceUnit = isBundle ? '/event' : (isBand ? '/show' : '/day');
 
             card.innerHTML =
                 '<div class="card-image">' +
@@ -2799,9 +2795,23 @@ header {
         function populateListingForm(listing) {
             editingListingId = listing.id;
             const isBand = listing.listingType === 'band';
-            document.getElementById(isBand ? 'typeBand' : 'typeInstrument').checked = true;
+            const isBundle = listing.listingType === 'bundle';
+            document.getElementById(isBundle ? 'typeBundle' : (isBand ? 'typeBand' : 'typeInstrument')).checked = true;
             window.toggleListingType();
-            if (isBand) {
+            if (isBundle) {
+                document.getElementById('bundleName').value = listing.title || '';
+                document.getElementById('bundleCategory').value = listing.category || '';
+                document.getElementById('bundlePrice').value = listing.price || '';
+                document.getElementById('bundleDescription').value = listing.description || '';
+                document.getElementById('bundleLocation').value = listing.location || '';
+                const features = listing.features || [];
+                document.getElementById('bundleFeature1Label').value = (features[0] && features[0].label) || '';
+                document.getElementById('bundleFeature1Sub').value = (features[0] && features[0].sub) || '';
+                document.getElementById('bundleFeature2Label').value = (features[1] && features[1].label) || '';
+                document.getElementById('bundleFeature2Sub').value = (features[1] && features[1].sub) || '';
+                document.getElementById('bundleFeature3Label').value = (features[2] && features[2].label) || '';
+                document.getElementById('bundleFeature3Sub').value = (features[2] && features[2].sub) || '';
+            } else if (isBand) {
                 document.getElementById('bandName').value = listing.title || '';
                 document.getElementById('bandCategory').value = listing.category || '';
                 document.getElementById('bandMembers').value = listing.members || '';
@@ -2838,34 +2848,61 @@ header {
         document.querySelector('.listing-form').addEventListener('submit', async function (e) {
             e.preventDefault();
             const isBand = document.getElementById('typeBand').checked;
+            const isBundle = document.getElementById('typeBundle').checked;
             const photos = document.getElementById('photoUrlsInput').value.split(',').map(s => s.trim()).filter(Boolean);
 
-            const data = isBand ? {
-                listingType: 'band',
-                title: document.getElementById('bandName').value.trim(),
-                category: document.getElementById('bandCategory').value,
-                members: document.getElementById('bandMembers').value.trim(),
-                description: document.getElementById('bandDescription').value.trim(),
-                price: parseFloat(document.getElementById('bandPrice').value),
-                priceUnit: 'show',
-                location: document.getElementById('bandLocation').value.trim(),
-                availability: document.getElementById('bandAvailability').value
-            } : {
-                listingType: 'instrument',
-                title: document.getElementById('instrumentName').value.trim(),
-                category: document.getElementById('instrumentCategory').value,
-                brand: document.getElementById('instrumentBrand').value.trim(),
-                description: document.getElementById('instrumentDescription').value.trim(),
-                price: parseFloat(document.getElementById('instrumentPrice').value),
-                priceUnit: 'day',
-                location: document.getElementById('instrumentLocation').value.trim(),
-                availability: document.getElementById('instrumentAvailability').value
-            };
+            let data;
+            let requiredValues;
+            let typeLabel;
+            if (isBundle) {
+                const features = [
+                    { label: document.getElementById('bundleFeature1Label').value.trim(), sub: document.getElementById('bundleFeature1Sub').value.trim() },
+                    { label: document.getElementById('bundleFeature2Label').value.trim(), sub: document.getElementById('bundleFeature2Sub').value.trim() },
+                    { label: document.getElementById('bundleFeature3Label').value.trim(), sub: document.getElementById('bundleFeature3Sub').value.trim() }
+                ].filter(f => f.label);
+                data = {
+                    listingType: 'bundle',
+                    title: document.getElementById('bundleName').value.trim(),
+                    category: document.getElementById('bundleCategory').value,
+                    description: document.getElementById('bundleDescription').value.trim(),
+                    price: parseFloat(document.getElementById('bundlePrice').value),
+                    priceUnit: 'event',
+                    location: document.getElementById('bundleLocation').value.trim(),
+                    features: features
+                };
+                requiredValues = [data.title, data.category, data.description, data.location];
+                typeLabel = 'bundle';
+            } else if (isBand) {
+                data = {
+                    listingType: 'band',
+                    title: document.getElementById('bandName').value.trim(),
+                    category: document.getElementById('bandCategory').value,
+                    members: document.getElementById('bandMembers').value.trim(),
+                    description: document.getElementById('bandDescription').value.trim(),
+                    price: parseFloat(document.getElementById('bandPrice').value),
+                    priceUnit: 'show',
+                    location: document.getElementById('bandLocation').value.trim(),
+                    availability: document.getElementById('bandAvailability').value
+                };
+                requiredValues = [data.title, data.category, data.members, data.description, data.location];
+                typeLabel = 'band/ensemble';
+            } else {
+                data = {
+                    listingType: 'instrument',
+                    title: document.getElementById('instrumentName').value.trim(),
+                    category: document.getElementById('instrumentCategory').value,
+                    brand: document.getElementById('instrumentBrand').value.trim(),
+                    description: document.getElementById('instrumentDescription').value.trim(),
+                    price: parseFloat(document.getElementById('instrumentPrice').value),
+                    priceUnit: 'day',
+                    location: document.getElementById('instrumentLocation').value.trim(),
+                    availability: document.getElementById('instrumentAvailability').value
+                };
+                requiredValues = [data.title, data.category, data.brand, data.description, data.location];
+                typeLabel = 'instrument';
+            }
             data.photos = photos;
 
-            const requiredValues = isBand
-                ? [data.title, data.category, data.members, data.description, data.location]
-                : [data.title, data.category, data.brand, data.description, data.location];
             if (requiredValues.some(v => !v) || !data.price) {
                 alert('Please fill in all the listing details before submitting.');
                 return;
@@ -2884,7 +2921,7 @@ header {
                     data.rating = 0;
                     data.ratingCount = 0;
                     await createDoc('listings', data);
-                    alert('Listing submitted successfully! Your ' + (isBand ? 'band/ensemble' : 'instrument') + ' is now live on the marketplace.');
+                    alert('Listing submitted successfully! Your ' + typeLabel + ' is now live on the marketplace.');
                 }
                 resetListingForm();
                 await loadMyListings();
@@ -2896,7 +2933,8 @@ header {
             }
         });
 
-        loadMyListings();
+        // (loadMyListings/loadRenterConversations/loadBookings are all kicked off together
+        // from the combined initializer at the bottom of this script.)
 
         /* ---------- Chats ---------- */
         let renterConversationsCache = [];
@@ -2956,9 +2994,35 @@ header {
             area.scrollTop = area.scrollHeight;
         }
 
+        /* Hides the whole chat window when there's no conversation to show, instead of
+           leaving the static placeholder markup (Julian Reed, etc.) visible. */
+        function setRenterChatWindowVisible(visible) {
+            document.getElementById('chatWindowPanel').style.display = visible ? '' : 'none';
+        }
+
+        function updateRequestPaymentBtnState(convo) {
+            const btn = document.getElementById('requestPaymentBtn');
+            if (!convo) {
+                btn.disabled = true;
+                btn.textContent = 'Request Payment';
+                return;
+            }
+            if (convo.status === 'booked') {
+                btn.disabled = true;
+                btn.textContent = 'Payment Completed';
+            } else if (convo.paymentRequested) {
+                btn.disabled = true;
+                btn.textContent = 'Payment Requested';
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Request Payment';
+            }
+        }
+
         function openRenterConversation(convoId) {
             const convo = renterConversationsCache.find(c => c.id === convoId);
             if (!convo) return;
+            setRenterChatWindowVisible(true);
             activeRenterConvoId = convoId;
             document.querySelectorAll('#chatListContainer .chat-list-item').forEach(item => {
                 item.classList.toggle('active', item.dataset.convo === convoId);
@@ -2966,6 +3030,7 @@ header {
             const other = renterOtherParticipant(convo);
             document.getElementById('activeChatName').textContent = other.name;
             document.getElementById('chatMessageInput').placeholder = 'Type a message to ' + other.name + '...';
+            updateRequestPaymentBtnState(convo);
 
             if (unsubscribeRenterMessages) unsubscribeRenterMessages();
             unsubscribeRenterMessages = subscribeToSubQuery('conversations', convoId, 'messages', [orderBy('createdAt', 'asc')], renderRenterMessages);
@@ -2979,7 +3044,11 @@ header {
                 return bt - at;
             });
             renderRenterChatList();
-            if (renterConversationsCache.length && !activeRenterConvoId) {
+            if (renterConversationsCache.length === 0) {
+                setRenterChatWindowVisible(false);
+                return;
+            }
+            if (!activeRenterConvoId) {
                 openRenterConversation(renterConversationsCache[0].id);
             }
         }
@@ -3026,6 +3095,8 @@ header {
                 alert('Select a conversation first.');
                 return;
             }
+            const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
+            if (convo && (convo.status === 'booked' || convo.paymentRequested)) return;
             if (!confirm('Send a payment request to this customer?')) return;
             const text = '💰 Payment has been requested for this booking. Please proceed to checkout to complete payment.';
             try {
@@ -3036,15 +3107,16 @@ header {
                 });
                 await updateDocFields('conversations', activeRenterConvoId, {
                     lastMessage: text,
-                    lastMessageAt: serverTimestamp()
+                    lastMessageAt: serverTimestamp(),
+                    paymentRequested: true
                 });
-                alert('Payment request sent.');
+                if (convo) convo.paymentRequested = true;
+                updateRequestPaymentBtnState(convo);
+                alert('Payment request sent. The customer can now make payment from their chat.');
             } catch (err) {
                 alert('Could not send the payment request. Please try again.');
             }
         });
-
-        loadRenterConversations();
 
         /* ---------- Bookings ---------- */
         let bookingsCache = [];
@@ -3106,7 +3178,113 @@ header {
             }
         });
 
-        loadBookings();
+        /* ---------- My Inventory: real stats ---------- */
+        function renderInventoryStats() {
+            const activeBookings = bookingsCache.filter(b => b.bookingStatus === 'active');
+            const upcomingPerformances = activeBookings.filter(b => {
+                const listing = myListingsCache.find(l => l.id === b.listingId);
+                return listing && listing.listingType === 'band';
+            });
+            const now = new Date();
+            const monthlyEarnings = bookingsCache
+                .filter(b => {
+                    if (b.bookingStatus === 'cancelled') return false;
+                    const created = b.createdAt && typeof b.createdAt.toDate === 'function' ? b.createdAt.toDate() : null;
+                    return created && created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear();
+                })
+                .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+
+            document.getElementById('activeRentalsStat').textContent = activeBookings.length;
+            document.getElementById('upcomingPerformanceStat').textContent = upcomingPerformances.length;
+            document.getElementById('monthlyEarningsStat').textContent = 'RM ' + monthlyEarnings.toFixed(0);
+        }
+
+        /* ---------- Overview: real metrics + recent inquiries ---------- */
+        function renderOverviewMetrics() {
+            const nonCancelledBookings = bookingsCache.filter(b => b.bookingStatus !== 'cancelled');
+            const totalRevenue = nonCancelledBookings.reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+
+            const ratedListings = myListingsCache.filter(l => (l.ratingCount || 0) > 0);
+            const avgRating = ratedListings.length
+                ? ratedListings.reduce((sum, l) => sum + (l.rating || 0), 0) / ratedListings.length
+                : 0;
+
+            const pendingInquiries = renterConversationsCache.filter(c => c.status !== 'booked' && c.status !== 'cancelled');
+
+            document.getElementById('totalRevenueValue').textContent = 'RM' + totalRevenue.toFixed(2);
+            document.getElementById('totalRentalsValue').textContent = nonCancelledBookings.length;
+            document.getElementById('ratingsValue').textContent = ratedListings.length ? avgRating.toFixed(1) : '—';
+            document.getElementById('pendingInquiriesValue').textContent = pendingInquiries.length;
+            document.getElementById('pendingInquiriesTag').style.display = pendingInquiries.length ? '' : 'none';
+        }
+
+        function renderOverviewInquiryRow(convo) {
+            const other = renterOtherParticipant(convo);
+            const initials = other.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+            let statusClass, statusLabel, actionHtml;
+            if (convo.status === 'booked') {
+                statusClass = 'pill-green';
+                statusLabel = 'Completed';
+                actionHtml = '<button class="details-btn" type="button">Details</button>';
+            } else if (convo.status === 'cancelled') {
+                statusClass = 'pill-red';
+                statusLabel = 'Cancelled';
+                actionHtml = '<button class="details-btn" type="button">Details</button>';
+            } else {
+                statusClass = 'pill-yellow';
+                statusLabel = 'Discussing';
+                actionHtml = '<button class="view-btn" type="button">Chat</button>';
+            }
+            const dotClass = statusClass.replace('pill-', 'dot-');
+
+            const tr = document.createElement('tr');
+            tr.dataset.convo = convo.id;
+            tr.innerHTML =
+                '<td><div class="user-cell"><div class="user-initials">' + escapeHtml(initials) + '</div>' +
+                '<div class="user-cell-text"><span class="name">' + escapeHtml(other.name) + '</span>' +
+                '<span class="id">ID: #' + escapeHtml(other.uid.slice(0, 6)) + '</span></div></div></td>' +
+                '<td>' + escapeHtml(convo.listingTitle || '—') + '</td>' +
+                '<td><span class="status-pill ' + statusClass + '"><span class="dot ' + dotClass + '"></span> ' + statusLabel + '</span></td>' +
+                '<td style="text-align: right;">' + actionHtml + '</td>';
+            return tr;
+        }
+
+        function renderOverviewInquiries() {
+            const tbody = document.getElementById('inquiriesTbody');
+            tbody.innerHTML = '';
+            const recent = renterConversationsCache.slice(0, 5);
+            recent.forEach(convo => tbody.appendChild(renderOverviewInquiryRow(convo)));
+            document.getElementById('inquiriesEmptyMsg').style.display = recent.length ? 'none' : '';
+        }
+
+        document.getElementById('inquiriesTbody').addEventListener('click', function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const convo = renterConversationsCache.find(c => c.id === row.dataset.convo);
+            if (!convo) return;
+            if (e.target.closest('.view-btn')) {
+                window.showRenterPage('chat');
+                openRenterConversation(convo.id);
+            } else if (e.target.closest('.details-btn')) {
+                const other = renterOtherParticipant(convo);
+                alert(
+                    'Inquiry Details\n' +
+                    'Customer: ' + other.name + '\n' +
+                    'Item: ' + (convo.listingTitle || '—') + '\n' +
+                    'Status: ' + (convo.status || 'negotiation')
+                );
+            }
+        });
+
+        /* ---------- Kick off all data loads together, then render the derived Overview /
+           Inventory stats that depend on more than one collection. ---------- */
+        async function initRenterDashboard() {
+            await Promise.all([loadMyListings(), loadRenterConversations(), loadBookings()]);
+            renderInventoryStats();
+            renderOverviewMetrics();
+            renderOverviewInquiries();
+        }
+        initRenterDashboard();
     </script>
 </body>
 

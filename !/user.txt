@@ -88,4 +88,5 @@ Task:
 	- Make filter bar that suit according to information in bundles
 
 Task:
-- 
+- In "marketplace.html#bundles"
+	- Remove seperator and cta section

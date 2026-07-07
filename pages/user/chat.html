@@ -475,6 +475,31 @@ body {
 
 .listing-strip button:hover { background-color: var(--surface-container-high); }
 
+.payment-request-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    border-bottom: 1px solid var(--outline-variant);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.payment-request-banner button {
+    margin-left: auto;
+    background-color: var(--primary);
+    color: var(--on-primary, #fff);
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
 .messages-area {
     flex: 1;
     padding: 1.5rem;
@@ -822,6 +847,12 @@ body {
                 <button id="viewListingBtn" type="button">View Listing</button>
             </div>
 
+            <div class="payment-request-banner" id="paymentRequestBanner" style="display:none;">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+                <span>The renter has requested payment for this booking.</span>
+                <button id="makePaymentBtn" type="button">Make Payment</button>
+            </div>
+
             <div class="messages-area" id="messagesArea"></div>
 
             <div class="input-area">
@@ -1003,6 +1034,8 @@ body {
         document.getElementById('listingImg').src = convo.listingImage || '../../images/user_profile.jpg';
         document.getElementById('listingTitle').textContent = convo.listingTitle || '';
         document.getElementById('listingPrice').textContent = convo.listingPrice ? ('RM' + convo.listingPrice) : '';
+        document.getElementById('paymentRequestBanner').style.display =
+            (convo.paymentRequested && convo.status !== 'booked') ? 'flex' : 'none';
     }
 
     function renderMessages(msgs) {
@@ -1231,6 +1264,11 @@ body {
 
     document.getElementById('viewListingBtn').addEventListener('click', function () {
         window.location.href = 'marketplace.html';
+    });
+
+    document.getElementById('makePaymentBtn').addEventListener('click', function () {
+        if (!activeConversationId) return;
+        window.location.href = 'checkout.html?convo=' + activeConversationId;
     });
 
     loadConversations();
