@@ -1302,10 +1302,6 @@
         </nav>
 
         <div class="sidebar-footer">
-            <a class="nav-link" href="#">
-                <span class="material-symbols-outlined">settings</span>
-                <span>Settings</span>
-            </a>
             <a class="nav-link logout" href="#" id="logoutLink">
                 <span class="material-symbols-outlined">logout</span>
                 <span>Logout</span>
@@ -1363,12 +1359,9 @@
                             <div class="icon-box blue-box">
                                 <span class="material-symbols-outlined filled-icon">payments</span>
                             </div>
-                            <span class="trend text-primary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +25%
-                            </span>
                         </div>
                         <p class="card-label">Total Revenue</p>
-                        <h3 class="card-value">RM12,345.67</h3>
+                        <h3 class="card-value" id="overviewRevenueValue">RM0.00</h3>
                     </div>
 
                     <div class="card">
@@ -1376,12 +1369,9 @@
                             <div class="icon-box light-blue-box">
                                 <span class="material-symbols-outlined filled-icon">group</span>
                             </div>
-                            <span class="trend text-primary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +12%
-                            </span>
                         </div>
                         <p class="card-label">Total Users</p>
-                        <h3 class="card-value">30</h3>
+                        <h3 class="card-value" id="overviewUsersValue">0</h3>
                     </div>
 
                     <div class="card">
@@ -1389,12 +1379,9 @@
                             <div class="icon-box yellow-box">
                                 <span class="material-symbols-outlined filled-icon">person_celebrate</span>
                             </div>
-                            <span class="trend text-secondary">
-                                <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +8%
-                            </span>
                         </div>
                         <p class="card-label">Total Renters</p>
-                        <h3 class="card-value">20</h3>
+                        <h3 class="card-value" id="overviewRentersValue">0</h3>
                     </div>
 
                     <div class="card" style="border-color: #ffdad6;">
@@ -1405,7 +1392,7 @@
                             <span class="urgent-tag">Requires attention</span>
                         </div>
                         <p class="card-label">Pending Issues</p>
-                        <h3 class="card-value">12</h3>
+                        <h3 class="card-value" id="overviewPendingValue">0</h3>
                     </div>
                 </section>
 
@@ -1429,93 +1416,9 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="font-mono">TRX005</td>
-                                    <td class="item-cell">
-                                        <b>Ali Rahman</b>
-                                        <span>Full String Ensemble</span>
-                                    </td>
-                                    <td class="amount-cell">RM2,000</td>
-                                    <td>
-                                        <span class="status-pill pill-yellow">
-                                            <span class="dot dot-yellow"></span> Held
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">TRX004</td>
-                                    <td class="item-cell">
-                                        <b>Zaref Affandi</b>
-                                        <span>Saxophone Alto</span>
-                                    </td>
-                                    <td class="amount-cell">RM378</td>
-                                    <td>
-                                        <span class="status-pill pill-red">
-                                            <span class="dot dot-red"></span> Issued
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">TRX003</td>
-                                    <td class="item-cell">
-                                        <b>Nasr Muhaimin</b>
-                                        <span>Yamaha P125</span>
-                                    </td>
-                                    <td class="amount-cell">RM600</td>
-                                    <td>
-                                        <span class="status-pill pill-yellow">
-                                            <span class="dot dot-yellow"></span> Held
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">TRX002</td>
-                                    <td class="item-cell">
-                                        <b>Harris Danniel</b>
-                                        <span>Roland JD-800</span>
-                                    </td>
-                                    <td class="amount-cell">RM450</td>
-                                    <td>
-                                        <span class="status-pill pill-yellow">
-                                            <span class="dot dot-yellow"></span> Held
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">TRX001</td>
-                                    <td class="item-cell">
-                                        <b>Ahmad Syahmi</b>
-                                        <span>Yamaha Grand Piano</span>
-                                    </td>
-                                    <td class="amount-cell">RM1,200</td>
-                                    <td>
-                                        <span class="status-pill pill-blue">
-                                            <span class="dot dot-blue"></span> Released
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="overviewTransactionsTbody"></tbody>
                         </table>
+                        <p id="overviewTransactionsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No transactions yet.</p>
                     </div>
 
                     <div class="panel">
@@ -1526,52 +1429,8 @@
                             </div>
                         </div>
 
-                        <div class="activity-list">
-                            <div class="violation-card">
-                                <div class="violation-top">
-                                    <span class="tag tag-red">New</span>
-                                    <span class="time">2 mins ago</span>
-                                </div>
-                                <p class="v-title">Social Media</p>
-                                <p class="v-text">"DM me on Instagram @user"</p>
-                                <div class="v-user">
-                                    <div class="v-avatar">
-                                        <img alt="" src="../../images/user_profile.jpg" />
-                                    </div>
-                                    <span>Myself Renter → Nur Lisa</span>
-                                </div>
-                            </div>
-
-                            <div class="violation-card">
-                                <div class="violation-top">
-                                    <span class="tag tag-red">New</span>
-                                    <span class="time">15 mins ago</span>
-                                </div>
-                                <p class="v-title">Phone Number</p>
-                                <p class="v-text">"Call me at 0123456789"</p>
-                                <div class="v-user">
-                                    <div class="v-avatar">
-                                        <img alt="" src="../../images/user_profile.jpg" />
-                                    </div>
-                                    <span>Mohd Drake → Music Pro</span>
-                                </div>
-                            </div>
-
-                            <div class="violation-card warned">
-                                <div class="violation-top">
-                                    <span class="tag tag-grey">Warned</span>
-                                    <span class="time">2 days ago</span>
-                                </div>
-                                <p class="v-title">Social Media</p>
-                                <p class="v-text">"Let's discuss on Instagram @user"</p>
-                                <div class="v-user">
-                                    <div class="v-avatar">
-                                        <img alt="" src="../../images/user_profile.jpg" />
-                                    </div>
-                                    <span>Ahmad Travis → Play Music</span>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="activity-list" id="overviewFlaggedActivities"></div>
+                        <p id="overviewFlaggedEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No flagged activity.</p>
 
                         <div class="panel-footer">
                             <button class="btn-link nav-link-view" data-view="chatmonitor">Open Chat Monitor</button>
@@ -1604,7 +1463,7 @@
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
-                            <button class="btn-outline">
+                            <button class="btn-outline" id="usersExportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
                             </button>
@@ -1673,7 +1532,7 @@
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
-                            <button class="btn-outline">
+                            <button class="btn-outline" id="rentersExportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
                             </button>
@@ -1743,7 +1602,7 @@
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
-                            <button class="btn-outline">
+                            <button class="btn-outline" id="transactionsExportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
                             </button>
@@ -1831,8 +1690,7 @@
                                 </button>
                                 <div class="filter-menu">
                                     <button class="filter-option" data-sort="category" type="button">Category</button>
-                                    <button class="filter-option" data-sort="views" type="button">Views</button>
-                                    <button class="filter-option" data-sort="bookings" type="button">Bookings</button>
+                                    <button class="filter-option" data-sort="sold" type="button">Sold</button>
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
@@ -1851,8 +1709,7 @@
                                     <th>Category</th>
                                     <th>Renter</th>
                                     <th>Price</th>
-                                    <th>Views</th>
-                                    <th>Bookings</th>
+                                    <th>Sold</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -1905,7 +1762,7 @@
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
-                            <button class="btn-outline">
+                            <button class="btn-outline" id="reportsExportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
                             </button>
@@ -1975,7 +1832,7 @@
                                     <button class="filter-option" data-sort="status" type="button">Status</button>
                                 </div>
                             </div>
-                            <button class="btn-outline">
+                            <button class="btn-outline" id="violationsExportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
                             </button>
@@ -2000,69 +1857,12 @@
                                     <th class="text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="font-mono">VC001</td>
-                                    <td class="font-bold" style="color: red;">Ahmad Travis</td>
-                                    <td class="font-bold">Play Music</td>
-                                    <td><span class="badget badget-type">Social Media</span></td>
-                                    <td class="text-small">"Let's discuss on Instagram @user"</td>
-                                    <td class="text-small">2026-06-21 7:00 PM</td>
-                                    <td class="text-center"><span class="badget badget-warning">Warning</span></td>
-                                    <td class="text-right"><button class="btn-details">Details</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">VC002</td>
-                                    <td class="font-bold" style="color: red;">Ahmad Travis</td>
-                                    <td class="font-bold">Play Music</td>
-                                    <td><span class="badget badget-type">External Payment</span></td>
-                                    <td class="text-small">"Pay via PayPal to save fees"</td>
-                                    <td class="text-small">2026-06-22 9:00 AM</td>
-                                    <td class="text-center"><span class="badget badget-suspended">suspended</span></td>
-                                    <td class="text-right"><button class="btn-details">Details</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">VC003</td>
-                                    <td class="font-bold" style="color: red;">Music Pro</td>
-                                    <td class="font-bold">Mohd Drake</td>
-                                    <td><span class="badget badget-type">Phone Number</span></td>
-                                    <td class="text-small">"Chat me at 0123456789"</td>
-                                    <td class="text-small">2026-06-25 10:30 AM</td>
-                                    <td class="text-center"><span class="badget badget-active">pending</span></td>
-                                    <td class="text-right">
-                                        <div class="actions-cell">
-                                            <button class="btn-warning">Warning</button>
-                                            <button class="icon-action block" title="Block User">
-                                                <span class="material-symbols-outlined">block</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="font-mono">VC004</td>
-                                    <td class="font-bold" style="color: red;">Nur Lisa</td>
-                                    <td class="font-bold">Myself Renter</td>
-                                    <td><span class="badget badget-type">Social Media</span></td>
-                                    <td class="text-small">"DM me on Instagram @user"</td>
-                                    <td class="text-small">2026-06-23 11:58 AM</td>
-                                    <td class="text-center"><span class="badget badget-active">pending</span></td>
-                                    <td class="text-right">
-                                        <div class="actions-cell">
-                                            <button class="btn-warning">Warning</button>
-                                            <button class="icon-action block" title="Block User">
-                                                <span class="material-symbols-outlined">block</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="violationsTbody"></tbody>
                         </table>
+                        <p id="violationsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No chat violations detected.</p>
 
                         <div class="pagination">
-                            <p class="pagination-info">Showing <span style="font-weight: 700;">1-5</span> of 10 violations</p>
+                            <p class="pagination-info" id="violationsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 violations</p>
                             <div class="pagination-btns">
                                 <button class="page-btn" disabled="">
                                     <span class="material-symbols-outlined">chevron_left</span>
@@ -2374,12 +2174,12 @@
             });
 
             // Block / Unblock: toggles the row's status badge when it represents current state,
-            // otherwise treats the click as a one-off action (reports/chat monitor rows showing both buttons).
-            // Users/Renters tabs are excluded — their rows are rendered dynamically and wired for
-            // real Firestore updates in the module script below.
+            // otherwise treats the click as a one-off action (reports rows showing both buttons).
+            // Users/Renters/Chat Monitor tabs are excluded — their rows are rendered dynamically
+            // and wired for real Firestore updates in the module script below.
             Array.prototype.filter.call(
                 document.querySelectorAll('.icon-action.block, .icon-action.unblock'),
-                function (btn) { return !btn.closest('#usersTbody') && !btn.closest('#rentersTbody'); }
+                function (btn) { return !btn.closest('#usersTbody') && !btn.closest('#rentersTbody') && !btn.closest('#violationsTbody'); }
             ).forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     var row = btn.closest('tr');
@@ -2414,11 +2214,11 @@
                 });
             });
 
-            // Warning: flags the row's status badge as a warning (Chat Monitor only — Reports'
-            // real Warning button is wired to Firestore in the module script below).
+            // Warning: flags the row's status badge as a warning. Reports and Chat Monitor are
+            // excluded — their real Warning buttons are wired to Firestore in the module script below.
             Array.prototype.filter.call(
                 document.querySelectorAll('.btn-warning'),
-                function (btn) { return !btn.closest('#reportsTbody'); }
+                function (btn) { return !btn.closest('#reportsTbody') && !btn.closest('#violationsTbody'); }
             ).forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     var row = btn.closest('tr');
@@ -2460,10 +2260,12 @@
             // are now rendered dynamically from Firestore.)
 
             // View / Export: .btn-outline is "Export" in table toolbars, "View" in listings rows.
-            // The real Listings "View" button is excluded — it's wired to real data below.
+            // The real Listings "View" button and the 5 real Export buttons (Users/Renters/
+            // Transactions/Reports/Chat Monitor) are excluded — they're wired to real data below.
+            var realExportBtnIds = ['usersExportBtn', 'rentersExportBtn', 'transactionsExportBtn', 'reportsExportBtn', 'violationsExportBtn'];
             Array.prototype.filter.call(
                 document.querySelectorAll('.btn-outline'),
-                function (btn) { return !btn.closest('#listingsTbody'); }
+                function (btn) { return !btn.closest('#listingsTbody') && realExportBtnIds.indexOf(btn.id) === -1; }
             ).forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     if (btn.closest('.control-btns') || btn.closest('.table-controls')) {
@@ -2476,14 +2278,14 @@
                 });
             });
 
-            // Generic buttons: View / Details — placeholder feedback. Users/Renters/Listings/Transactions/Reports
-            // tabs are excluded — their rows are rendered dynamically and wired for real data below.
+            // Generic buttons: View / Details — placeholder feedback. Users/Renters/Listings/Transactions/Reports/
+            // Chat Monitor tabs are excluded — their rows are rendered dynamically and wired for real data below.
             Array.prototype.filter.call(
                 document.querySelectorAll('.view-btn, .btn-details, .btn-primary'),
                 function (btn) {
                     return !btn.closest('#usersTbody') && !btn.closest('#rentersTbody') &&
                         !btn.closest('#listingsTbody') && !btn.closest('#transactionsTbody') &&
-                        !btn.closest('#reportsTbody');
+                        !btn.closest('#reportsTbody') && !btn.closest('#violationsTbody');
                 }
             ).forEach(function (btn) {
                 btn.addEventListener('click', function () {
@@ -2535,6 +2337,7 @@
             tr.dataset.uid = user.uid;
             const status = user.status || 'active';
             const joinDate = user.createdAt && user.createdAt.toDate ? user.createdAt.toDate().toISOString().slice(0, 10) : '—';
+            const bookingsCount = bookingCountByCustomer[user.uid] || 0;
 
             tr.innerHTML =
                 '<td><div class="user-cell"><div class="user-initials">' + escapeHtml(initials(user.fullName)) + '</div>' +
@@ -2543,7 +2346,7 @@
                 '<td><div class="contact-cell"><span class="email">' + escapeHtml(user.email) + '</span>' +
                 '<span class="phone">' + escapeHtml(user.phone || '—') + '</span></div></td>' +
                 '<td>' + joinDate + '</td>' +
-                '<td style="font-weight: 500; text-align: center;">' + (user.bookingsCount || 0) + '</td>' +
+                '<td style="font-weight: 500; text-align: center;">' + bookingsCount + '</td>' +
                 '<td style="text-align: center;"><span class="status-badge status-' + (status === 'blocked' ? 'suspended' : 'active') + '">' +
                     escapeHtml(status === 'blocked' ? 'suspended' : 'active') + '</span></td>' +
                 '<td>' + personActionsCell(status) + '</td>';
@@ -2559,6 +2362,7 @@
             const avgRating = ratedListings.length
                 ? (ratedListings.reduce((sum, l) => sum + (l.rating || 0), 0) / ratedListings.length).toFixed(1)
                 : null;
+            const revenue = revenueByRenter[user.uid] || 0;
 
             tr.innerHTML =
                 '<td><div class="user-cell"><div class="user-initials">' + escapeHtml(initials(user.fullName)) + '</div>' +
@@ -2567,7 +2371,7 @@
                 '<td><div class="contact-cell"><span class="email">' + escapeHtml(user.email) + '</span>' +
                 '<span class="phone">' + escapeHtml(user.phone || '—') + '</span></div></td>' +
                 '<td>' + myListings.length + ' items</td>' +
-                '<td style="font-weight: 700;">—</td>' +
+                '<td style="font-weight: 700;">RM' + revenue.toFixed(2) + '</td>' +
                 '<td>' + (avgRating
                     ? '<span class="material-symbols-outlined filled-icon" style="color:#7c5800; font-size: 18px;">star</span><span style="font-weight: 700;">' + avgRating + '</span>'
                     : '<span style="color:var(--on-surface-variant);">—</span>') + '</td>' +
@@ -2579,13 +2383,22 @@
 
         let usersCache = [];
         let rentersCache = [];
+        let bookingCountByCustomer = {};
+        let revenueByRenter = {};
 
         async function loadUsersAndRenters() {
-            const [allUsers, allListings] = await Promise.all([getMany('users'), getMany('listings')]);
+            const [allUsers, allListings, allBookingsForStats] = await Promise.all([getMany('users'), getMany('listings'), getMany('bookings')]);
 
             const listingsByOwner = {};
             allListings.forEach(l => {
                 (listingsByOwner[l.ownerId] || (listingsByOwner[l.ownerId] = [])).push(l);
+            });
+
+            bookingCountByCustomer = {};
+            revenueByRenter = {};
+            allBookingsForStats.filter(b => (b.bookingStatus || 'active') !== 'cancelled').forEach(b => {
+                bookingCountByCustomer[b.customerId] = (bookingCountByCustomer[b.customerId] || 0) + 1;
+                revenueByRenter[b.renterId] = (revenueByRenter[b.renterId] || 0) + (b.totalAmount || 0);
             });
 
             usersCache = allUsers.filter(u => u.role === 'user');
@@ -2778,7 +2591,7 @@
             return status === 'available' || status === 'rented' ? 'active' : 'pending';
         }
 
-        function renderListingRow(listing) {
+        function renderListingRow(listing, soldCount) {
             const tr = document.createElement('tr');
             tr.dataset.listingId = listing.id;
             const isBand = listing.listingType === 'band';
@@ -2801,8 +2614,7 @@
                 '<td><span class="category-tag">' + (isBand ? 'band' : 'instrument') + '</span></td>' +
                 '<td><strong>' + escapeHtml(listing.ownerName || 'Unknown') + '</strong></td>' +
                 '<td class="price-text">RM' + listing.price + ' ' + priceUnit + '</td>' +
-                '<td class="muted-text">—</td>' +
-                '<td class="muted-text">—</td>' +
+                '<td style="font-weight: 600; text-align: center;">' + soldCount + '</td>' +
                 '<td><span class="status-tag ' + statusTagClass(status) + '">' + escapeHtml(status) + '</span></td>' +
                 '<td>' +
                     '<div class="actions-cell">' +
@@ -2818,8 +2630,12 @@
         async function loadListings() {
             const tbody = document.getElementById('listingsTbody');
             const listings = await getMany('listings');
+            const soldCountByListing = {};
+            transactionsCache.filter(b => (b.bookingStatus || 'active') !== 'cancelled').forEach(b => {
+                soldCountByListing[b.listingId] = (soldCountByListing[b.listingId] || 0) + 1;
+            });
             tbody.innerHTML = '';
-            listings.forEach(listing => tbody.appendChild(renderListingRow(listing)));
+            listings.forEach(listing => tbody.appendChild(renderListingRow(listing, soldCountByListing[listing.id] || 0)));
 
             document.getElementById('listingsTotalStat').textContent = listings.length;
             document.getElementById('listingsActiveStat').textContent =
@@ -2862,6 +2678,243 @@
                     }
                 }
             }
+        });
+
+        /* ---------- Chat Monitor (real violations, auto-flagged from chat.html / renter.html) ---------- */
+        let violationsCache = [];
+
+        function violationStatusClass(status) {
+            if (status === 'warning') return 'badget-warning';
+            if (status === 'suspended') return 'badget-suspended';
+            return 'badget-active';
+        }
+
+        function violationActionsCell(status) {
+            if (status === 'pending') {
+                return '<div class="actions-cell">' +
+                    '<button class="btn-warning" type="button">Warning</button>' +
+                    '<button class="icon-action block" type="button" title="Block User">' +
+                        '<span class="material-symbols-outlined">block</span>' +
+                    '</button>' +
+                '</div>';
+            }
+            return '<button class="btn-details" type="button">Details</button>';
+        }
+
+        function renderViolationRow(v) {
+            const tr = document.createElement('tr');
+            tr.dataset.violationId = v.id;
+            const status = v.status || 'pending';
+            const timestamp = v.createdAt && v.createdAt.toDate ? v.createdAt.toDate().toLocaleString() : '—';
+
+            tr.innerHTML =
+                '<td class="font-mono">#' + escapeHtml(v.id.slice(0, 6)) + '</td>' +
+                '<td class="font-bold" style="color: red;">' + escapeHtml(v.offenderName || 'User') + '</td>' +
+                '<td class="font-bold">' + escapeHtml(v.recipientName || 'User') + '</td>' +
+                '<td><span class="badget badget-type">' + escapeHtml(v.type || 'Other') + '</span></td>' +
+                '<td class="text-small">"' + escapeHtml(v.message || '') + '"</td>' +
+                '<td class="text-small">' + timestamp + '</td>' +
+                '<td class="text-center"><span class="badget ' + violationStatusClass(status) + '">' + escapeHtml(status) + '</span></td>' +
+                '<td class="text-right">' + violationActionsCell(status) + '</td>';
+            return tr;
+        }
+
+        async function loadViolations() {
+            violationsCache = await getMany('violations');
+            violationsCache.sort((a, b) => {
+                const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                return bt - at;
+            });
+            const tbody = document.getElementById('violationsTbody');
+            tbody.innerHTML = '';
+            violationsCache.forEach(v => tbody.appendChild(renderViolationRow(v)));
+            document.getElementById('violationsEmptyMsg').style.display = violationsCache.length ? 'none' : '';
+            document.getElementById('violationsPaginationInfo').innerHTML =
+                'Showing <span style="font-weight: 700;">' + violationsCache.length + '</span> of ' + violationsCache.length + ' violations';
+        }
+
+        document.getElementById('violationsTbody').addEventListener('click', async function (e) {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const violation = violationsCache.find(v => v.id === row.dataset.violationId);
+            if (!violation) return;
+
+            if (e.target.closest('.btn-warning')) {
+                if (!confirm('Send a warning to ' + (violation.offenderName || 'this user') + '?')) return;
+                await updateDocFields('violations', violation.id, { status: 'warning', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
+                await loadViolations();
+            } else if (e.target.closest('.icon-action.block')) {
+                if (!confirm('Block ' + (violation.offenderName || 'this user') + '\'s account for this violation?')) return;
+                try {
+                    await updateDocFields('users', violation.offenderId, { status: 'blocked' });
+                    await updateDocFields('violations', violation.id, { status: 'suspended', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
+                    await loadViolations();
+                } catch (err) {
+                    alert('Could not block this user: ' + (err.message || 'please try again.'));
+                }
+            } else if (e.target.closest('.btn-details')) {
+                alert(
+                    'Violation #' + violation.id.slice(0, 6) + '\n' +
+                    'Type: ' + (violation.type || 'Other') + '\n' +
+                    'Offender: ' + (violation.offenderName || 'User') + '\n' +
+                    'With: ' + (violation.recipientName || 'User') + '\n' +
+                    'Message: "' + (violation.message || '') + '"\n' +
+                    'Status: ' + (violation.status || 'pending')
+                );
+            }
+        });
+
+        await loadViolations();
+
+        /* ---------- Overview: real metrics + recent activity ---------- */
+        function timeAgo(date) {
+            if (!date) return '—';
+            const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return minutes + ' min' + (minutes === 1 ? '' : 's') + ' ago';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + ' hour' + (hours === 1 ? '' : 's') + ' ago';
+            const days = Math.floor(hours / 24);
+            return days + ' day' + (days === 1 ? '' : 's') + ' ago';
+        }
+
+        function renderOverviewMetrics() {
+            const nonCancelledBookings = transactionsCache.filter(b => b.bookingStatus !== 'cancelled');
+            const totalRevenue = nonCancelledBookings.reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+            const pendingIssues = reportsCache.filter(r => (r.status || 'pending') === 'pending').length +
+                violationsCache.filter(v => (v.status || 'pending') === 'pending').length;
+
+            document.getElementById('overviewRevenueValue').textContent = 'RM' + totalRevenue.toFixed(2);
+            document.getElementById('overviewUsersValue').textContent = usersCache.length;
+            document.getElementById('overviewRentersValue').textContent = rentersCache.length;
+            document.getElementById('overviewPendingValue').textContent = pendingIssues;
+        }
+
+        function renderOverviewTransactionRow(booking) {
+            const tr = document.createElement('tr');
+            const escrowStatus = booking.escrowStatus || 'held';
+            const pillClass = escrowStatus === 'released' ? 'pill-blue' : (escrowStatus === 'held' ? 'pill-yellow' : 'pill-red');
+            const dotClass = escrowStatus === 'released' ? 'dot-blue' : (escrowStatus === 'held' ? 'dot-yellow' : 'dot-red');
+            const label = escrowStatus.charAt(0).toUpperCase() + escrowStatus.slice(1);
+
+            tr.innerHTML =
+                '<td class="font-mono">#' + escapeHtml(booking.id.slice(0, 6)) + '</td>' +
+                '<td class="item-cell"><b>' + escapeHtml(booking.customerName || 'Customer') + '</b><span>' + escapeHtml(booking.listingTitle || '') + '</span></td>' +
+                '<td class="amount-cell">RM' + booking.totalAmount + '</td>' +
+                '<td><span class="status-pill ' + pillClass + '"><span class="dot ' + dotClass + '"></span> ' + escapeHtml(label) + '</span></td>' +
+                '<td style="text-align: right;"><span class="material-symbols-outlined" style="cursor: pointer; opacity: 0.5;">more_vert</span></td>';
+            return tr;
+        }
+
+        function renderOverviewTransactions() {
+            const recent = [...transactionsCache].sort((a, b) => {
+                const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                return bt - at;
+            }).slice(0, 5);
+            const tbody = document.getElementById('overviewTransactionsTbody');
+            tbody.innerHTML = '';
+            recent.forEach(b => tbody.appendChild(renderOverviewTransactionRow(b)));
+            document.getElementById('overviewTransactionsEmptyMsg').style.display = recent.length ? 'none' : '';
+        }
+
+        function renderOverviewFlaggedActivities() {
+            const recent = [...violationsCache].sort((a, b) => {
+                const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                return bt - at;
+            }).slice(0, 3);
+            const container = document.getElementById('overviewFlaggedActivities');
+            container.innerHTML = '';
+            recent.forEach(v => {
+                const isPending = (v.status || 'pending') === 'pending';
+                const created = v.createdAt && v.createdAt.toDate ? v.createdAt.toDate() : null;
+                const div = document.createElement('div');
+                div.className = 'violation-card' + (isPending ? '' : ' warned');
+                div.innerHTML =
+                    '<div class="violation-top">' +
+                        '<span class="tag ' + (isPending ? 'tag-red' : 'tag-grey') + '">' + (isPending ? 'New' : 'Warned') + '</span>' +
+                        '<span class="time">' + timeAgo(created) + '</span>' +
+                    '</div>' +
+                    '<p class="v-title">' + escapeHtml(v.type || 'Other') + '</p>' +
+                    '<p class="v-text">"' + escapeHtml(v.message || '') + '"</p>' +
+                    '<div class="v-user">' +
+                        '<div class="v-avatar"><img alt="" src="../../images/user_profile.jpg" /></div>' +
+                        '<span>' + escapeHtml(v.offenderName || 'User') + ' → ' + escapeHtml(v.recipientName || 'User') + '</span>' +
+                    '</div>';
+                container.appendChild(div);
+            });
+            document.getElementById('overviewFlaggedEmptyMsg').style.display = recent.length ? 'none' : '';
+        }
+
+        renderOverviewMetrics();
+        renderOverviewTransactions();
+        renderOverviewFlaggedActivities();
+
+        /* ---------- Export to Excel ---------- */
+        /** Builds an HTML table and downloads it as .xls — Excel opens HTML-table files
+            natively, so no external spreadsheet library is needed. */
+        function exportTableToExcel(filename, headers, rows) {
+            const cell = (v) => escapeHtml(v == null ? '' : String(v));
+            const html =
+                '<table><thead><tr>' + headers.map(h => '<th>' + cell(h) + '</th>').join('') + '</tr></thead>' +
+                '<tbody>' + rows.map(r => '<tr>' + r.map(c => '<td>' + cell(c) + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+            const blob = new Blob(['﻿' + html], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename + '.xls';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function dateCell(ts) {
+            return ts && ts.toDate ? ts.toDate().toISOString().slice(0, 10) : '—';
+        }
+
+        document.getElementById('usersExportBtn').addEventListener('click', function () {
+            exportTableToExcel('users_export', ['Name', 'Username', 'Email', 'Phone', 'Join Date', 'Bookings', 'Status'],
+                usersCache.map(u => [
+                    u.fullName || u.username, u.username, u.email, u.phone || '—',
+                    dateCell(u.createdAt), bookingCountByCustomer[u.uid] || 0, u.status === 'blocked' ? 'suspended' : 'active'
+                ]));
+        });
+
+        document.getElementById('rentersExportBtn').addEventListener('click', function () {
+            exportTableToExcel('renters_export', ['Name', 'Username', 'Email', 'Phone', 'Revenue', 'Status'],
+                rentersCache.map(u => [
+                    u.fullName || u.username, u.username, u.email, u.phone || '—',
+                    'RM' + (revenueByRenter[u.uid] || 0).toFixed(2), u.status === 'blocked' ? 'suspended' : 'active'
+                ]));
+        });
+
+        document.getElementById('transactionsExportBtn').addEventListener('click', function () {
+            exportTableToExcel('transactions_export', ['Transaction ID', 'Customer', 'Renter', 'Item', 'Amount', 'Date', 'Escrow', 'Status'],
+                transactionsCache.map(b => [
+                    '#' + b.id.slice(0, 6), b.customerName || 'Customer', b.renterName || 'Renter', b.listingTitle || '',
+                    'RM' + b.totalAmount, dateCell(b.createdAt), b.escrowStatus || 'held', b.bookingStatus || 'active'
+                ]));
+        });
+
+        document.getElementById('reportsExportBtn').addEventListener('click', function () {
+            exportTableToExcel('reports_export', ['Report ID', 'Reporter', 'Reported', 'Type', 'Description', 'Date', 'Status'],
+                reportsCache.map(r => [
+                    '#' + r.id.slice(0, 6), r.reporterName || 'System', r.reportedUserName || '', r.type || 'Other',
+                    r.description || '', dateCell(r.createdAt), r.status || 'pending'
+                ]));
+        });
+
+        document.getElementById('violationsExportBtn').addEventListener('click', function () {
+            exportTableToExcel('chat_violations_export', ['Chat ID', 'Offender', 'With', 'Violation Type', 'Message', 'Timestamp', 'Status'],
+                violationsCache.map(v => [
+                    '#' + v.id.slice(0, 6), v.offenderName || 'User', v.recipientName || 'User', v.type || 'Other',
+                    v.message || '', v.createdAt && v.createdAt.toDate ? v.createdAt.toDate().toLocaleString() : '—',
+                    v.status || 'pending'
+                ]));
         });
     </script>
 </body>

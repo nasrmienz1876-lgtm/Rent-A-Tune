@@ -752,6 +752,126 @@ body {
 @media (max-width: 900px) {
     .chat-page-main { flex-direction: column; }
 }
+
+/* ============================= */
+/* Listing details modal */
+/* ============================= */
+.listing-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 28, 48, 0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 300;
+}
+
+.listing-modal-overlay.open {
+    display: flex;
+}
+
+.listing-modal {
+    background: var(--surface-container-lowest);
+    border-radius: var(--radius-xl);
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.listing-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--on-surface);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.listing-modal-image {
+    aspect-ratio: 16/9;
+}
+
+.listing-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.listing-modal-body {
+    padding: 2rem;
+}
+
+.listing-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.listing-modal-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+}
+
+.listing-modal-price {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.listing-modal-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    background: var(--surface-container-low);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.listing-modal-meta b {
+    color: var(--on-surface);
+}
+
+.listing-modal-desc {
+    font-size: 0.9375rem;
+    color: var(--on-surface-variant);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.listing-modal-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.listing-modal-feature-item {
+    background: var(--surface-container-low);
+    border-radius: var(--radius-lg);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+.listing-modal-feature-item b { display: block; }
+.listing-modal-feature-item span { font-size: 0.75rem; color: var(--on-surface-variant); }
 </style>
 </head>
 
@@ -769,17 +889,9 @@ body {
         </div>
 
         <div class="nav-actions">
-            <div style="position: relative;">
-                <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
-                <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
-                    <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
-                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
-                    <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
-                    <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
-                </div>
-            </div>
+            <button type="button" id="ordersBtn" onclick="window.location.href='orders.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="My Orders">
+                <span class="material-symbols-outlined">receipt_long</span>
+            </button>
             <button type="button" id="chatBtn" onclick="window.location.href='chat.html'" style="background: none; border: none; cursor: pointer;" title="Messages">
                 <span class="material-symbols-outlined chat-active-icon">chat</span>
             </button>
@@ -875,6 +987,28 @@ body {
     </section>
 </main>
 
+<!-- Listing details modal -->
+<div class="listing-modal-overlay" id="listingDetailOverlay">
+    <div class="listing-modal">
+        <button class="listing-modal-close" id="listingDetailClose" type="button">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="listing-modal-image">
+            <img alt="" id="listingDetailImg" src="" />
+        </div>
+        <div class="listing-modal-body">
+            <div class="listing-modal-header">
+                <h2 id="listingDetailTitle"></h2>
+                <div class="rating" id="listingDetailRating"></div>
+            </div>
+            <p class="listing-modal-price" id="listingDetailPrice"></p>
+            <div class="listing-modal-meta" id="listingDetailMeta"></div>
+            <p class="listing-modal-desc" id="listingDetailDesc"></p>
+            <div class="listing-modal-features" id="listingDetailFeatures"></div>
+        </div>
+    </div>
+</div>
+
 <footer class="footer">
     <div class="container">
         <div class="footer-grid">
@@ -943,19 +1077,6 @@ body {
         clearTimeout(window.__toastTimer);
         window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
     }
-
-    /* ---------- Navbar notification panel ---------- */
-    function toggleNotifPanel() {
-        const panel = document.getElementById('notifPanel');
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-    }
-    document.addEventListener('click', function (e) {
-        const notifPanel = document.getElementById('notifPanel');
-        const notifBtn = document.getElementById('notifBtn');
-        if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
-            notifPanel.style.display = 'none';
-        }
-    });
 
     /* ---------- Newsletter subscribe ---------- */
     document.getElementById('newsletterBtn').addEventListener('click', function (e) {
@@ -1035,7 +1156,7 @@ body {
         document.getElementById('listingTitle').textContent = convo.listingTitle || '';
         document.getElementById('listingPrice').textContent = convo.listingPrice ? ('RM' + convo.listingPrice) : '';
         document.getElementById('paymentRequestBanner').style.display =
-            (convo.paymentRequested && convo.status !== 'booked') ? 'flex' : 'none';
+            (convo.paymentRequested && convo.status !== 'booked' && convo.status !== 'completed') ? 'flex' : 'none';
     }
 
     function renderMessages(msgs) {
@@ -1127,6 +1248,41 @@ body {
         });
     });
 
+    /* ---------- Auto-moderation: flag phone numbers, social media handles, and
+       external-payment mentions for admin review (Chat Monitor). The message is still
+       delivered normally — only a violation record is logged. */
+    function detectChatViolation(text) {
+        if (/(\+?\d[\d\-\s]{6,}\d)/.test(text)) return 'Phone Number';
+        const lower = text.toLowerCase();
+        const socialKeywords = ['instagram', 'whatsapp', 'telegram', 'facebook', 'snapchat', 'tiktok', 'wechat', 'dm me', '@'];
+        if (socialKeywords.some(k => lower.includes(k))) return 'Social Media';
+        const paymentKeywords = ['paypal', 'venmo', 'duitnow', 'bank transfer', 'western union', 'crypto', 'bitcoin', 'cash only', 'outside the app', 'outside rent a tune'];
+        if (paymentKeywords.some(k => lower.includes(k))) return 'External Payment';
+        return null;
+    }
+
+    async function flagViolationIfAny(text) {
+        const type = detectChatViolation(text);
+        if (!type) return;
+        const convo = conversationsCache.find(c => c.id === activeConversationId);
+        if (!convo) return;
+        const other = otherParticipant(convo);
+        try {
+            await createDoc('violations', {
+                conversationId: activeConversationId,
+                offenderId: myUid,
+                offenderName: (myProfile && (myProfile.fullName || myProfile.username)) || 'User',
+                recipientId: other.uid,
+                recipientName: other.name,
+                type,
+                message: text,
+                status: 'pending'
+            });
+        } catch (err) {
+            // Moderation logging should never block the chat itself.
+        }
+    }
+
     /* ---------- Send message ---------- */
     async function sendMessage() {
         const input = document.getElementById('chatTextInput');
@@ -1145,6 +1301,7 @@ body {
                 lastMessage: text,
                 lastMessageAt: serverTimestamp()
             });
+            await flagViolationIfAny(text);
         } catch (err) {
             showToast('Could not send message. Please try again.');
         }
@@ -1262,8 +1419,71 @@ body {
         }
     });
 
-    document.getElementById('viewListingBtn').addEventListener('click', function () {
-        window.location.href = 'marketplace.html';
+    /* ---------- Listing details modal ---------- */
+    async function openListingDetail() {
+        const convo = conversationsCache.find(c => c.id === activeConversationId);
+        if (!convo || !convo.listingId) {
+            showToast('No listing linked to this conversation.');
+            return;
+        }
+        let listing;
+        try {
+            listing = await getOne('listings', convo.listingId);
+        } catch (err) {
+            showToast('Could not load listing details.');
+            return;
+        }
+        if (!listing) {
+            showToast('This listing is no longer available.');
+            return;
+        }
+
+        const isBand = listing.listingType === 'band';
+        const isBundle = listing.listingType === 'bundle';
+        const priceUnit = isBundle ? '/event' : (isBand ? '/show' : '/day');
+
+        document.getElementById('listingDetailImg').src = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
+        document.getElementById('listingDetailImg').alt = listing.title || '';
+        document.getElementById('listingDetailTitle').textContent = listing.title || '';
+        document.getElementById('listingDetailRating').innerHTML =
+            '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1; font-size:16px; color: var(--secondary);">star</span> ' +
+            (listing.rating || 0).toFixed(1) + ' (' + (listing.ratingCount || 0) + ')';
+        document.getElementById('listingDetailPrice').textContent = 'RM' + listing.price + ' ' + priceUnit;
+
+        let metaHtml =
+            '<span><b>Category:</b> ' + escapeHtml(listing.category || '—') + '</span>' +
+            '<span><b>Location:</b> ' + escapeHtml(listing.location || '—') + '</span>' +
+            '<span><b>Owner:</b> ' + escapeHtml(listing.ownerName || 'Renter') + '</span>';
+        if (isBand) {
+            metaHtml += '<span><b>Members:</b> ' + escapeHtml(listing.members || '—') + '</span>';
+            metaHtml += '<span><b>Availability:</b> ' + escapeHtml(listing.availability || '—') + '</span>';
+        } else if (!isBundle) {
+            metaHtml += '<span><b>Brand:</b> ' + escapeHtml(listing.brand || '—') + '</span>';
+            metaHtml += '<span><b>Availability:</b> ' + escapeHtml(listing.availability || '—') + '</span>';
+        }
+        document.getElementById('listingDetailMeta').innerHTML = metaHtml;
+        document.getElementById('listingDetailDesc').textContent = listing.description || '';
+
+        const featuresContainer = document.getElementById('listingDetailFeatures');
+        featuresContainer.innerHTML = '';
+        if (isBundle && Array.isArray(listing.features)) {
+            listing.features.forEach(f => {
+                const div = document.createElement('div');
+                div.className = 'listing-modal-feature-item';
+                div.innerHTML = '<b>' + escapeHtml(f.label || '') + '</b><span>' + escapeHtml(f.sub || '') + '</span>';
+                featuresContainer.appendChild(div);
+            });
+        }
+
+        document.getElementById('listingDetailOverlay').classList.add('open');
+    }
+
+    document.getElementById('viewListingBtn').addEventListener('click', openListingDetail);
+    document.getElementById('listingDetailClose').addEventListener('click', function () {
+        document.getElementById('listingDetailOverlay').classList.remove('open');
+    });
+    document.getElementById('listingDetailOverlay').addEventListener('click', function (e) {
+        if (e.target === this) this.classList.remove('open');
     });
 
     document.getElementById('makePaymentBtn').addEventListener('click', function () {

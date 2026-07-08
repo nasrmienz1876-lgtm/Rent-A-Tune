@@ -416,17 +416,9 @@ input:disabled {
             </div>
 
             <div class="nav-actions">
-                <div style="position: relative;">
-                    <button type="button" id="notifBtn" onclick="toggleNotifPanel()" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)">
-                        <span class="material-symbols-outlined">notifications</span>
-                    </button>
-                    <div id="notifPanel" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:var(--surface-container-lowest); border:1px solid var(--outline-variant); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.15); padding:12px; z-index:200;">
-                        <p style="font-weight:600; font-size:14px; margin-bottom:8px;">Notifications</p>
-                        <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">🎻 Your cello rental request was accepted.</p>
-                        <p style="font-size:13px; color:var(--on-surface-variant); margin-bottom:6px;">💬 New message from The Velvet Octave.</p>
-                        <p style="font-size:13px; color:var(--on-surface-variant);">✅ Payment released for your last booking.</p>
-                    </div>
-                </div>
+                <button type="button" id="ordersBtn" onclick="window.location.href='orders.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="My Orders">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                </button>
                 <button type="button" id="chatBtn" onclick="window.location.href='chat.html'" style="background: none; border: none; cursor: pointer; color: var(--on-surface-variant)" title="Open Messages">
                     <span class="material-symbols-outlined">chat</span>
                 </button>
@@ -560,19 +552,6 @@ input:disabled {
             clearTimeout(window.__toastTimer);
             window.__toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
         }
-
-        /* ---------- Navbar notification panel ---------- */
-        function toggleNotifPanel() {
-            const panel = document.getElementById('notifPanel');
-            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-        }
-        document.addEventListener('click', function (e) {
-            const notifPanel = document.getElementById('notifPanel');
-            const notifBtn = document.getElementById('notifBtn');
-            if (notifPanel && !notifPanel.contains(e.target) && e.target !== notifBtn && !notifBtn.contains(e.target)) {
-                notifPanel.style.display = 'none';
-            }
-        });
 
         /* ---------- Newsletter subscribe ---------- */
         document.getElementById('newsletterBtn').addEventListener('click', function (e) {

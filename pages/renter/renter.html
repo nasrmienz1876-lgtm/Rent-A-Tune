@@ -1110,6 +1110,50 @@ header {
     box-shadow: 0 4px 12px rgba(0, 64, 224, 0.2);
 }
 
+#page-chat .chat-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#page-chat .more-menu-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 180px;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 8px;
+    z-index: 60;
+    text-align: left;
+}
+
+#page-chat .more-menu-panel.open { display: block; }
+
+#page-chat .menu-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--on-surface);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#page-chat .menu-option:hover { background-color: var(--surface-container-high); }
+
+#page-chat .menu-option-danger { color: var(--error); }
+
 #page-chat .chat-messages {
     flex: 1;
     overflow-y: auto;
@@ -1896,6 +1940,87 @@ header {
 #page-listnew .btn-submit:active {
     transform: scale(0.98);
 }
+
+/* ============================= */
+/* Generic details modal (Inventory / Bookings / Inquiries) */
+/* ============================= */
+.detail-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 28, 48, 0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 500;
+}
+
+.detail-modal-overlay.open { display: flex; }
+
+.detail-modal {
+    background: var(--surface-container-lowest);
+    border-radius: var(--radius-lg, 12px);
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.detail-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(116, 118, 136, 0.15);
+}
+
+.detail-modal-header h3 {
+    font-size: 18px;
+}
+
+.detail-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--on-surface-variant);
+    display: flex;
+}
+
+.detail-modal-body { padding: 24px; }
+
+.detail-modal-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.detail-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-modal-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(116, 118, 136, 0.12);
+    font-size: 14px;
+}
+
+.detail-modal-row:last-child { border-bottom: none; }
+.detail-modal-row .label { color: var(--on-surface-variant); }
+.detail-modal-row .value { font-weight: 600; text-align: right; }
+
+.detail-modal-desc {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    line-height: 1.6;
+}
 </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Source+Serif+4:wght@600;700;900&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
@@ -1938,10 +2063,6 @@ header {
         </nav>
 
         <div class="sidebar-footer">
-            <a class="nav-link" href="#" onclick="alert('Settings page coming soon.'); return false;">
-                <span class="material-symbols-outlined">settings</span>
-                <span>Settings</span>
-            </a>
             <a class="nav-link logout" href="#" id="logoutLink">
                 <span class="material-symbols-outlined">logout</span>
                 <span>Logout</span>
@@ -1959,27 +2080,15 @@ header {
             </div>
 
             <div class="header-actions">
-                <div class="icon-group">
-                    <button class="icon-btn" onclick="alert('You have no new notifications.')">
-                        <span class="material-symbols-outlined">notifications</span>
-                        <span class="badge"></span>
-                    </button>
-                    <button class="icon-btn" onclick="alert('Help Center coming soon.')">
-                        <span class="material-symbols-outlined">help</span>
-                    </button>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="profile-area">
+                <a class="profile-area" href="../user/profile.html" style="text-decoration: none; color: inherit; cursor: pointer;" title="View / edit profile">
                     <div class="profile-info">
                         <p class="profile-name" id="profileNameText">Renter</p>
                         <p class="profile-role" id="profileRoleText">Renter</p>
                     </div>
                     <div class="avatar">
-                        <img alt="Renter User Avatar" src="../../images/user_profile.jpg" />
+                        <img alt="Renter User Avatar" id="headerAvatarImg" src="../../images/user_profile.jpg" />
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
@@ -2130,7 +2239,7 @@ header {
                         <div class="chat-window-header">
                             <div class="chat-window-user">
                                 <div class="avatar-wrap">
-                                    <img alt="Julian" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnXwhCDxIxO7EPaOEQPZWWx4m-lVVcCEQqGW0x5i4eTS4syGbx6WAPpD0b1cTvS-0B_u7MHfF2pHImjMf-3a-STbpLI5Jk57pQnKvaaEQEInfCnmlzwtuZZbCqtkuBjhRxALQxdEvdAekqNY19Cn95vcC_ScqwfIgSlfTmIRVA5fgX-Y_6cQ7riLkaM_bPL-BowxC_3uHSuJfZ-xP9hLrHLNpWxVzyfPDY7kuE5CV3mR-N6sYWoyJYt0tkseirv0k5HOKHPhls3A" />
+                                    <img alt="" id="activeChatAvatar" src="../../images/user_profile.jpg" />
                                     <span class="online-dot"></span>
                                 </div>
                                 <div>
@@ -2138,7 +2247,24 @@ header {
                                     <p class="status"><span class="status-dot"></span> Online</p>
                                 </div>
                             </div>
-                            <button class="btn-primary" id="requestPaymentBtn">Request Payment</button>
+                            <div class="chat-header-actions">
+                                <button class="btn-primary" id="requestPaymentBtn">Request Payment</button>
+                                <div style="position: relative;">
+                                    <button class="icon-btn" id="chatMoreBtn" title="More">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                    <div class="more-menu-panel" id="chatMoreMenuPanel">
+                                        <button type="button" class="menu-option" id="chatBlockUserBtn">
+                                            <span class="material-symbols-outlined" style="font-size: 18px;">block</span>
+                                            Block User
+                                        </button>
+                                        <button type="button" class="menu-option menu-option-danger" id="chatReportUserBtn">
+                                            <span class="material-symbols-outlined" style="font-size: 18px;">flag</span>
+                                            Report User
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="chat-messages" id="messageHistory"></div>
@@ -2149,9 +2275,6 @@ header {
                                     <span class="material-symbols-outlined">attach_file</span>
                                 </button>
                                 <input id="chatFileInput" style="display: none;" type="file" />
-                                <button class="icon-btn" id="emojiBtn">
-                                    <span class="material-symbols-outlined">sentiment_satisfied</span>
-                                </button>
                                 <input id="chatMessageInput" placeholder="Type a message to Julian..." type="text" />
                                 <button class="icon-btn send-btn" id="sendMessageBtn">
                                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
@@ -2524,6 +2647,19 @@ header {
         </div>
     </main>
 
+    <!-- Generic details modal (Inventory / Bookings / Inquiries) -->
+    <div class="detail-modal-overlay" id="detailModalOverlay">
+        <div class="detail-modal">
+            <div class="detail-modal-header">
+                <h3 id="detailModalTitle"></h3>
+                <button class="detail-modal-close" id="detailModalClose" type="button">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="detail-modal-body" id="detailModalBody"></div>
+        </div>
+    </div>
+
     <script>
         // --- Tab switching between the merged renter pages ---
         function showRenterPage(page) {
@@ -2570,11 +2706,6 @@ header {
 
         // (Chats page real-time logic — conversation list, messages, send, trigger payment —
         // now lives in the module script below, since it needs Firebase access)
-        document.getElementById('emojiBtn').addEventListener('click', function () {
-            const chatInput = document.getElementById('chatMessageInput');
-            chatInput.value += '😊';
-            chatInput.focus();
-        });
 
         // --- Bookings page interactivity ---
         // (Bookings row actions — Mark as Complete / View Details — now live in the module
@@ -2586,19 +2717,23 @@ header {
         });
 
         document.getElementById('exportBtn').addEventListener('click', function () {
+            // Builds an HTML table and downloads it as .xls — Excel opens HTML-table files
+            // natively, so no external spreadsheet library is needed.
             const table = document.getElementById('bookingsTable');
             const rows = Array.from(table.querySelectorAll('tr'));
-            const csv = rows.map(row => {
-                return Array.from(row.querySelectorAll('th, td'))
+            const escapeCell = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const html = '<table>' + rows.map(row => {
+                const tag = row.parentElement.tagName === 'THEAD' ? 'th' : 'td';
+                return '<tr>' + Array.from(row.querySelectorAll('th, td'))
                     .slice(0, 8)
-                    .map(cell => '"' + cell.textContent.trim().replace(/"/g, '""') + '"')
-                    .join(',');
-            }).join('\n');
-            const blob = new Blob([csv], { type: 'text/csv' });
+                    .map(cell => '<' + tag + '>' + escapeCell(cell.textContent.trim()) + '</' + tag + '>')
+                    .join('') + '</tr>';
+            }).join('') + '</table>';
+            const blob = new Blob(['﻿' + html], { type: 'application/vnd.ms-excel' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'bookings_export.csv';
+            a.download = 'bookings_export.xls';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -2667,9 +2802,10 @@ header {
     <script type="module">
         import { requireAuth, logOut } from '../../firebase/auth-helpers.js';
         import {
-            getMany, createDoc, updateDocFields, removeDoc, createSubDoc,
+            getMany, getOne, createDoc, updateDocFields, removeDoc, createSubDoc,
             subscribeToSubQuery, where, orderBy, serverTimestamp
         } from '../../firebase/firestore-helpers.js';
+        import { arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
         function escapeHtml(str) {
             const div = document.createElement('div');
@@ -2677,10 +2813,92 @@ header {
             return div.innerHTML;
         }
 
+        /* ---------- Generic details modal (Inventory / Bookings / Inquiries) ---------- */
+        function openDetailModal(title, bodyHtml) {
+            document.getElementById('detailModalTitle').textContent = title;
+            document.getElementById('detailModalBody').innerHTML = bodyHtml;
+            document.getElementById('detailModalOverlay').classList.add('open');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModalOverlay').classList.remove('open');
+        }
+
+        document.getElementById('detailModalClose').addEventListener('click', closeDetailModal);
+        document.getElementById('detailModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeDetailModal();
+        });
+
+        function detailRow(label, value) {
+            return '<div class="detail-modal-row"><span class="label">' + escapeHtml(label) + '</span><span class="value">' + value + '</span></div>';
+        }
+
+        function openListingDetail(listing) {
+            const isBand = listing.listingType === 'band';
+            const isBundle = listing.listingType === 'bundle';
+            const priceUnit = isBundle ? '/event' : (isBand ? '/show' : '/day');
+            const img = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
+            const statusLabel = (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
+
+            let bodyHtml =
+                '<div class="detail-modal-image"><img alt="' + escapeHtml(listing.title) + '" src="' + escapeHtml(img) + '" /></div>' +
+                detailRow('Category', escapeHtml(listing.category || '—')) +
+                detailRow('Price', 'RM' + listing.price + ' ' + priceUnit) +
+                detailRow('Location', escapeHtml(listing.location || '—')) +
+                detailRow('Status', escapeHtml(statusLabel)) +
+                detailRow('Rating', (listing.rating || 0).toFixed(1) + ' (' + (listing.ratingCount || 0) + ')');
+            if (isBand) {
+                bodyHtml += detailRow('Members', escapeHtml(listing.members || '—'));
+                bodyHtml += detailRow('Availability', escapeHtml(listing.availability || '—'));
+            } else if (!isBundle) {
+                bodyHtml += detailRow('Brand', escapeHtml(listing.brand || '—'));
+                bodyHtml += detailRow('Availability', escapeHtml(listing.availability || '—'));
+            }
+            if (isBundle && Array.isArray(listing.features) && listing.features.length) {
+                bodyHtml += listing.features.map(f =>
+                    detailRow(f.label || 'Feature', escapeHtml(f.sub || ''))
+                ).join('');
+            }
+            bodyHtml += '<p class="detail-modal-desc">' + escapeHtml(listing.description || '') + '</p>';
+
+            openDetailModal(listing.title, bodyHtml);
+        }
+
+        function openBookingDetail(booking) {
+            const status = booking.bookingStatus || 'active';
+            const bodyHtml =
+                detailRow('Booking ID', '#' + escapeHtml(booking.id.slice(0, 6))) +
+                detailRow('Customer', escapeHtml(booking.customerName || 'Customer')) +
+                detailRow('Item', escapeHtml(booking.listingTitle || '')) +
+                detailRow('From', formatBookingDate(booking.startDate)) +
+                detailRow('To', formatBookingDate(booking.endDate)) +
+                detailRow('Shipping', shippingLabel(booking)) +
+                detailRow('Total', 'RM' + booking.totalAmount) +
+                detailRow('Payment Method', escapeHtml(booking.paymentMethod === 'card' ? 'Credit / Debit Card' : (booking.paymentMethod || '—'))) +
+                detailRow('Escrow Status', escapeHtml(booking.escrowStatus === 'released' ? 'Released to you' : 'Held in escrow')) +
+                detailRow('Status', escapeHtml(status.charAt(0).toUpperCase() + status.slice(1)));
+
+            openDetailModal('Booking Details', bodyHtml);
+        }
+
+        function openInquiryDetail(convo) {
+            const other = renterOtherParticipant(convo);
+            const bodyHtml =
+                detailRow('Customer', escapeHtml(other.name)) +
+                detailRow('Customer ID', '#' + escapeHtml(other.uid.slice(0, 6))) +
+                detailRow('Item', escapeHtml(convo.listingTitle || '—')) +
+                detailRow('Status', escapeHtml((convo.status || 'negotiation').charAt(0).toUpperCase() + (convo.status || 'negotiation').slice(1))) +
+                detailRow('Last Message', escapeHtml(convo.lastMessage || '—'));
+
+            openDetailModal('Inquiry Details', bodyHtml);
+        }
+
         const { uid: currentUid, profile: currentProfile } = await requireAuth(['renter', 'admin'], '../user/login.html');
+        let renterBlockedUsers = currentProfile.blockedUsers || [];
 
         document.getElementById('profileNameText').textContent = currentProfile.fullName || currentProfile.username || 'Renter';
         document.getElementById('profileRoleText').textContent = currentProfile.role === 'admin' ? 'Admin' : 'Renter';
+        document.getElementById('headerAvatarImg').src = currentProfile.avatarUrl || '../../images/user_profile.jpg';
 
         document.getElementById('logoutLink').addEventListener('click', async function (e) {
             e.preventDefault();
@@ -2764,9 +2982,8 @@ header {
                     }
                 }
             } else if (icon === 'visibility') {
-                const price = card.querySelector('.price').textContent.trim();
-                const location = card.querySelector('.location span:last-child').textContent.trim();
-                alert(title + '\nLocation: ' + location + '\nPrice: ' + price);
+                const listing = myListingsCache.find(l => l.id === listingId);
+                if (listing) openListingDetail(listing);
             } else if (icon === 'edit') {
                 const listing = myListingsCache.find(l => l.id === listingId);
                 if (listing) populateListingForm(listing);
@@ -2947,6 +3164,26 @@ header {
             return { uid: otherUid, name };
         }
 
+        /* Real profile photos for the other participant in each conversation — keyed by uid so
+           every card/header/message bubble for the same person reuses one fetch. */
+        const otherUserAvatarCache = {};
+
+        async function ensureOtherAvatars(convos) {
+            const uids = [...new Set(convos.map(c => renterOtherParticipant(c).uid).filter(uid => uid && !(uid in otherUserAvatarCache)))];
+            await Promise.all(uids.map(async uid => {
+                try {
+                    const u = await getOne('users', uid);
+                    otherUserAvatarCache[uid] = (u && u.avatarUrl) || '../../images/user_profile.jpg';
+                } catch (err) {
+                    otherUserAvatarCache[uid] = '../../images/user_profile.jpg';
+                }
+            }));
+        }
+
+        function otherAvatar(uid) {
+            return otherUserAvatarCache[uid] || '../../images/user_profile.jpg';
+        }
+
         function renderChatListItem(convo) {
             const other = renterOtherParticipant(convo);
             const div = document.createElement('div');
@@ -2955,7 +3192,7 @@ header {
             const lastAt = convo.lastMessageAt && convo.lastMessageAt.toDate ? convo.lastMessageAt.toDate() : null;
             const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
             div.innerHTML =
-                '<div class="avatar-wrap"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../../images/user_profile.jpg') + '" /></div>' +
+                '<div class="avatar-wrap"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(otherAvatar(other.uid)) + '" /></div>' +
                 '<div class="chat-list-item-body">' +
                     '<div class="chat-list-item-top"><span class="name">' + escapeHtml(other.name) + '</span><span class="time">' + escapeHtml(timeLabel) + '</span></div>' +
                     '<p class="item-title">' + escapeHtml(convo.listingTitle || '') + '</p>' +
@@ -2974,6 +3211,8 @@ header {
 
         function renderRenterMessages(msgs) {
             const area = document.getElementById('messageHistory');
+            const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
+            const otherUid = convo ? renterOtherParticipant(convo).uid : null;
             area.innerHTML = '';
             msgs.forEach(m => {
                 const isMine = m.senderId === currentUid;
@@ -2984,7 +3223,7 @@ header {
                     : '';
                 let inner = '';
                 if (!isMine) {
-                    inner += '<img alt="" src="../../images/user_profile.jpg" />';
+                    inner += '<img alt="" src="' + escapeHtml(otherAvatar(otherUid)) + '" />';
                 }
                 inner += '<div class="message-bubble"><p></p><span class="msg-time">' + escapeHtml(time) + '</span></div>';
                 wrap.innerHTML = inner;
@@ -3007,7 +3246,10 @@ header {
                 btn.textContent = 'Request Payment';
                 return;
             }
-            if (convo.status === 'booked') {
+            if (convo.status === 'completed') {
+                btn.disabled = true;
+                btn.textContent = 'Order Completed';
+            } else if (convo.status === 'booked') {
                 btn.disabled = true;
                 btn.textContent = 'Payment Completed';
             } else if (convo.paymentRequested) {
@@ -3029,6 +3271,7 @@ header {
             });
             const other = renterOtherParticipant(convo);
             document.getElementById('activeChatName').textContent = other.name;
+            document.getElementById('activeChatAvatar').src = otherAvatar(other.uid);
             document.getElementById('chatMessageInput').placeholder = 'Type a message to ' + other.name + '...';
             updateRequestPaymentBtnState(convo);
 
@@ -3038,11 +3281,13 @@ header {
 
         async function loadRenterConversations() {
             renterConversationsCache = await getMany('conversations', where('participantIds', 'array-contains', currentUid));
+            renterConversationsCache = renterConversationsCache.filter(c => !renterBlockedUsers.includes(renterOtherParticipant(c).uid));
             renterConversationsCache.sort((a, b) => {
                 const at = a.lastMessageAt && a.lastMessageAt.toMillis ? a.lastMessageAt.toMillis() : 0;
                 const bt = b.lastMessageAt && b.lastMessageAt.toMillis ? b.lastMessageAt.toMillis() : 0;
                 return bt - at;
             });
+            await ensureOtherAvatars(renterConversationsCache);
             renderRenterChatList();
             if (renterConversationsCache.length === 0) {
                 setRenterChatWindowVisible(false);
@@ -3052,6 +3297,68 @@ header {
                 openRenterConversation(renterConversationsCache[0].id);
             }
         }
+
+        /* ---------- Chat more menu (Block / Report customer) ---------- */
+        const chatMoreMenuPanel = document.getElementById('chatMoreMenuPanel');
+        document.getElementById('chatMoreBtn').addEventListener('click', function (e) {
+            e.stopPropagation();
+            chatMoreMenuPanel.classList.toggle('open');
+        });
+        document.addEventListener('click', function (e) {
+            if (chatMoreMenuPanel.classList.contains('open') && !chatMoreMenuPanel.contains(e.target) && e.target !== document.getElementById('chatMoreBtn')) {
+                chatMoreMenuPanel.classList.remove('open');
+            }
+        });
+
+        document.getElementById('chatBlockUserBtn').addEventListener('click', async function () {
+            chatMoreMenuPanel.classList.remove('open');
+            const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
+            if (!convo) return;
+            const other = renterOtherParticipant(convo);
+            if (!confirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.')) return;
+            try {
+                await updateDocFields('users', currentUid, { blockedUsers: arrayUnion(other.uid) });
+                renterBlockedUsers.push(other.uid);
+                renterConversationsCache = renterConversationsCache.filter(c => c.id !== activeRenterConvoId);
+                if (unsubscribeRenterMessages) { unsubscribeRenterMessages(); unsubscribeRenterMessages = null; }
+                activeRenterConvoId = null;
+                document.getElementById('messageHistory').innerHTML = '';
+                renderRenterChatList();
+                if (renterConversationsCache.length) {
+                    openRenterConversation(renterConversationsCache[0].id);
+                } else {
+                    setRenterChatWindowVisible(false);
+                }
+                alert(other.name + ' has been blocked.');
+            } catch (err) {
+                alert('Could not block this user. Please try again.');
+            }
+        });
+
+        document.getElementById('chatReportUserBtn').addEventListener('click', async function () {
+            chatMoreMenuPanel.classList.remove('open');
+            const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
+            if (!convo) return;
+            const other = renterOtherParticipant(convo);
+            const reason = prompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
+            if (reason === null) return;
+            if (!reason.trim()) {
+                alert('Please enter a reason to submit a report.');
+                return;
+            }
+            try {
+                await createDoc('reports', {
+                    reporterId: currentUid,
+                    reportedUserId: other.uid,
+                    conversationId: activeRenterConvoId,
+                    reason: reason.trim(),
+                    status: 'pending'
+                });
+                alert('Report submitted. Our team will review this conversation.');
+            } catch (err) {
+                alert('Could not submit report. Please try again.');
+            }
+        });
 
         document.getElementById('chatSearchInput').addEventListener('input', function () {
             const term = this.value.toLowerCase();
@@ -3063,6 +3370,41 @@ header {
         document.getElementById('attachFileBtn').addEventListener('click', function () {
             alert('File attachments will open your device file picker.');
         });
+
+        /* ---------- Auto-moderation: flag phone numbers, social media handles, and
+           external-payment mentions for admin review (Chat Monitor). The message is still
+           delivered normally — only a violation record is logged. */
+        function detectChatViolation(text) {
+            if (/(\+?\d[\d\-\s]{6,}\d)/.test(text)) return 'Phone Number';
+            const lower = text.toLowerCase();
+            const socialKeywords = ['instagram', 'whatsapp', 'telegram', 'facebook', 'snapchat', 'tiktok', 'wechat', 'dm me', '@'];
+            if (socialKeywords.some(k => lower.includes(k))) return 'Social Media';
+            const paymentKeywords = ['paypal', 'venmo', 'duitnow', 'bank transfer', 'western union', 'crypto', 'bitcoin', 'cash only', 'outside the app', 'outside rent a tune'];
+            if (paymentKeywords.some(k => lower.includes(k))) return 'External Payment';
+            return null;
+        }
+
+        async function flagRenterViolationIfAny(text) {
+            const type = detectChatViolation(text);
+            if (!type) return;
+            const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
+            if (!convo) return;
+            const other = renterOtherParticipant(convo);
+            try {
+                await createDoc('violations', {
+                    conversationId: activeRenterConvoId,
+                    offenderId: currentUid,
+                    offenderName: currentProfile.fullName || currentProfile.username,
+                    recipientId: other.uid,
+                    recipientName: other.name,
+                    type,
+                    message: text,
+                    status: 'pending'
+                });
+            } catch (err) {
+                // Moderation logging should never block the chat itself.
+            }
+        }
 
         async function sendRenterMessage() {
             const input = document.getElementById('chatMessageInput');
@@ -3079,6 +3421,7 @@ header {
                     lastMessage: text,
                     lastMessageAt: serverTimestamp()
                 });
+                await flagRenterViolationIfAny(text);
             } catch (err) {
                 alert('Could not send message. Please try again.');
             }
@@ -3096,7 +3439,7 @@ header {
                 return;
             }
             const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
-            if (convo && (convo.status === 'booked' || convo.paymentRequested)) return;
+            if (convo && (convo.status === 'booked' || convo.status === 'completed' || convo.paymentRequested)) return;
             if (!confirm('Send a payment request to this customer?')) return;
             const text = '💰 Payment has been requested for this booking. Please proceed to checkout to complete payment.';
             try {
@@ -3121,6 +3464,18 @@ header {
         /* ---------- Bookings ---------- */
         let bookingsCache = [];
 
+        function formatBookingDate(dateStr) {
+            if (!dateStr) return '—';
+            const d = new Date(dateStr + 'T00:00:00');
+            return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function shippingLabel(booking) {
+            if (booking.fulfilmentMethod === 'delivery') return 'Delivery';
+            if (booking.fulfilmentMethod === 'pickup') return 'Pickup';
+            return '—';
+        }
+
         function renderBookingRow(booking) {
             const tr = document.createElement('tr');
             tr.dataset.bookingId = booking.id;
@@ -3135,9 +3490,9 @@ header {
                 '<td class="font-bold">' + escapeHtml(booking.customerName || 'Customer') + '</td>' +
                 '<td>' + escapeHtml(booking.listingTitle || '') + '</td>' +
                 '<td class="text-right">RM' + booking.totalAmount + '</td>' +
-                '<td class="font-bold">—</td>' +
-                '<td class="font-bold">—</td>' +
-                '<td>—</td>' +
+                '<td class="font-bold">' + formatBookingDate(booking.startDate) + '</td>' +
+                '<td class="font-bold">' + formatBookingDate(booking.endDate) + '</td>' +
+                '<td>' + shippingLabel(booking) + '</td>' +
                 '<td class="text-center"><span class="badget ' + statusClass + '">' + escapeHtml(status) + '</span></td>' +
                 '<td class="text-right">' + actionsHtml + '</td>';
             return tr;
@@ -3163,18 +3518,18 @@ header {
                 if (!confirm('Mark this booking as complete? This releases the escrowed payment to you.')) return;
                 try {
                     await updateDocFields('bookings', booking.id, { bookingStatus: 'completed', escrowStatus: 'released' });
-                    await loadBookings();
+                    if (booking.conversationId) {
+                        await updateDocFields('conversations', booking.conversationId, { status: 'completed' });
+                    }
+                    await Promise.all([loadBookings(), loadRenterConversations()]);
+                    renderInventoryStats();
+                    renderOverviewMetrics();
+                    renderOverviewInquiries();
                 } catch (err) {
                     alert('Could not update this booking: ' + (err.message || 'please try again.'));
                 }
             } else if (e.target.closest('.btn-details')) {
-                alert(
-                    'Booking #' + booking.id.slice(0, 6) + '\n' +
-                    'Customer: ' + (booking.customerName || 'Customer') + '\n' +
-                    'Item: ' + (booking.listingTitle || '') + '\n' +
-                    'Total: RM' + booking.totalAmount + '\n' +
-                    'Status: ' + (booking.bookingStatus || 'active')
-                );
+                openBookingDetail(booking);
             }
         });
 
@@ -3209,7 +3564,7 @@ header {
                 ? ratedListings.reduce((sum, l) => sum + (l.rating || 0), 0) / ratedListings.length
                 : 0;
 
-            const pendingInquiries = renterConversationsCache.filter(c => c.status !== 'booked' && c.status !== 'cancelled');
+            const pendingInquiries = renterConversationsCache.filter(c => c.status !== 'booked' && c.status !== 'completed' && c.status !== 'cancelled');
 
             document.getElementById('totalRevenueValue').textContent = 'RM' + totalRevenue.toFixed(2);
             document.getElementById('totalRentalsValue').textContent = nonCancelledBookings.length;
@@ -3222,9 +3577,13 @@ header {
             const other = renterOtherParticipant(convo);
             const initials = other.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
             let statusClass, statusLabel, actionHtml;
-            if (convo.status === 'booked') {
+            if (convo.status === 'completed') {
                 statusClass = 'pill-green';
                 statusLabel = 'Completed';
+                actionHtml = '<button class="details-btn" type="button">Details</button>';
+            } else if (convo.status === 'booked') {
+                statusClass = 'pill-blue';
+                statusLabel = 'Booked';
                 actionHtml = '<button class="details-btn" type="button">Details</button>';
             } else if (convo.status === 'cancelled') {
                 statusClass = 'pill-red';
@@ -3266,13 +3625,7 @@ header {
                 window.showRenterPage('chat');
                 openRenterConversation(convo.id);
             } else if (e.target.closest('.details-btn')) {
-                const other = renterOtherParticipant(convo);
-                alert(
-                    'Inquiry Details\n' +
-                    'Customer: ' + other.name + '\n' +
-                    'Item: ' + (convo.listingTitle || '—') + '\n' +
-                    'Status: ' + (convo.status || 'negotiation')
-                );
+                openInquiryDetail(convo);
             }
         });
 

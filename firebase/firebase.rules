@@ -17,6 +17,9 @@ service cloud.firestore {
     function onlyRoleAndStatusChanged() {
       return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'status', 'updatedAt']);
     }
+    function onlyRatingFieldsChanged() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'ratingCount', 'updatedAt']);
+    }
 
     match /users/{uid} {
       allow read:   if isSelf(uid) || isAdmin();
@@ -39,7 +42,8 @@ service cloud.firestore {
       allow create: if isRenter() && request.resource.data.ownerId == request.auth.uid;
       allow update: if (isRenter() && resource.data.ownerId == request.auth.uid
                         && request.resource.data.ownerId == resource.data.ownerId)
-                    || isAdmin();
+                    || isAdmin()
+                    || (isSignedIn() && onlyRatingFieldsChanged());
       allow delete: if (isSignedIn() && resource.data.ownerId == request.auth.uid) || isAdmin();
     }
 
@@ -52,6 +56,15 @@ service cloud.firestore {
                     (resource.data.customerId == request.auth.uid
                      || resource.data.renterId == request.auth.uid || isAdmin());
       allow delete: if isAdmin();
+    }
+
+    // Lightweight, non-sensitive mirror of each booking's date range (no customer/price info),
+    // so checkout.html can grey out already-booked calendar days for a listing without needing
+    // read access to other customers' full booking documents.
+    match /bookingDates/{id} {
+      allow read:   if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
     }
 
     match /conversations/{convoId} {
@@ -72,6 +85,11 @@ service cloud.firestore {
     match /reports/{reportId} {
       allow read, write: if isAdmin();
       allow create: if isSignedIn() && request.resource.data.reporterId == request.auth.uid;
+    }
+
+    match /violations/{violationId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.offenderId == request.auth.uid;
     }
 
     match /contactMessages/{msgId} {

@@ -519,6 +519,113 @@
             align-items: center;
             gap: 0.5rem;
         }
+
+        /* ============================= */
+        /* Rental date calendar */
+        /* ============================= */
+        .calendar-widget {
+            border: 1px solid var(--outline-variant);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .calendar-month-label {
+            font-weight: 600;
+        }
+
+        .calendar-nav-btn {
+            background: none;
+            border: 1px solid var(--outline-variant);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .calendar-nav-btn:hover { background-color: var(--surface-container-high); }
+
+        .calendar-weekdays, .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .calendar-weekdays span {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            text-transform: uppercase;
+            padding-bottom: 4px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            color: var(--on-surface);
+        }
+
+        .calendar-day:hover:not(.disabled) { background-color: var(--surface-container-high); }
+
+        .calendar-day.disabled {
+            color: var(--outline-variant);
+            background-color: var(--surface-container-low);
+            cursor: not-allowed;
+        }
+
+        .calendar-day.range-start, .calendar-day.range-end {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            font-weight: 700;
+        }
+
+        .calendar-day.in-range {
+            background-color: var(--surface-container-high);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .calendar-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--on-surface-variant);
+            align-items: center;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        .legend-selected { background-color: var(--primary); }
+        .legend-booked { background-color: var(--outline-variant); }
+
+        .calendar-selection-summary {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
     </style>
 </head>
 <body>
@@ -578,25 +685,23 @@
 </div>
 </div>
 <div class="pricing-list text-body-md">
+<div class="form-group" id="rentalDateFields" style="margin-bottom: 0;"></div>
 <div class="pricing-row">
-<span class="pricing-label">Rental Dates</span>
-<span class="pricing-value" id="checkoutDatesValue">Oct 12 - Oct 15 (3 Days)</span>
+<span class="pricing-label" id="checkoutRateLabel">Daily Rate</span>
+<span id="checkoutRateValue">RM0.00</span>
 </div>
-<div class="pricing-row">
-<span class="pricing-label" id="checkoutRateLabel">Daily Rate (RM85.00 x 3)</span>
-<span id="checkoutRateValue">RM255.00</span>
-</div>
-<div class="pricing-row">
+<div id="fulfilmentFields"></div>
+<div class="pricing-row" id="deliveryFeeRow" style="display:none;">
 <span class="pricing-label">Pickup/Delivery Fee</span>
-<span id="checkoutDeliveryValue">RM25.00</span>
+<span id="checkoutDeliveryValue">RM0.00</span>
 </div>
 <div class="pricing-row">
-<span class="pricing-label">Platform Fee</span>
-<span id="checkoutPlatformValue">RM12.50</span>
+<span class="pricing-label" id="checkoutPlatformLabel">Platform Fee</span>
+<span id="checkoutPlatformValue">RM0.00</span>
 </div>
 <div class="total-row">
 <span class="font-headline text-headline-md">Total Amount</span>
-<span class="font-display text-headline-lg total-amount" id="checkoutTotalValue">RM292.50</span>
+<span class="font-display text-headline-lg total-amount" id="checkoutTotalValue">RM0.00</span>
 </div>
 </div>
 </div>
@@ -616,7 +721,7 @@
 <div class="card payment-card payment-sticky">
 <h3 class="font-headline text-headline-md" style="margin-bottom: 24px;">Payment Method</h3>
 <form>
-<div class="method-selector">
+<div class="method-selector" id="paymentMethodSelector">
 <label class="method-option active">
 <input checked="" class="method-radio" name="payment_method" type="radio" value="card"/>
 <div class="method-info">
@@ -626,13 +731,6 @@
 <div style="display: flex; gap: 4px;">
 <span style="width: 24px; height: 16px; background-color: #e2e8f0; border-radius: 2px;"></span>
 <span style="width: 24px; height: 16px; background-color: #cbd5e1; border-radius: 2px;"></span>
-</div>
-</label>
-<label class="method-option">
-<input class="method-radio" name="payment_method" type="radio" value="wallet"/>
-<div class="method-info">
-<span class="material-symbols-outlined icon">account_balance_wallet</span>
-<span class="text-label-lg" style="color: var(--on-surface);">Digital Wallet</span>
 </div>
 </label>
 </div>
@@ -723,7 +821,7 @@
 </footer>
 <script type="module">
     import { requireAuth, renderAuthNav } from '../../firebase/auth-helpers.js';
-    import { getOne, createDoc, updateDocFields } from '../../firebase/firestore-helpers.js';
+    import { getOne, getMany, createDoc, updateDocFields, where } from '../../firebase/firestore-helpers.js';
 
     renderAuthNav('profileLink');
 
@@ -751,35 +849,273 @@
         throw new Error('Listing not found');
     }
 
+    const PLATFORM_FEE_RATE = 0.10; // Platform fee: 10% of the rental subtotal
     const DELIVERY_FEE = 25;
-    const PLATFORM_FEE_RATE = 0.05;
-    const DEFAULT_DAYS = 3;
-    const isShow = listing.priceUnit === 'show';
-    const days = isShow ? 1 : DEFAULT_DAYS;
-    const subtotal = isShow ? listing.price : listing.price * DEFAULT_DAYS;
-    const deliveryFee = DELIVERY_FEE;
-    const platformFee = Math.round(subtotal * PLATFORM_FEE_RATE * 100) / 100;
-    const total = Math.round((subtotal + deliveryFee + platformFee) * 100) / 100;
+
+    const isBand = listing.listingType === 'band';
+    const isBundle = listing.listingType === 'bundle';
+    const isSingleEvent = isBand || isBundle;
+
+    // Pickup/delivery only applies to day-based instrument rentals. A listing offers a real
+    // choice only when its availability is "Available for pickup & delivery" — otherwise
+    // whichever single option it supports (or plain pickup, if unset) is used automatically.
+    let allowsPickup = true;
+    let allowsDelivery = false;
+    if (!isSingleEvent) {
+        if (listing.availability === 'Delivery Only') {
+            allowsPickup = false;
+            allowsDelivery = true;
+        } else if (listing.availability === 'Available for pickup & delivery') {
+            allowsDelivery = true;
+        }
+    }
+    let fulfilmentMethod = allowsPickup ? 'pickup' : 'delivery';
+
+    function toDateKey(d) {
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function sameDay(a, b) {
+        return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+    }
+
+    /** Every calendar day already covered by someone else's non-cancelled booking of this listing.
+        Reads from the lightweight "bookingDates" mirror (no customer/price info) since a customer
+        isn't authorized to read other customers' full booking documents. */
+    function buildBookedDateSet(dateDocs) {
+        const set = new Set();
+        dateDocs.forEach(b => {
+            if ((b.status || 'active') === 'cancelled') return;
+            if (!b.startDate || !b.endDate) return;
+            let d = new Date(b.startDate + 'T00:00:00');
+            const end = new Date(b.endDate + 'T00:00:00');
+            while (d <= end) {
+                set.add(toDateKey(d));
+                d.setDate(d.getDate() + 1);
+            }
+        });
+        return set;
+    }
+
+    const existingBookingDates = await getMany('bookingDates', where('listingId', '==', listing.id));
+    let bookedDateSet = buildBookedDateSet(existingBookingDates);
 
     document.getElementById('checkoutProductImg').src = (listing.photos && listing.photos[0]) || '../../images/user_profile.jpg';
     document.getElementById('checkoutStatusBadge').textContent =
         (listing.status || 'available').charAt(0).toUpperCase() + (listing.status || 'available').slice(1);
     document.getElementById('checkoutTitle').textContent = listing.title;
     document.getElementById('checkoutSubtitle').textContent = listing.description || listing.category || '';
-    document.getElementById('checkoutDatesValue').textContent = isShow ? 'Show booking' : (days + ' Days (to be confirmed with renter)');
-    document.getElementById('checkoutRateLabel').textContent = isShow ? 'Show Fee' : ('Daily Rate (RM' + listing.price.toFixed(2) + ' x ' + days + ')');
-    document.getElementById('checkoutRateValue').textContent = 'RM' + subtotal.toFixed(2);
-    document.getElementById('checkoutDeliveryValue').textContent = 'RM' + deliveryFee.toFixed(2);
-    document.getElementById('checkoutPlatformValue').textContent = 'RM' + platformFee.toFixed(2);
-    document.getElementById('checkoutTotalValue').textContent = 'RM' + total.toFixed(2);
+
+    /* ---------- Rental date calendar ---------- */
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let calendarViewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedStart = null;
+    let selectedEnd = null;
+
+    function isBooked(d) { return bookedDateSet.has(toDateKey(d)); }
+    function isPast(d) { return d < today; }
+
+    function rangeHasBookedDay(a, b) {
+        let d = new Date(Math.min(a, b));
+        const end = new Date(Math.max(a, b));
+        while (d <= end) {
+            if (isBooked(d)) return true;
+            d.setDate(d.getDate() + 1);
+        }
+        return false;
+    }
+
+    const dateFieldsEl = document.getElementById('rentalDateFields');
+    dateFieldsEl.innerHTML =
+        '<label class="form-label text-label-md">' + (isBundle ? 'Event Date' : (isBand ? 'Show Date' : 'Rental Dates')) + '</label>' +
+        '<div class="calendar-widget">' +
+            '<div class="calendar-header">' +
+                '<button type="button" class="calendar-nav-btn" id="calPrevBtn"><span class="material-symbols-outlined">chevron_left</span></button>' +
+                '<span class="calendar-month-label" id="calMonthLabel"></span>' +
+                '<button type="button" class="calendar-nav-btn" id="calNextBtn"><span class="material-symbols-outlined">chevron_right</span></button>' +
+            '</div>' +
+            '<div class="calendar-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>' +
+            '<div class="calendar-grid" id="calGrid"></div>' +
+            '<div class="calendar-legend">' +
+                '<span><i class="legend-dot legend-selected"></i>Selected</span>' +
+                '<span><i class="legend-dot legend-booked"></i>Already booked</span>' +
+            '</div>' +
+        '</div>' +
+        '<p class="calendar-selection-summary" id="calSelectionSummary"></p>';
+
+    function renderCalendar() {
+        const grid = document.getElementById('calGrid');
+        grid.innerHTML = '';
+        const year = calendarViewDate.getFullYear();
+        const month = calendarViewDate.getMonth();
+        document.getElementById('calMonthLabel').textContent =
+            calendarViewDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+
+        const startOffset = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < startOffset; i++) {
+            grid.appendChild(document.createElement('div'));
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+            const d = new Date(year, month, day);
+            const cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'calendar-day';
+            cell.textContent = day;
+
+            if (isBooked(d) || isPast(d)) {
+                cell.classList.add('disabled');
+                cell.disabled = true;
+            } else {
+                cell.addEventListener('click', () => onDayClick(d));
+            }
+
+            if (selectedStart && sameDay(d, selectedStart)) cell.classList.add('range-start');
+            if (selectedEnd && sameDay(d, selectedEnd)) cell.classList.add('range-end');
+            if (selectedStart && selectedEnd && d > selectedStart && d < selectedEnd) cell.classList.add('in-range');
+
+            grid.appendChild(cell);
+        }
+
+        const summary = document.getElementById('calSelectionSummary');
+        if (isSingleEvent) {
+            summary.textContent = selectedStart ? ('Selected: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })) : 'Select a date on the calendar.';
+        } else if (selectedStart && selectedEnd) {
+            const nights = Math.round((selectedEnd - selectedStart) / 86400000);
+            summary.textContent = 'Selected: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) +
+                ' → ' + selectedEnd.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) +
+                ' (' + nights + ' day' + (nights === 1 ? '' : 's') + ')';
+        } else if (selectedStart) {
+            summary.textContent = 'Start: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) + ' — now pick an end date.';
+        } else {
+            summary.textContent = 'Select your start and end dates on the calendar.';
+        }
+    }
+
+    function onDayClick(d) {
+        if (isSingleEvent) {
+            selectedStart = d;
+            selectedEnd = d;
+        } else if (!selectedStart || selectedEnd) {
+            selectedStart = d;
+            selectedEnd = null;
+        } else if (d < selectedStart) {
+            selectedStart = d;
+            selectedEnd = null;
+        } else if (sameDay(d, selectedStart)) {
+            selectedEnd = null;
+        } else if (rangeHasBookedDay(selectedStart, d)) {
+            showToast('That range includes an already-booked date. Please choose different dates.');
+            selectedStart = d;
+            selectedEnd = null;
+        } else {
+            selectedEnd = d;
+        }
+        renderCalendar();
+        recalculate();
+    }
+
+    document.getElementById('calPrevBtn').addEventListener('click', () => {
+        calendarViewDate.setMonth(calendarViewDate.getMonth() - 1);
+        renderCalendar();
+    });
+    document.getElementById('calNextBtn').addEventListener('click', () => {
+        calendarViewDate.setMonth(calendarViewDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    renderCalendar();
+
+    /* ---------- Pickup/delivery field(s) ---------- */
+    const fulfilmentFieldsEl = document.getElementById('fulfilmentFields');
+    if (!isSingleEvent && allowsPickup && allowsDelivery) {
+        fulfilmentFieldsEl.innerHTML =
+            '<div class="method-selector" id="fulfilmentChoice" style="margin: 8px 0 16px;">' +
+                '<label class="method-option active" data-method="pickup">' +
+                    '<input checked class="method-radio" name="fulfilment_method" type="radio" value="pickup" />' +
+                    '<div class="method-info">' +
+                        '<span class="material-symbols-outlined icon">storefront</span>' +
+                        '<span class="text-label-lg" style="color: var(--on-surface);">Self Pickup</span>' +
+                    '</div>' +
+                    '<span class="text-body-sm" style="color: var(--on-surface-variant);">Free</span>' +
+                '</label>' +
+                '<label class="method-option" data-method="delivery">' +
+                    '<input class="method-radio" name="fulfilment_method" type="radio" value="delivery" />' +
+                    '<div class="method-info">' +
+                        '<span class="material-symbols-outlined icon">local_shipping</span>' +
+                        '<span class="text-label-lg" style="color: var(--on-surface);">Delivery</span>' +
+                    '</div>' +
+                    '<span class="text-body-sm" style="color: var(--on-surface-variant);">+RM' + DELIVERY_FEE.toFixed(2) + '</span>' +
+                '</label>' +
+            '</div>';
+        document.querySelectorAll('#fulfilmentChoice .method-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('#fulfilmentChoice .method-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                this.querySelector('.method-radio').checked = true;
+                fulfilmentMethod = this.dataset.method;
+                recalculate();
+            });
+        });
+    } else if (!isSingleEvent) {
+        fulfilmentFieldsEl.innerHTML =
+            '<div class="pricing-row" style="margin-bottom: 16px;">' +
+                '<span class="pricing-label">Fulfilment</span>' +
+                '<span class="pricing-value">' + (allowsDelivery ? 'Delivery Only' : 'Self Pickup Only') + '</span>' +
+            '</div>';
+    }
+
+    let days = 0;
+    let subtotal = 0;
+    let deliveryFee = 0;
+    let platformFee = 0;
+    let total = 0;
+
+    function recalculate() {
+        if (isSingleEvent) {
+            days = selectedStart ? 1 : 0;
+            subtotal = selectedStart ? listing.price : 0;
+        } else {
+            days = (selectedStart && selectedEnd) ? Math.max(1, Math.round((selectedEnd - selectedStart) / 86400000)) : 0;
+            subtotal = listing.price * days;
+        }
+
+        deliveryFee = (!isSingleEvent && fulfilmentMethod === 'delivery') ? DELIVERY_FEE : 0;
+        platformFee = Math.round(subtotal * PLATFORM_FEE_RATE * 100) / 100;
+        total = Math.round((subtotal + deliveryFee + platformFee) * 100) / 100;
+
+        document.getElementById('checkoutRateLabel').textContent = isSingleEvent
+            ? ((isBundle ? 'Event' : 'Show') + ' Fee')
+            : ('Daily Rate (RM' + listing.price.toFixed(2) + (days ? ' x ' + days : '') + ')');
+        document.getElementById('checkoutRateValue').textContent = 'RM' + subtotal.toFixed(2);
+        document.getElementById('deliveryFeeRow').style.display = (!isSingleEvent && allowsDelivery) ? 'flex' : 'none';
+        document.getElementById('checkoutDeliveryValue').textContent = 'RM' + deliveryFee.toFixed(2);
+        document.getElementById('checkoutPlatformLabel').textContent = 'Platform Fee (' + (PLATFORM_FEE_RATE * 100) + '%)';
+        document.getElementById('checkoutPlatformValue').textContent = 'RM' + platformFee.toFixed(2);
+        document.getElementById('checkoutTotalValue').textContent = 'RM' + total.toFixed(2);
+    }
+    recalculate();
 
     document.querySelector('.btn-primary').addEventListener('click', async function () {
+        if (isSingleEvent) {
+            if (!selectedStart) {
+                showToast('Please select a date for this booking.');
+                return;
+            }
+        } else if (!selectedStart || !selectedEnd) {
+            showToast('Please select your rental start and end dates on the calendar.');
+            return;
+        }
+        const startDateStr = toDateKey(selectedStart);
+        const endDateStr = toDateKey(selectedEnd || selectedStart);
+
         const cardName = document.getElementById('cardholderNameInput').value.trim();
         const cardNumber = document.getElementById('cardNumberInput').value.trim();
         const expiry = document.getElementById('cardExpiryInput').value.trim();
         const cvv = document.getElementById('cardCvvInput').value.trim();
-        const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
-        if (selectedMethod === 'card' && (!cardName || !cardNumber || !expiry || !cvv)) {
+        if (!cardName || !cardNumber || !expiry || !cvv) {
             showToast('Please fill in all card details to continue.');
             return;
         }
@@ -787,6 +1123,17 @@
         const btn = this;
         btn.disabled = true;
         try {
+            // Defensive re-check: someone else may have booked one of these days since the
+            // calendar was first loaded. Refuse to charge the card if that happened.
+            const freshDates = await getMany('bookingDates', where('listingId', '==', listing.id));
+            bookedDateSet = buildBookedDateSet(freshDates);
+            if (rangeHasBookedDay(selectedStart, selectedEnd || selectedStart)) {
+                showToast('Sorry, one of your selected dates was just booked by someone else. Please pick new dates.');
+                renderCalendar();
+                btn.disabled = false;
+                return;
+            }
+
             const bookingId = await createDoc('bookings', {
                 listingId: listing.id,
                 listingTitle: listing.title,
@@ -795,17 +1142,26 @@
                 renterName: listing.ownerName || 'Renter',
                 customerId: myUid,
                 customerName: myProfile.fullName || myProfile.username || 'Customer',
-                startDate: null,
-                endDate: null,
+                startDate: startDateStr,
+                endDate: endDateStr,
                 days: days,
                 dailyRate: listing.price,
+                fulfilmentMethod: isSingleEvent ? null : fulfilmentMethod,
                 deliveryFee: deliveryFee,
                 platformFee: platformFee,
+                platformFeeRate: PLATFORM_FEE_RATE,
                 totalAmount: total,
-                paymentMethod: selectedMethod,
+                paymentMethod: 'card',
                 escrowStatus: 'held',
                 bookingStatus: 'active',
                 conversationId: convoId
+            });
+            await createDoc('bookingDates', {
+                listingId: listing.id,
+                bookingId: bookingId,
+                startDate: startDateStr,
+                endDate: endDateStr,
+                status: 'active'
             });
             await updateDocFields('conversations', convoId, { status: 'booked', bookingId });
             showToast('Payment successful! Funds are secured in Rent A Tune Escrow.');
@@ -855,9 +1211,9 @@
         }
 
         /* ---------- Payment method selection ---------- */
-        document.querySelectorAll('.method-option').forEach(option => {
+        document.querySelectorAll('#paymentMethodSelector .method-option').forEach(option => {
             option.addEventListener('click', function () {
-                document.querySelectorAll('.method-option').forEach(o => o.classList.remove('active'));
+                document.querySelectorAll('#paymentMethodSelector .method-option').forEach(o => o.classList.remove('active'));
                 this.classList.add('active');
                 this.querySelector('.method-radio').checked = true;
             });
