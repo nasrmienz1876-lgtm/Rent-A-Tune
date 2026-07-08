@@ -593,6 +593,26 @@
             color: var(--background);
         }
 
+        .btn-resolve {
+            padding: 6px 16px;
+            border: none;
+            border-radius: var(--radius-full);
+            background-color: green;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-resolve:hover {
+            opacity: 0.85;
+        }
+
+        .btn-resolve:active {
+            transform: scale(0.95);
+        }
+
         /* Pagination */
         .pagination {
             padding: 24px;
@@ -2438,9 +2458,9 @@
             tr.innerHTML =
                 '<td class="font-mono">#' + escapeHtml(report.id.slice(0, 6)) + '</td>' +
                 '<td class="font-bold">' + escapeHtml(report.reporterName || 'System') + '</td>' +
-                '<td class="font-bold" style="color: var(--error);">' + escapeHtml(report.reportedUserName || '') + '</td>' +
+                '<td class="font-bold" style="color: var(--error);">' + escapeHtml(report.reportedUserName || 'Unknown') + '</td>' +
                 '<td><span class="badget badget-type">' + escapeHtml(report.type || 'Other') + '</span></td>' +
-                '<td class="text-small">' + escapeHtml(report.description || '') + '</td>' +
+                '<td class="text-small">' + escapeHtml(report.description || 'No description provided') + '</td>' +
                 '<td class="text-small">' + date + '</td>' +
                 '<td class="text-center"><span class="badget ' + reportStatusClass(status) + '">' + escapeHtml(status) + '</span></td>' +
                 '<td class="text-right">' + reportActionsCell(status) + '</td>';
