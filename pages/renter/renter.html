@@ -1942,6 +1942,152 @@ header {
 }
 
 /* ============================= */
+/* Profile page */
+/* ============================= */
+#page-profile .content {
+    max-width: 640px;
+}
+
+#page-profile .card {
+    background-color: var(--surface-container-lowest);
+    border: 1px solid rgba(196, 197, 217, 0.2);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#page-profile .profile-avatar-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
+}
+
+#page-profile .profile-avatar-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-container);
+}
+
+#page-profile .avatar-edit-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: #fff;
+    border: 2px solid var(--surface-container-lowest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#page-profile .avatar-edit-btn:hover {
+    background-color: var(--primary-container);
+}
+
+#page-profile .profile-role-badge {
+    display: inline-block;
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+}
+
+#page-profile .profile-form {
+    text-align: left;
+}
+
+#page-profile .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+#page-profile label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--on-surface-variant);
+    padding: 0 4px;
+}
+
+#page-profile input[type="text"],
+#page-profile input[type="tel"],
+#page-profile input[type="email"] {
+    width: 100%;
+    background-color: var(--surface);
+    padding: 14px 16px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#page-profile input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 64, 224, 0.1);
+}
+
+#page-profile input:disabled {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface-variant);
+    cursor: not-allowed;
+}
+
+#page-profile .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+#page-profile .btn-submit {
+    width: 100%;
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+}
+
+#page-profile .btn-submit:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+#page-profile .form-message {
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 12px;
+    display: none;
+}
+
+/* ============================= */
 /* Generic details modal (Inventory / Bookings / Inquiries) */
 /* ============================= */
 .detail-modal-overlay {
@@ -2080,7 +2226,7 @@ header {
             </div>
 
             <div class="header-actions">
-                <a class="profile-area" href="../user/profile.html" style="text-decoration: none; color: inherit; cursor: pointer;" title="View / edit profile">
+                <a class="profile-area" href="#" onclick="showRenterPage('profile'); return false;" style="text-decoration: none; color: inherit; cursor: pointer;" title="View / edit profile">
                     <div class="profile-info">
                         <p class="profile-name" id="profileNameText">Renter</p>
                         <p class="profile-role" id="profileRoleText">Renter</p>
@@ -2469,13 +2615,23 @@ header {
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Availability</label>
-                            <select id="instrumentAvailability">
-                                <option>Available for pickup &amp; delivery</option>
-                                <option>Pickup Only</option>
-                                <option>Delivery Only</option>
-                            </select>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Condition</label>
+                                <select id="instrumentCondition">
+                                    <option>Mint (Stage Ready)</option>
+                                    <option>Excellent</option>
+                                    <option>Good</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Availability</label>
+                                <select id="instrumentAvailability">
+                                    <option>Available for pickup &amp; delivery</option>
+                                    <option>Pickup Only</option>
+                                    <option>Delivery Only</option>
+                                </select>
+                            </div>
                         </div>
                     </section>
 
@@ -2572,11 +2728,21 @@ header {
                             <textarea id="bundleDescription" placeholder="Describe the full bundle package — what makes it special, ideal event types, etc..." rows="4"></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label>Location</label>
-                            <div class="input-with-icon">
-                                <span class="material-symbols-outlined input-icon">location_on</span>
-                                <input id="bundleLocation" placeholder="e.g. Kuala Lumpur" type="text" />
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Condition</label>
+                                <select id="bundleCondition">
+                                    <option>Mint (Stage Ready)</option>
+                                    <option>Excellent</option>
+                                    <option>Good</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <div class="input-with-icon">
+                                    <span class="material-symbols-outlined input-icon">location_on</span>
+                                    <input id="bundleLocation" placeholder="e.g. Kuala Lumpur" type="text" />
+                                </div>
                             </div>
                         </div>
 
@@ -2643,6 +2809,68 @@ header {
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- ================= Profile ================= -->
+        <div class="page-section" id="page-profile">
+            <div class="content">
+                <div class="page-header">
+                    <h2>My Profile</h2>
+                    <p>View and update your renter account details</p>
+                </div>
+
+                <div class="card">
+                    <div class="profile-avatar-wrap">
+                        <img alt="Profile photo" class="profile-avatar-img" id="renterProfileAvatarImg" src="../../images/user_profile.jpg" />
+                        <button class="avatar-edit-btn" id="renterAvatarEditBtn" title="Change photo" type="button">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">photo_camera</span>
+                        </button>
+                        <input accept="image/*" id="renterAvatarFileInput" style="display:none;" type="file" />
+                    </div>
+
+                    <div class="profile-role-badge" id="renterProfileRoleBadge">Renter</div>
+
+                    <form class="profile-form" id="renterProfileForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input id="renterProfileFullName" required type="text" />
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input disabled id="renterProfileUsername" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input id="renterProfilePhone" required type="tel" />
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input disabled id="renterProfileEmail" type="email" />
+                            </div>
+                            <div class="form-group">
+                                <label>Identity Card Number</label>
+                                <input disabled id="renterProfileIcNumber" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Member Since</label>
+                            <input disabled id="renterProfileMemberSince" type="text" />
+                        </div>
+
+                        <button class="btn-submit" type="submit">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                            Save Changes
+                        </button>
+                        <p class="form-message" id="renterProfileFormMsg"></p>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
@@ -2806,6 +3034,7 @@ header {
             subscribeToSubQuery, where, orderBy, serverTimestamp
         } from '../../firebase/firestore-helpers.js';
         import { arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
 
         function escapeHtml(str) {
             const div = document.createElement('div');
@@ -2899,6 +3128,76 @@ header {
         document.getElementById('profileNameText').textContent = currentProfile.fullName || currentProfile.username || 'Renter';
         document.getElementById('profileRoleText').textContent = currentProfile.role === 'admin' ? 'Admin' : 'Renter';
         document.getElementById('headerAvatarImg').src = currentProfile.avatarUrl || '../../images/user_profile.jpg';
+
+        /* ---------- Profile page ---------- */
+        const storage = getStorage();
+        const MAX_AVATAR_BYTES = 5 * 1024 * 1024; // 5MB
+
+        document.getElementById('renterProfileAvatarImg').src = currentProfile.avatarUrl || '../../images/user_profile.jpg';
+        document.getElementById('renterProfileRoleBadge').textContent = currentProfile.role === 'admin' ? 'Admin' : 'Renter';
+        document.getElementById('renterProfileFullName').value = currentProfile.fullName || '';
+        document.getElementById('renterProfileUsername').value = currentProfile.username || '';
+        document.getElementById('renterProfilePhone').value = currentProfile.phone || '';
+        document.getElementById('renterProfileEmail').value = currentProfile.email || '';
+        document.getElementById('renterProfileIcNumber').value = currentProfile.icNumber || '';
+        document.getElementById('renterProfileMemberSince').value =
+            (currentProfile.createdAt && typeof currentProfile.createdAt.toDate === 'function')
+                ? currentProfile.createdAt.toDate().toLocaleDateString()
+                : '—';
+
+        document.getElementById('renterAvatarEditBtn').addEventListener('click', function () {
+            document.getElementById('renterAvatarFileInput').click();
+        });
+
+        document.getElementById('renterAvatarFileInput').addEventListener('change', async function () {
+            const file = this.files[0];
+            this.value = '';
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Please choose an image file.');
+                return;
+            }
+            if (file.size > MAX_AVATAR_BYTES) {
+                alert('That image is too large. Max size is 5MB.');
+                return;
+            }
+            try {
+                const path = 'avatars/' + currentUid + '/' + Date.now() + '_' + file.name;
+                const fileRef = ref(storage, path);
+                await uploadBytes(fileRef, file);
+                const url = await getDownloadURL(fileRef);
+                await updateDocFields('users', currentUid, { avatarUrl: url });
+                document.getElementById('renterProfileAvatarImg').src = url;
+                document.getElementById('headerAvatarImg').src = url;
+                currentProfile.avatarUrl = url;
+            } catch (err) {
+                alert('Could not upload photo. Please try again.');
+            }
+        });
+
+        document.getElementById('renterProfileForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const fullName = document.getElementById('renterProfileFullName').value.trim();
+            const phone = document.getElementById('renterProfilePhone').value.trim();
+            const msgEl = document.getElementById('renterProfileFormMsg');
+            if (!fullName || !phone) {
+                alert('Full name and phone number are required.');
+                return;
+            }
+            try {
+                await updateDocFields('users', currentUid, { fullName, phone });
+                currentProfile.fullName = fullName;
+                currentProfile.phone = phone;
+                document.getElementById('profileNameText').textContent = fullName || currentProfile.username || 'Renter';
+                msgEl.style.color = 'var(--primary)';
+                msgEl.textContent = 'Profile updated successfully!';
+                msgEl.style.display = 'block';
+            } catch (err) {
+                msgEl.style.color = 'var(--error)';
+                msgEl.textContent = 'Could not save changes. Please try again.';
+                msgEl.style.display = 'block';
+            }
+        });
 
         document.getElementById('logoutLink').addEventListener('click', async function (e) {
             e.preventDefault();
@@ -3019,6 +3318,7 @@ header {
                 document.getElementById('bundleName').value = listing.title || '';
                 document.getElementById('bundleCategory').value = listing.category || '';
                 document.getElementById('bundlePrice').value = listing.price || '';
+                document.getElementById('bundleCondition').value = listing.condition || 'Mint (Stage Ready)';
                 document.getElementById('bundleDescription').value = listing.description || '';
                 document.getElementById('bundleLocation').value = listing.location || '';
                 const features = listing.features || [];
@@ -3040,6 +3340,7 @@ header {
                 document.getElementById('instrumentName').value = listing.title || '';
                 document.getElementById('instrumentCategory').value = listing.category || '';
                 document.getElementById('instrumentBrand').value = listing.brand || '';
+                document.getElementById('instrumentCondition').value = listing.condition || 'Mint (Stage Ready)';
                 document.getElementById('instrumentDescription').value = listing.description || '';
                 document.getElementById('instrumentPrice').value = listing.price || '';
                 document.getElementById('instrumentLocation').value = listing.location || '';
@@ -3081,6 +3382,7 @@ header {
                     listingType: 'bundle',
                     title: document.getElementById('bundleName').value.trim(),
                     category: document.getElementById('bundleCategory').value,
+                    condition: document.getElementById('bundleCondition').value,
                     description: document.getElementById('bundleDescription').value.trim(),
                     price: parseFloat(document.getElementById('bundlePrice').value),
                     priceUnit: 'event',
@@ -3109,6 +3411,7 @@ header {
                     title: document.getElementById('instrumentName').value.trim(),
                     category: document.getElementById('instrumentCategory').value,
                     brand: document.getElementById('instrumentBrand').value.trim(),
+                    condition: document.getElementById('instrumentCondition').value,
                     description: document.getElementById('instrumentDescription').value.trim(),
                     price: parseFloat(document.getElementById('instrumentPrice').value),
                     priceUnit: 'day',
