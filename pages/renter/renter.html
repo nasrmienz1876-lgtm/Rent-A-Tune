@@ -193,30 +193,11 @@ header {
     border-bottom: 1px solid rgba(116, 118, 136, 0.1);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 48px;
     position: sticky;
     top: 0;
     z-index: 90;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #f8f9ff;
-    border: 1px solid #c4c5d9;
-    border-radius: 9999px;
-    padding: 6px 16px;
-    width: 384px;
-}
-
-.search-bar input {
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    width: 100%;
-    outline: none;
 }
 
 .header-actions {
@@ -2220,11 +2201,6 @@ header {
     <main>
         <!-- Top Application Header (shared across all renter pages) -->
         <header>
-            <div class="search-bar">
-                <span class="material-symbols-outlined">search</span>
-                <input placeholder="Search..." type="text" />
-            </div>
-
             <div class="header-actions">
                 <a class="profile-area" href="#" onclick="showRenterPage('profile'); return false;" style="text-decoration: none; color: inherit; cursor: pointer;" title="View / edit profile">
                     <div class="profile-info">
@@ -3652,9 +3628,12 @@ header {
             try {
                 await createDoc('reports', {
                     reporterId: currentUid,
+                    reporterName: currentProfile.fullName || currentProfile.username || 'Renter',
                     reportedUserId: other.uid,
+                    reportedUserName: other.name,
                     conversationId: activeRenterConvoId,
-                    reason: reason.trim(),
+                    type: 'User Report',
+                    description: reason.trim(),
                     status: 'pending'
                 });
                 alert('Report submitted. Our team will review this conversation.');

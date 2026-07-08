@@ -1121,6 +1121,26 @@ body {
         return { uid: otherUid, name };
     }
 
+    /* Real profile photos for the other participant in each conversation — keyed by uid so
+       every card/header/message bubble for the same person reuses one fetch. */
+    const otherUserAvatarCache = {};
+
+    async function ensureOtherAvatars(convos) {
+        const uids = [...new Set(convos.map(c => otherParticipant(c).uid).filter(uid => uid && !(uid in otherUserAvatarCache)))];
+        await Promise.all(uids.map(async uid => {
+            try {
+                const u = await getOne('users', uid);
+                otherUserAvatarCache[uid] = (u && u.avatarUrl) || '../../images/user_profile.jpg';
+            } catch (err) {
+                otherUserAvatarCache[uid] = '../../images/user_profile.jpg';
+            }
+        }));
+    }
+
+    function otherAvatar(uid) {
+        return otherUserAvatarCache[uid] || '../../images/user_profile.jpg';
+    }
+
     function renderConversationItem(convo) {
         const other = otherParticipant(convo);
         const div = document.createElement('div');
@@ -1130,7 +1150,7 @@ body {
         const timeLabel = lastAt ? lastAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
         div.innerHTML =
-            '<div class="conversation-avatar"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(convo.listingImage || '../../images/user_profile.jpg') + '"/></div>' +
+            '<div class="conversation-avatar"><img alt="' + escapeHtml(other.name) + '" src="' + escapeHtml(otherAvatar(other.uid)) + '"/></div>' +
             '<div class="conversation-body">' +
                 '<div class="conversation-top-row"><span class="conversation-name">' + escapeHtml(other.name) + '</span><span class="conversation-time">' + escapeHtml(timeLabel) + '</span></div>' +
                 '<div class="conversation-item-title">' + escapeHtml(convo.listingTitle || '') + '</div>' +
@@ -1149,7 +1169,7 @@ body {
 
     function updateActiveHeader(convo) {
         const other = otherParticipant(convo);
-        document.getElementById('activeAvatar').src = convo.listingImage || '../../images/user_profile.jpg';
+        document.getElementById('activeAvatar').src = otherAvatar(other.uid);
         document.getElementById('activeName').textContent = other.name;
         document.getElementById('activeStatus').textContent = '';
         document.getElementById('listingImg').src = convo.listingImage || '../../images/user_profile.jpg';
@@ -1161,6 +1181,8 @@ body {
 
     function renderMessages(msgs) {
         const area = document.getElementById('messagesArea');
+        const activeConvo = conversationsCache.find(c => c.id === activeConversationId);
+        const activeOtherUid = activeConvo ? otherParticipant(activeConvo).uid : null;
         area.innerHTML = '';
         msgs.forEach(m => {
             const isMine = m.senderId === myUid;
@@ -1171,7 +1193,7 @@ body {
                 : '';
             let inner = '';
             if (!isMine) {
-                inner += '<img alt="" class="message-avatar" src="../../images/user_profile.jpg"/>';
+                inner += '<img alt="" class="message-avatar" src="' + escapeHtml(otherAvatar(activeOtherUid)) + '"/>';
             }
             let attachmentHtml = '';
             if (m.attachmentUrl) {
@@ -1226,6 +1248,7 @@ body {
             const bt = b.lastMessageAt && b.lastMessageAt.toMillis ? b.lastMessageAt.toMillis() : 0;
             return bt - at;
         });
+        await ensureOtherAvatars(conversationsCache);
         renderConversationList();
 
         if (conversationsCache.length === 0) {
@@ -1408,9 +1431,12 @@ body {
         try {
             await createDoc('reports', {
                 reporterId: myUid,
+                reporterName: (myProfile && (myProfile.fullName || myProfile.username)) || 'User',
                 reportedUserId: other.uid,
+                reportedUserName: other.name,
                 conversationId: activeConversationId,
-                reason: reason.trim(),
+                type: 'User Report',
+                description: reason.trim(),
                 status: 'pending'
             });
             showToast('Report submitted. Our team will review this conversation.');

@@ -186,73 +186,18 @@
             border-bottom: 1px solid rgba(116, 118, 136, 0.1);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
             padding: 0 48px;
             position: sticky;
             top: 0;
             z-index: 90;
         }
 
-        .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background-color: #f8f9ff;
-            border: 1px solid #c4c5d9;
-            border-radius: 9999px;
-            padding: 6px 16px;
-            width: 384px;
-        }
-
-        .search-bar input {
-            border: none;
-            background: transparent;
-            font-size: 14px;
-            width: 100%;
-            outline: none;
-        }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: 24px;
-        }
-
-        .icon-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            color: #434656;
-        }
-
-        .icon-btn:hover {
-            background-color: #e5eeff;
-        }
-
-        .badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background-color: #ba1a1a;
-            border-radius: 50%;
-        }
-
-        .divider {
-            width: 1px;
-            height: 32px;
-            background-color: #c4c5d9;
         }
 
         .profile-area {
@@ -1313,31 +1258,14 @@
     <main>
         <!-- Top Application Header (shared across all views) -->
         <header>
-            <div class="search-bar">
-                <span class="material-symbols-outlined">search</span>
-                <input placeholder="Search users, listings, or logs..." type="text" />
-            </div>
-
             <div class="header-actions">
-                <div class="icon-group">
-                    <button class="icon-btn">
-                        <span class="material-symbols-outlined">notifications</span>
-                        <span class="badge"></span>
-                    </button>
-                    <button class="icon-btn">
-                        <span class="material-symbols-outlined">help</span>
-                    </button>
-                </div>
-
-                <div class="divider"></div>
-
                 <div class="profile-area">
                     <div class="profile-info">
                         <p class="profile-name" id="profileNameText">Admin</p>
                         <p class="profile-role">Super Admin</p>
                     </div>
                     <div class="avatar">
-                        <img alt="Admin User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFpRb_eE_qW4_hdNvibZUFQISkyputcYCmC05yoTA6GJDfe-AoMNKKsGArGJEL7RcFSin5niRwmq32xDBmugy62ruoTnjA3PKojQ2jFOzYKIARXaxv8ST-UpN9Q5EiPoTIzQhKsnikBsukYBRa8TUfY3vUeY7Ow4CHtww8PRaRTx6PcnmBE2kRbUC01qhWLYKgkgU06_oROtEFnR2YcRV2afkhYQE8RN-7e3G3_GgffuNkzlzbBW7aiSLRzzGvKgjYcV32XY-XWA" />
+                        <img alt="Admin User Avatar" id="adminAvatarImg" src="../../images/user_profile.jpg" />
                     </div>
                 </div>
             </div>
@@ -2115,21 +2043,6 @@
                 });
             });
 
-            // Header icon buttons (notifications / help)
-            document.querySelectorAll('.icon-btn').forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    var icon = btn.querySelector('.material-symbols-outlined');
-                    var name = icon ? icon.textContent.trim() : '';
-                    if (name === 'notifications') {
-                        var badge = btn.querySelector('.badge');
-                        if (badge) badge.style.display = 'none';
-                        alert('No new notifications.');
-                    } else if (name === 'help') {
-                        alert('Need help? Contact support@rentatune.com');
-                    }
-                });
-            });
-
             // Dead nav links (Settings) that have no real destination page — Logout is wired for real
             // in the module script below, so it's excluded from this generic stub handler.
             document.querySelectorAll('a.nav-link[href="#"]:not([data-view]):not(#logoutLink)').forEach(function (link) {
@@ -2259,24 +2172,9 @@
             // for the Listings tab are wired in the module script below, since that tab's rows
             // are now rendered dynamically from Firestore.)
 
-            // View / Export: .btn-outline is "Export" in table toolbars, "View" in listings rows.
-            // The real Listings "View" button and the 5 real Export buttons (Users/Renters/
-            // Transactions/Reports/Chat Monitor) are excluded — they're wired to real data below.
-            var realExportBtnIds = ['usersExportBtn', 'rentersExportBtn', 'transactionsExportBtn', 'reportsExportBtn', 'violationsExportBtn'];
-            Array.prototype.filter.call(
-                document.querySelectorAll('.btn-outline'),
-                function (btn) { return !btn.closest('#listingsTbody') && realExportBtnIds.indexOf(btn.id) === -1; }
-            ).forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    if (btn.closest('.control-btns') || btn.closest('.table-controls')) {
-                        alert('Export started — this is a front-end preview only.');
-                    } else {
-                        var row = btn.closest('tr');
-                        var title = row ? row.querySelector('.title') : null;
-                        alert(title ? ('Viewing: ' + title.textContent.trim()) : 'View clicked.');
-                    }
-                });
-            });
+            // (Every .btn-outline on this page is now either a real Export button, wired to
+            // Firestore below, or the Listings "View" button, also wired to real data below —
+            // so there's no remaining placeholder .btn-outline left to stub out here.)
 
             // Generic buttons: View / Details — placeholder feedback. Users/Renters/Listings/Transactions/Reports/
             // Chat Monitor tabs are excluded — their rows are rendered dynamically and wired for real data below.
@@ -2305,6 +2203,7 @@
 
         const { profile } = await requireAuth(['admin'], '../user/login.html');
         document.getElementById('profileNameText').textContent = profile.fullName || profile.username || 'Admin';
+        document.getElementById('adminAvatarImg').src = profile.avatarUrl || '../../images/user_profile.jpg';
 
         document.getElementById('logoutLink').addEventListener('click', async function (e) {
             e.preventDefault();
@@ -2526,7 +2425,7 @@
         function reportStatusClass(status) {
             if (status === 'resolved') return 'badget-resolved';
             if (status === 'investigating') return 'badget-investigating';
-            if (status === 'warning') return 'badget-investigating';
+            if (status === 'warning') return 'badget-warning';
             return 'badget-active';
         }
 
@@ -2539,7 +2438,7 @@
             tr.innerHTML =
                 '<td class="font-mono">#' + escapeHtml(report.id.slice(0, 6)) + '</td>' +
                 '<td class="font-bold">' + escapeHtml(report.reporterName || 'System') + '</td>' +
-                '<td class="font-bold" style="color: red;">' + escapeHtml(report.reportedUserName || '') + '</td>' +
+                '<td class="font-bold" style="color: var(--error);">' + escapeHtml(report.reportedUserName || '') + '</td>' +
                 '<td><span class="badget badget-type">' + escapeHtml(report.type || 'Other') + '</span></td>' +
                 '<td class="text-small">' + escapeHtml(report.description || '') + '</td>' +
                 '<td class="text-small">' + date + '</td>' +
@@ -2709,7 +2608,7 @@
 
             tr.innerHTML =
                 '<td class="font-mono">#' + escapeHtml(v.id.slice(0, 6)) + '</td>' +
-                '<td class="font-bold" style="color: red;">' + escapeHtml(v.offenderName || 'User') + '</td>' +
+                '<td class="font-bold" style="color: var(--error);">' + escapeHtml(v.offenderName || 'User') + '</td>' +
                 '<td class="font-bold">' + escapeHtml(v.recipientName || 'User') + '</td>' +
                 '<td><span class="badget badget-type">' + escapeHtml(v.type || 'Other') + '</span></td>' +
                 '<td class="text-small">"' + escapeHtml(v.message || '') + '"</td>' +
