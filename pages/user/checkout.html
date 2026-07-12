@@ -702,7 +702,7 @@
 </div>
 <div class="form-group">
 <label class="form-label text-label-md">Cardholder Name</label>
-<input id="cardholderNameInput" class="form-input text-body-md" placeholder="Min Marlon" type="text"/>
+<input id="cardholderNameInput" class="form-input text-body-md" placeholder="Ali Rahman" type="text"/>
 </div>
 <div class="form-group">
 <label class="form-label text-label-md">Card Number</label>
@@ -949,10 +949,10 @@
         if (isSingleEvent) {
             summary.textContent = selectedStart ? ('Selected: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })) : 'Select a date on the calendar.';
         } else if (selectedStart && selectedEnd) {
-            const nights = Math.round((selectedEnd - selectedStart) / 86400000);
+            const rentalDays = Math.round((selectedEnd - selectedStart) / 86400000) + 1;
             summary.textContent = 'Selected: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) +
                 ' → ' + selectedEnd.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) +
-                ' (' + nights + ' day' + (nights === 1 ? '' : 's') + ')';
+                ' (' + rentalDays + ' day' + (rentalDays === 1 ? '' : 's') + ')';
         } else if (selectedStart) {
             summary.textContent = 'Start: ' + selectedStart.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) + ' — now pick an end date.';
         } else {
@@ -971,7 +971,7 @@
             selectedStart = d;
             selectedEnd = null;
         } else if (sameDay(d, selectedStart)) {
-            selectedEnd = null;
+            selectedEnd = d;
         } else if (rangeHasBookedDay(selectedStart, d)) {
             showToast('That range includes an already-booked date. Please choose different dates.');
             selectedStart = d;
@@ -1044,7 +1044,7 @@
             days = selectedStart ? 1 : 0;
             subtotal = selectedStart ? listing.price : 0;
         } else {
-            days = (selectedStart && selectedEnd) ? Math.max(1, Math.round((selectedEnd - selectedStart) / 86400000)) : 0;
+            days = (selectedStart && selectedEnd) ? Math.round((selectedEnd - selectedStart) / 86400000) + 1 : 0;
             subtotal = listing.price * days;
         }
 
