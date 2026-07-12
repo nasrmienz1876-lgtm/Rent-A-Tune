@@ -1103,6 +1103,7 @@ body {
     } from '../../firebase/firestore-helpers.js';
     import { arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+    import { showAlert, showConfirm, showPrompt } from '../../shared/ui-dialogs.js';
 
     const storage = getStorage();
     const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024; // 10MB
@@ -1396,7 +1397,7 @@ body {
         const convo = conversationsCache.find(c => c.id === activeConversationId);
         if (!convo) return;
         const other = otherParticipant(convo);
-        if (!confirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.')) return;
+        if (!(await showConfirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.'))) return;
         try {
             await updateDocFields('users', myUid, { blockedUsers: arrayUnion(other.uid) });
             myBlockedUsers.push(other.uid);
@@ -1422,7 +1423,7 @@ body {
         const convo = conversationsCache.find(c => c.id === activeConversationId);
         if (!convo) return;
         const other = otherParticipant(convo);
-        const reason = prompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
+        const reason = await showPrompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
         if (reason === null) return;
         if (!reason.trim()) {
             showToast('Please enter a reason to submit a report.');

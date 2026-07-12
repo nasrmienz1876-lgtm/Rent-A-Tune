@@ -341,28 +341,52 @@
             display: block;
         }
 
-        .filter-option {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 8px 12px;
-            border: none;
-            background: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
+        .filter-menu {
+            width: 220px;
+        }
+
+        .filter-toggle.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .filters-dropdown-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .filters-dropdown-group label {
+            font-size: 12px;
+            font-weight: 600;
             color: var(--on-surface-variant);
+        }
+
+        .filters-dropdown-group select {
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--outline-variant);
+            background-color: var(--surface);
+            color: var(--on-surface);
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .filters-clear-btn {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--outline-variant);
+            background: none;
+            color: var(--on-surface-variant);
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
         }
 
-        .filter-option:hover {
-            background-color: var(--surface-container-high);
-        }
-
-        .filter-option.active {
-            color: var(--primary);
-            font-weight: 700;
-            background-color: var(--surface-container-highest);
+        .filters-clear-btn:hover {
+            background-color: var(--surface-container-low);
         }
 
         .table-search {
@@ -1123,6 +1147,7 @@
 
         .listing-icon.instrument { background-color: rgba(46, 91, 255, 0.1); color: var(--primary); }
         .listing-icon.band { background-color: rgba(254, 183, 0, 0.1); color: var(--secondary); }
+        .listing-icon.bundle { background-color: rgba(27, 143, 58, 0.1); color: #1b8f3a; }
 
         .listing-info .title { font-weight: 700; color: var(--on-surface); }
         .listing-info .id { font-size: 12px; color: var(--outline); }
@@ -1425,10 +1450,15 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="name" type="button">Alphabetical Name</button>
-                                    <button class="filter-option" data-sort="id" type="button">ID</button>
-                                    <button class="filter-option" data-sort="joindate" type="button">Join Date</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="usersStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="active">Active</option>
+                                            <option value="suspended">Suspended</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="usersFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                             <button class="btn-outline" id="usersExportBtn">
@@ -1462,13 +1492,11 @@
                     <div class="pagination">
                         <p class="pagination-info" id="usersPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 users</p>
                         <div class="pagination-btns">
-                            <button class="page-btn" disabled="">
+                            <button class="page-btn" id="usersPrevPageBtn" disabled="">
                                 <span class="material-symbols-outlined">chevron_left</span>
                             </button>
-                            <button class="page-btn active">1</button>
-                            <button class="page-btn">2</button>
-                            <button class="page-btn">3</button>
-                            <button class="page-btn">
+                            <span id="usersPageNumberBtns"></span>
+                            <button class="page-btn" id="usersNextPageBtn">
                                 <span class="material-symbols-outlined">chevron_right</span>
                             </button>
                         </div>
@@ -1494,10 +1522,15 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="name" type="button">Alphabetical Name</button>
-                                    <button class="filter-option" data-sort="revenue" type="button">Revenue</button>
-                                    <button class="filter-option" data-sort="rating" type="button">Rating</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="rentersStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="active">Active</option>
+                                            <option value="suspended">Suspended</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="rentersFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                             <button class="btn-outline" id="rentersExportBtn">
@@ -1532,13 +1565,11 @@
                     <div class="pagination">
                         <p class="pagination-info" id="rentersPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 renters</p>
                         <div class="pagination-btns">
-                            <button class="page-btn" disabled="">
+                            <button class="page-btn" id="rentersPrevPageBtn" disabled="">
                                 <span class="material-symbols-outlined">chevron_left</span>
                             </button>
-                            <button class="page-btn active">1</button>
-                            <button class="page-btn">2</button>
-                            <button class="page-btn">3</button>
-                            <button class="page-btn">
+                            <span id="rentersPageNumberBtns"></span>
+                            <button class="page-btn" id="rentersNextPageBtn">
                                 <span class="material-symbols-outlined">chevron_right</span>
                             </button>
                         </div>
@@ -1564,10 +1595,24 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="id" type="button">Transaction ID</button>
-                                    <button class="filter-option" data-sort="date" type="button">Date</button>
-                                    <button class="filter-option" data-sort="escrow" type="button">Escrow</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="transactionsStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="active">Active</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div class="filters-dropdown-group">
+                                        <label>Escrow</label>
+                                        <select id="transactionsEscrowFilter">
+                                            <option value="all">All</option>
+                                            <option value="held">Held</option>
+                                            <option value="released">Released</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="transactionsFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                             <button class="btn-outline" id="transactionsExportBtn">
@@ -1603,13 +1648,11 @@
                         <div class="pagination">
                             <p class="pagination-info" id="transactionsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 transactions</p>
                             <div class="pagination-btns">
-                                <button class="page-btn" disabled="">
+                                <button class="page-btn" id="transactionsPrevPageBtn" disabled="">
                                     <span class="material-symbols-outlined">chevron_left</span>
                                 </button>
-                                <button class="page-btn active">1</button>
-                                <button class="page-btn">2</button>
-                                <button class="page-btn">3</button>
-                                <button class="page-btn">
+                                <span id="transactionsPageNumberBtns"></span>
+                                <button class="page-btn" id="transactionsNextPageBtn">
                                     <span class="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>
@@ -1657,9 +1700,25 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="category" type="button">Category</button>
-                                    <button class="filter-option" data-sort="sold" type="button">Sold</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="listingsStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="available">Available</option>
+                                            <option value="rented">Rented</option>
+                                            <option value="pending">Pending</option>
+                                        </select>
+                                    </div>
+                                    <div class="filters-dropdown-group">
+                                        <label>Category</label>
+                                        <select id="listingsCategoryFilter">
+                                            <option value="all">All</option>
+                                            <option value="instrument">Instrument</option>
+                                            <option value="band">Band</option>
+                                            <option value="bundle">Bundle</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="listingsFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                         </div>
@@ -1684,18 +1743,17 @@
                             </thead>
                             <tbody id="listingsTbody"></tbody>
                         </table>
+                        <p id="listingsEmptyMsg" style="display:none; color:var(--on-surface-variant); text-align:center; padding: 32px 0;">No listings yet.</p>
                     </div>
 
                     <div class="pagination">
                         <p class="pagination-info" id="listingsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 listings</p>
                         <div class="pagination-btns">
-                            <button class="page-btn" disabled="">
+                            <button class="page-btn" id="listingsPrevPageBtn" disabled="">
                                 <span class="material-symbols-outlined">chevron_left</span>
                             </button>
-                            <button class="page-btn active">1</button>
-                            <button class="page-btn">2</button>
-                            <button class="page-btn">3</button>
-                            <button class="page-btn">
+                            <span id="listingsPageNumberBtns"></span>
+                            <button class="page-btn" id="listingsNextPageBtn">
                                 <span class="material-symbols-outlined">chevron_right</span>
                             </button>
                         </div>
@@ -1725,9 +1783,17 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="id" type="button">Report ID</button>
-                                    <button class="filter-option" data-sort="date" type="button">Date</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="reportsStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="investigating">Investigating</option>
+                                            <option value="warning">Warning</option>
+                                            <option value="resolved">Resolved</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="reportsFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                             <button class="btn-outline" id="reportsExportBtn">
@@ -1762,13 +1828,11 @@
                         <div class="pagination">
                             <p class="pagination-info" id="reportsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 reports</p>
                             <div class="pagination-btns">
-                                <button class="page-btn" disabled="">
+                                <button class="page-btn" id="reportsPrevPageBtn" disabled="">
                                     <span class="material-symbols-outlined">chevron_left</span>
                                 </button>
-                                <button class="page-btn active">1</button>
-                                <button class="page-btn">2</button>
-                                <button class="page-btn">3</button>
-                                <button class="page-btn">
+                                <span id="reportsPageNumberBtns"></span>
+                                <button class="page-btn" id="reportsNextPageBtn">
                                     <span class="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>
@@ -1795,9 +1859,25 @@
                                     Filters
                                 </button>
                                 <div class="filter-menu">
-                                    <button class="filter-option" data-sort="id" type="button">Chat ID</button>
-                                    <button class="filter-option" data-sort="timestamp" type="button">Timestamp</button>
-                                    <button class="filter-option" data-sort="status" type="button">Status</button>
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="violationsStatusFilter">
+                                            <option value="all">All</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="warning">Warning</option>
+                                            <option value="suspended">Suspended</option>
+                                        </select>
+                                    </div>
+                                    <div class="filters-dropdown-group">
+                                        <label>Violation Type</label>
+                                        <select id="violationsTypeFilter">
+                                            <option value="all">All</option>
+                                            <option value="Phone Number">Phone Number</option>
+                                            <option value="Social Media">Social Media</option>
+                                            <option value="External Payment">External Payment</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="violationsFiltersClearBtn" type="button">Clear Filters</button>
                                 </div>
                             </div>
                             <button class="btn-outline" id="violationsExportBtn">
@@ -1832,13 +1912,11 @@
                         <div class="pagination">
                             <p class="pagination-info" id="violationsPaginationInfo">Showing <span style="font-weight: 700;">0</span> of 0 violations</p>
                             <div class="pagination-btns">
-                                <button class="page-btn" disabled="">
+                                <button class="page-btn" id="violationsPrevPageBtn" disabled="">
                                     <span class="material-symbols-outlined">chevron_left</span>
                                 </button>
-                                <button class="page-btn active">1</button>
-                                <button class="page-btn">2</button>
-                                <button class="page-btn">3</button>
-                                <button class="page-btn">
+                                <span id="violationsPageNumberBtns"></span>
+                                <button class="page-btn" id="violationsNextPageBtn">
                                     <span class="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>
@@ -1898,188 +1976,39 @@
             });
 
             // ---------------------------------------------------------
-            // Filters dropdown: open/close + sort the table by the chosen column.
-            // Getter functions are scoped per view since the same data-sort key
-            // (e.g. "status" or "id") reads a different column in each table.
+            // Filters dropdown: open/close only. The actual filtering (by status,
+            // escrow, category, etc.) and pagination for each table is real,
+            // data-driven, and wired per-table in the module script below —
+            // this stub used to sort DOM rows by column; replaced entirely.
             // ---------------------------------------------------------
-            var FILTER_GETTERS = {
-                users: {
-                    name: function (row) {
-                        var el = row.querySelector('.user-cell-text .name');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    },
-                    id: function (row) {
-                        var el = row.querySelector('.user-cell-text .id');
-                        var m = el ? el.textContent.match(/(\d+)/) : null;
-                        return m ? parseInt(m[1], 10) : 0;
-                    },
-                    joindate: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var text = cells[2] ? cells[2].textContent.trim() : '';
-                        var d = Date.parse(text);
-                        return isNaN(d) ? text : d;
-                    },
-                    status: function (row) {
-                        var el = row.querySelector('.status-badge');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    }
-                },
-                renters: {
-                    name: function (row) {
-                        var el = row.querySelector('.user-cell-text .name');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    },
-                    revenue: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var num = cells[3] ? parseFloat(cells[3].textContent.replace(/[^0-9.]/g, '')) : 0;
-                        return isNaN(num) ? 0 : -num;
-                    },
-                    rating: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var spans = cells[4] ? cells[4].querySelectorAll('span') : [];
-                        var num = spans[1] ? parseFloat(spans[1].textContent) : 0;
-                        return isNaN(num) ? 0 : -num;
-                    },
-                    status: function (row) {
-                        var el = row.querySelector('.status-badge');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    }
-                },
-                transactions: {
-                    id: function (row) {
-                        var el = row.querySelector('td.font-mono');
-                        var m = el ? el.textContent.match(/(\d+)/) : null;
-                        return m ? parseInt(m[1], 10) : 0;
-                    },
-                    date: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var text = cells[5] ? cells[5].textContent.trim() : '';
-                        var d = Date.parse(text);
-                        return isNaN(d) ? text : d;
-                    },
-                    escrow: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
-                        return badge ? badge.textContent.trim().toLowerCase() : '';
-                    },
-                    status: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var badge = cells[7] ? cells[7].querySelector('.badget') : null;
-                        return badge ? badge.textContent.trim().toLowerCase() : '';
-                    }
-                },
-                listings: {
-                    category: function (row) {
-                        var el = row.querySelector('.category-tag');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    },
-                    views: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var num = cells[4] ? parseFloat(cells[4].textContent.replace(/[^0-9.]/g, '')) : 0;
-                        return isNaN(num) ? 0 : -num;
-                    },
-                    bookings: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var num = cells[5] ? parseFloat(cells[5].textContent.replace(/[^0-9.]/g, '')) : 0;
-                        return isNaN(num) ? 0 : -num;
-                    },
-                    status: function (row) {
-                        var el = row.querySelector('.status-tag');
-                        return el ? el.textContent.trim().toLowerCase() : '';
-                    }
-                },
-                reports: {
-                    id: function (row) {
-                        var el = row.querySelector('td.font-mono');
-                        var m = el ? el.textContent.match(/(\d+)/) : null;
-                        return m ? parseInt(m[1], 10) : 0;
-                    },
-                    date: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var text = cells[5] ? cells[5].textContent.trim() : '';
-                        var d = Date.parse(text);
-                        return isNaN(d) ? text : d;
-                    },
-                    status: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
-                        return badge ? badge.textContent.trim().toLowerCase() : '';
-                    }
-                },
-                chatmonitor: {
-                    id: function (row) {
-                        var el = row.querySelector('td.font-mono');
-                        var m = el ? el.textContent.match(/(\d+)/) : null;
-                        return m ? parseInt(m[1], 10) : 0;
-                    },
-                    timestamp: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var text = cells[5] ? cells[5].textContent.trim() : '';
-                        var d = Date.parse(text);
-                        return isNaN(d) ? text : d;
-                    },
-                    status: function (row) {
-                        var cells = row.querySelectorAll('td');
-                        var badge = cells[6] ? cells[6].querySelector('.badget') : null;
-                        return badge ? badge.textContent.trim().toLowerCase() : '';
-                    }
-                }
-            };
-
             document.querySelectorAll('.filter-dropdown').forEach(function (dropdown) {
                 var toggle = dropdown.querySelector('.filter-toggle');
                 var menu = dropdown.querySelector('.filter-menu');
                 if (!toggle || !menu) return;
 
-                var viewSection = dropdown.closest('.view-section');
-                var viewName = viewSection ? viewSection.getAttribute('data-view') : null;
-                var getters = FILTER_GETTERS[viewName] || {};
-
                 toggle.addEventListener('click', function (e) {
                     e.stopPropagation();
                     var isOpen = menu.classList.contains('open');
-                    document.querySelectorAll('.filter-menu.open').forEach(function (m) { m.classList.remove('open'); });
-                    if (!isOpen) menu.classList.add('open');
-                });
-
-                menu.querySelectorAll('.filter-option').forEach(function (option) {
-                    option.addEventListener('click', function () {
-                        menu.querySelectorAll('.filter-option').forEach(function (o) { o.classList.remove('active'); });
-                        option.classList.add('active');
-                        menu.classList.remove('open');
-
-                        var card = dropdown.closest('.card');
-                        var tbody = card ? card.querySelector('tbody') : null;
-                        var getValue = getters[option.getAttribute('data-sort')];
-                        if (!tbody || !getValue) return;
-
-                        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
-                        rows.sort(function (a, b) {
-                            var va = getValue(a);
-                            var vb = getValue(b);
-                            if (va < vb) return -1;
-                            if (va > vb) return 1;
-                            return 0;
-                        });
-                        rows.forEach(function (row) { tbody.appendChild(row); });
+                    document.querySelectorAll('.filter-menu.open').forEach(function (m) {
+                        m.classList.remove('open');
+                        var d = m.closest('.filter-dropdown');
+                        var t = d ? d.querySelector('.filter-toggle') : null;
+                        if (t) t.classList.remove('active');
                     });
+                    if (!isOpen) {
+                        menu.classList.add('open');
+                        toggle.classList.add('active');
+                    }
                 });
             });
 
-            document.addEventListener('click', function () {
-                document.querySelectorAll('.filter-menu.open').forEach(function (m) { m.classList.remove('open'); });
-            });
-
-            // Table search: live-filter rows by their visible text
-            document.querySelectorAll('.table-search input').forEach(function (input) {
-                input.addEventListener('input', function () {
-                    var query = input.value.trim().toLowerCase();
-                    var card = input.closest('.card');
-                    var tbody = card ? card.querySelector('tbody') : null;
-                    if (!tbody) return;
-                    tbody.querySelectorAll('tr').forEach(function (row) {
-                        row.style.display = row.textContent.toLowerCase().indexOf(query) !== -1 ? '' : 'none';
-                    });
+            document.addEventListener('click', function (e) {
+                document.querySelectorAll('.filter-menu.open').forEach(function (m) {
+                    if (m.contains(e.target)) return;
+                    m.classList.remove('open');
+                    var dropdown = m.closest('.filter-dropdown');
+                    var toggle = dropdown ? dropdown.querySelector('.filter-toggle') : null;
+                    if (toggle) toggle.classList.remove('active');
                 });
             });
 
@@ -2089,7 +2018,7 @@
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     var label = link.querySelector('span:last-child');
-                    alert((label ? label.textContent.trim() : 'This') + ' page is not available yet.');
+                    window.showAlert((label ? label.textContent.trim() : 'This') + ' page is not available yet.');
                 });
             });
 
@@ -2162,7 +2091,7 @@
                         btn.disabled = true;
                         btn.style.opacity = '0.4';
                         btn.style.cursor = 'not-allowed';
-                        alert(wasBlock ? 'User has been blocked.' : 'Marked as resolved.');
+                        window.showAlert(wasBlock ? 'User has been blocked.' : 'Marked as resolved.');
                     }
                 });
             });
@@ -2231,7 +2160,7 @@
                     var nameEl = row ? row.querySelector('.name, .title, .font-bold') : null;
                     var label = btn.textContent.trim();
                     var subject = nameEl ? nameEl.textContent.trim() : '';
-                    alert(subject ? (label + ': ' + subject) : (label + ' clicked.'));
+                    window.showAlert(subject ? (label + ': ' + subject) : (label + ' clicked.'));
                 });
             });
         });
@@ -2240,14 +2169,89 @@
     <script type="module">
         import { requireAuth, logOut } from '../../firebase/auth-helpers.js';
         import { getMany, removeDoc, updateDocFields, escapeHtml } from '../../firebase/firestore-helpers.js';
+        import { showAlert, showConfirm, showPrompt } from '../../shared/ui-dialogs.js';
+
+        // Exposed for the classic (non-module) <script> above, whose stub click handlers
+        // fire well after this module has initialized (only on later user interaction).
+        window.showAlert = showAlert;
+        window.showConfirm = showConfirm;
+        window.showPrompt = showPrompt;
 
         const { profile } = await requireAuth(['admin'], '../user/login.html');
         document.getElementById('profileNameText').textContent = profile.fullName || profile.username || 'Admin';
         document.getElementById('adminAvatarImg').src = profile.avatarUrl || '../../images/user_profile.jpg';
 
+        /* ---------- Shared table pager (Users, Renters, Transactions, Listings, Reports, Chat Monitor) ----------
+           One real, data-driven pager per table: renders only the current page's rows and keeps the
+           "Showing X-Y of Z" text + page-number buttons in sync with however many rows survive filtering. */
+        const ADMIN_PAGE_SIZE = 5;
+
+        function createPager(opts) {
+            let currentPage = 1;
+            let items = [];
+
+            function draw() {
+                const totalItems = items.length;
+                const totalPages = Math.max(1, Math.ceil(totalItems / ADMIN_PAGE_SIZE));
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                const startIdx = (currentPage - 1) * ADMIN_PAGE_SIZE;
+                const pageItems = items.slice(startIdx, startIdx + ADMIN_PAGE_SIZE);
+
+                const tbody = document.getElementById(opts.tbodyId);
+                tbody.innerHTML = '';
+                pageItems.forEach(item => tbody.appendChild(opts.renderRow(item)));
+                if (opts.emptyMsgId) {
+                    document.getElementById(opts.emptyMsgId).style.display = totalItems ? 'none' : '';
+                }
+
+                const start = totalItems ? startIdx + 1 : 0;
+                const end = Math.min(startIdx + ADMIN_PAGE_SIZE, totalItems);
+                document.getElementById(opts.paginationInfoId).innerHTML =
+                    'Showing <span style="font-weight: 700;">' + start + (end !== start ? '-' + end : '') + '</span> of ' + totalItems + ' ' + opts.noun;
+
+                const pageNumberBtns = document.getElementById(opts.pageNumberBtnsId);
+                pageNumberBtns.innerHTML = '';
+                for (let page = 1; page <= totalPages; page++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'page-btn' + (page === currentPage ? ' active' : '');
+                    btn.type = 'button';
+                    btn.dataset.page = page;
+                    btn.textContent = page;
+                    pageNumberBtns.appendChild(btn);
+                }
+                document.getElementById(opts.prevBtnId).disabled = currentPage === 1;
+                document.getElementById(opts.nextBtnId).disabled = currentPage === totalPages;
+            }
+
+            document.getElementById(opts.pageNumberBtnsId).addEventListener('click', function (e) {
+                const btn = e.target.closest('.page-btn[data-page]');
+                if (!btn) return;
+                currentPage = parseInt(btn.dataset.page, 10);
+                draw();
+            });
+            document.getElementById(opts.prevBtnId).addEventListener('click', function () {
+                currentPage--;
+                draw();
+            });
+            document.getElementById(opts.nextBtnId).addEventListener('click', function () {
+                currentPage++;
+                draw();
+            });
+
+            return {
+                setItems: function (newItems, resetPage) {
+                    items = newItems;
+                    if (resetPage) currentPage = 1;
+                    draw();
+                }
+            };
+        }
+
         document.getElementById('logoutLink').addEventListener('click', async function (e) {
             e.preventDefault();
-            if (!confirm('Are you sure you want to log out?')) return;
+            if (!(await showConfirm('Are you sure you want to log out?'))) return;
             await logOut();
             window.location.href = '../user/login.html';
         });
@@ -2324,6 +2328,67 @@
         let rentersCache = [];
         let bookingCountByCustomer = {};
         let revenueByRenter = {};
+        let listingsByOwnerCache = {};
+
+        function personDisplayStatus(person) {
+            return (person.status || 'active') === 'blocked' ? 'suspended' : 'active';
+        }
+
+        function getFilteredUsers() {
+            const searchTerm = document.querySelector('#view-users .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('usersStatusFilter').value;
+            return usersCache.filter(u => {
+                const status = personDisplayStatus(u);
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (searchTerm) {
+                    const haystack = [u.fullName, u.username, u.email, u.phone, status].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        function getFilteredRenters() {
+            const searchTerm = document.querySelector('#view-renters .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('rentersStatusFilter').value;
+            return rentersCache.filter(u => {
+                const status = personDisplayStatus(u);
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (searchTerm) {
+                    const haystack = [u.fullName, u.username, u.email, u.phone, status].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        const usersPager = createPager({
+            tbodyId: 'usersTbody', paginationInfoId: 'usersPaginationInfo',
+            pageNumberBtnsId: 'usersPageNumberBtns', prevBtnId: 'usersPrevPageBtn', nextBtnId: 'usersNextPageBtn',
+            noun: 'users', renderRow: renderUserRow
+        });
+        const rentersPager = createPager({
+            tbodyId: 'rentersTbody', paginationInfoId: 'rentersPaginationInfo',
+            pageNumberBtnsId: 'rentersPageNumberBtns', prevBtnId: 'rentersPrevPageBtn', nextBtnId: 'rentersNextPageBtn',
+            noun: 'renters', renderRow: (u) => renderRenterRow(u, listingsByOwnerCache)
+        });
+
+        function applyUsersFilters() { usersPager.setItems(getFilteredUsers(), true); }
+        function applyRentersFilters() { rentersPager.setItems(getFilteredRenters(), true); }
+
+        document.querySelector('#view-users .table-search input').addEventListener('input', applyUsersFilters);
+        document.getElementById('usersStatusFilter').addEventListener('change', applyUsersFilters);
+        document.getElementById('usersFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('usersStatusFilter').value = 'all';
+            applyUsersFilters();
+        });
+
+        document.querySelector('#view-renters .table-search input').addEventListener('input', applyRentersFilters);
+        document.getElementById('rentersStatusFilter').addEventListener('change', applyRentersFilters);
+        document.getElementById('rentersFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('rentersStatusFilter').value = 'all';
+            applyRentersFilters();
+        });
 
         async function loadUsersAndRenters() {
             const [allUsers, allListings, allBookingsForStats] = await Promise.all([getMany('users'), getMany('listings'), getMany('bookings')]);
@@ -2332,6 +2397,7 @@
             allListings.forEach(l => {
                 (listingsByOwner[l.ownerId] || (listingsByOwner[l.ownerId] = [])).push(l);
             });
+            listingsByOwnerCache = listingsByOwner;
 
             bookingCountByCustomer = {};
             revenueByRenter = {};
@@ -2343,17 +2409,8 @@
             usersCache = allUsers.filter(u => u.role === 'user');
             rentersCache = allUsers.filter(u => u.role === 'renter');
 
-            const usersTbody = document.getElementById('usersTbody');
-            usersTbody.innerHTML = '';
-            usersCache.forEach(u => usersTbody.appendChild(renderUserRow(u)));
-            document.getElementById('usersPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + usersCache.length + '</span> of ' + usersCache.length + ' users';
-
-            const rentersTbody = document.getElementById('rentersTbody');
-            rentersTbody.innerHTML = '';
-            rentersCache.forEach(u => rentersTbody.appendChild(renderRenterRow(u, listingsByOwner)));
-            document.getElementById('rentersPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + rentersCache.length + '</span> of ' + rentersCache.length + ' renters';
+            applyUsersFilters();
+            applyRentersFilters();
         }
 
         function wirePersonActions(tbodyId, getCache) {
@@ -2365,7 +2422,7 @@
                 if (!person) return;
 
                 if (e.target.closest('.view-btn')) {
-                    alert(
+                    await showAlert(
                         (person.fullName || person.username) + '\n' +
                         'Email: ' + person.email + '\n' +
                         'Phone: ' + (person.phone || '—') + '\n' +
@@ -2374,12 +2431,12 @@
                     );
                 } else if (e.target.closest('.icon-action')) {
                     const isBlocked = (person.status || 'active') === 'blocked';
-                    if (!confirm((isBlocked ? 'Unblock' : 'Block') + ' "' + (person.fullName || person.username) + '"?')) return;
+                    if (!(await showConfirm((isBlocked ? 'Unblock' : 'Block') + ' "' + (person.fullName || person.username) + '"?'))) return;
                     try {
                         await updateDocFields('users', uid, { status: isBlocked ? 'active' : 'blocked' });
                         await loadUsersAndRenters();
                     } catch (err) {
-                        alert('Could not update this user: ' + (err.message || 'please try again.'));
+                        await showAlert('Could not update this user: ' + (err.message || 'please try again.'));
                     }
                 }
             });
@@ -2436,15 +2493,44 @@
             return tr;
         }
 
+        function getFilteredTransactions() {
+            const searchTerm = document.querySelector('#view-transactions .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('transactionsStatusFilter').value;
+            const escrowFilter = document.getElementById('transactionsEscrowFilter').value;
+            return transactionsCache.filter(b => {
+                const status = b.bookingStatus || 'active';
+                const escrow = b.escrowStatus || 'held';
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (escrowFilter !== 'all' && escrow !== escrowFilter) return false;
+                if (searchTerm) {
+                    const haystack = [b.id, b.customerName, b.renterName, b.listingTitle, status, escrow].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        const transactionsPager = createPager({
+            tbodyId: 'transactionsTbody', paginationInfoId: 'transactionsPaginationInfo',
+            pageNumberBtnsId: 'transactionsPageNumberBtns', prevBtnId: 'transactionsPrevPageBtn', nextBtnId: 'transactionsNextPageBtn',
+            emptyMsgId: 'transactionsEmptyMsg', noun: 'transactions', renderRow: renderTransactionRow
+        });
+
+        function applyTransactionsFilters() { transactionsPager.setItems(getFilteredTransactions(), true); }
+
+        document.querySelector('#view-transactions .table-search input').addEventListener('input', applyTransactionsFilters);
+        document.getElementById('transactionsStatusFilter').addEventListener('change', applyTransactionsFilters);
+        document.getElementById('transactionsEscrowFilter').addEventListener('change', applyTransactionsFilters);
+        document.getElementById('transactionsFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('transactionsStatusFilter').value = 'all';
+            document.getElementById('transactionsEscrowFilter').value = 'all';
+            applyTransactionsFilters();
+        });
+
         async function loadTransactions() {
             transactionsCache = await getMany('bookings');
             await Promise.all(transactionsCache.map(b => tryReleaseBooking(b)));
-            const tbody = document.getElementById('transactionsTbody');
-            tbody.innerHTML = '';
-            transactionsCache.forEach(b => tbody.appendChild(renderTransactionRow(b)));
-            document.getElementById('transactionsEmptyMsg').style.display = transactionsCache.length ? 'none' : '';
-            document.getElementById('transactionsPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + transactionsCache.length + '</span> of ' + transactionsCache.length + ' transactions';
+            applyTransactionsFilters();
         }
 
         document.getElementById('transactionsTbody').addEventListener('click', async function (e) {
@@ -2454,7 +2540,7 @@
             if (!booking) return;
 
             if (e.target.closest('.btn-complete-order')) {
-                if (!confirm('Confirm this order as complete? Once the customer has also confirmed, and no damage was reported, the payment will be released to the renter.')) return;
+                if (!(await showConfirm('Confirm this order as complete? Once the customer has also confirmed, and no damage was reported, the payment will be released to the renter.'))) return;
                 try {
                     await updateDocFields('bookings', booking.id, { adminConfirmedComplete: true });
                     booking.adminConfirmedComplete = true;
@@ -2462,10 +2548,10 @@
                     renderOverviewMetrics();
                     renderOverviewTransactions();
                 } catch (err) {
-                    alert('Could not update this order: ' + (err.message || 'please try again.'));
+                    await showAlert('Could not update this order: ' + (err.message || 'please try again.'));
                 }
             } else if (e.target.closest('.btn-details')) {
-                alert(
+                await showAlert(
                     'Transaction #' + booking.id.slice(0, 6) + '\n' +
                     'Customer: ' + (booking.customerName || 'Customer') + '\n' +
                     'Renter: ' + (booking.renterName || 'Renter') + '\n' +
@@ -2523,14 +2609,38 @@
             return tr;
         }
 
+        function getFilteredReports() {
+            const searchTerm = document.querySelector('#view-reports .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('reportsStatusFilter').value;
+            return reportsCache.filter(r => {
+                const status = r.status || 'pending';
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (searchTerm) {
+                    const haystack = [r.id, r.reporterName, r.reportedUserName, r.type, r.description, status].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        const reportsPager = createPager({
+            tbodyId: 'reportsTbody', paginationInfoId: 'reportsPaginationInfo',
+            pageNumberBtnsId: 'reportsPageNumberBtns', prevBtnId: 'reportsPrevPageBtn', nextBtnId: 'reportsNextPageBtn',
+            emptyMsgId: 'reportsEmptyMsg', noun: 'reports', renderRow: renderReportRow
+        });
+
+        function applyReportsFilters() { reportsPager.setItems(getFilteredReports(), true); }
+
+        document.querySelector('#view-reports .table-search input').addEventListener('input', applyReportsFilters);
+        document.getElementById('reportsStatusFilter').addEventListener('change', applyReportsFilters);
+        document.getElementById('reportsFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('reportsStatusFilter').value = 'all';
+            applyReportsFilters();
+        });
+
         async function loadReports() {
             reportsCache = await getMany('reports');
-            const tbody = document.getElementById('reportsTbody');
-            tbody.innerHTML = '';
-            reportsCache.forEach(r => tbody.appendChild(renderReportRow(r)));
-            document.getElementById('reportsEmptyMsg').style.display = reportsCache.length ? 'none' : '';
-            document.getElementById('reportsPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + reportsCache.length + '</span> of ' + reportsCache.length + ' reports';
+            applyReportsFilters();
         }
 
         document.getElementById('reportsTbody').addEventListener('click', async function (e) {
@@ -2543,14 +2653,14 @@
                 await updateDocFields('reports', report.id, { status: 'investigating' });
                 await loadReports();
             } else if (e.target.closest('.btn-warning')) {
-                if (!confirm('Send a warning for this report?')) return;
+                if (!(await showConfirm('Send a warning for this report?'))) return;
                 await updateDocFields('reports', report.id, { status: 'warning', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
                 await loadReports();
             } else if (e.target.closest('.btn-resolve')) {
                 await updateDocFields('reports', report.id, { status: 'resolved', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
                 await loadReports();
             } else if (e.target.closest('.btn-details')) {
-                alert(
+                await showAlert(
                     'Report #' + report.id.slice(0, 6) + '\n' +
                     'Type: ' + (report.type || 'Other') + '\n' +
                     'Reported: ' + (report.reportedUserName || '—') + '\n' +
@@ -2570,14 +2680,16 @@
             const tr = document.createElement('tr');
             tr.dataset.listingId = listing.id;
             const isBand = listing.listingType === 'band';
-            const icon = isBand ? 'groups' : 'music_note';
-            const priceUnit = listing.priceUnit === 'show' ? '/show' : '/day';
+            const isBundle = listing.listingType === 'bundle';
+            const icon = isBand ? 'groups' : (isBundle ? 'inventory_2' : 'music_note');
+            const categoryLabel = isBand ? 'band' : (isBundle ? 'bundle' : 'instrument');
+            const priceUnit = listing.priceUnit === 'show' ? '/show' : (listing.priceUnit === 'event' ? '/event' : '/day');
             const status = listing.status || 'available';
 
             tr.innerHTML =
                 '<td>' +
                     '<div class="listing-cell">' +
-                        '<div class="listing-icon ' + (isBand ? 'band' : 'instrument') + '">' +
+                        '<div class="listing-icon ' + categoryLabel + '">' +
                             '<span class="material-symbols-outlined">' + icon + '</span>' +
                         '</div>' +
                         '<div class="listing-info">' +
@@ -2586,7 +2698,7 @@
                         '</div>' +
                     '</div>' +
                 '</td>' +
-                '<td><span class="category-tag">' + (isBand ? 'band' : 'instrument') + '</span></td>' +
+                '<td><span class="category-tag">' + categoryLabel + '</span></td>' +
                 '<td><strong>' + escapeHtml(listing.ownerName || 'Unknown') + '</strong></td>' +
                 '<td class="price-text">RM' + listing.price + ' ' + priceUnit + '</td>' +
                 '<td style="font-weight: 600; text-align: center;">' + soldCount + '</td>' +
@@ -2602,15 +2714,48 @@
             return tr;
         }
 
-        async function loadListings() {
-            const tbody = document.getElementById('listingsTbody');
-            const listings = await getMany('listings');
-            const soldCountByListing = {};
-            transactionsCache.filter(b => (b.bookingStatus || 'active') !== 'cancelled').forEach(b => {
-                soldCountByListing[b.listingId] = (soldCountByListing[b.listingId] || 0) + 1;
+        let soldCountByListingCache = {};
+
+        function getFilteredListings() {
+            const searchTerm = document.querySelector('#view-listings .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('listingsStatusFilter').value;
+            const categoryFilter = document.getElementById('listingsCategoryFilter').value;
+            return listingsCache.filter(l => {
+                const status = l.status || 'available';
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (categoryFilter !== 'all' && l.listingType !== categoryFilter) return false;
+                if (searchTerm) {
+                    const haystack = [l.title, l.ownerName, l.listingType, status].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
             });
-            tbody.innerHTML = '';
-            listings.forEach(listing => tbody.appendChild(renderListingRow(listing, soldCountByListing[listing.id] || 0)));
+        }
+
+        const listingsPager = createPager({
+            tbodyId: 'listingsTbody', paginationInfoId: 'listingsPaginationInfo',
+            pageNumberBtnsId: 'listingsPageNumberBtns', prevBtnId: 'listingsPrevPageBtn', nextBtnId: 'listingsNextPageBtn',
+            emptyMsgId: 'listingsEmptyMsg', noun: 'listings',
+            renderRow: (listing) => renderListingRow(listing, soldCountByListingCache[listing.id] || 0)
+        });
+
+        function applyListingsFilters() { listingsPager.setItems(getFilteredListings(), true); }
+
+        document.querySelector('#view-listings .table-search input').addEventListener('input', applyListingsFilters);
+        document.getElementById('listingsStatusFilter').addEventListener('change', applyListingsFilters);
+        document.getElementById('listingsCategoryFilter').addEventListener('change', applyListingsFilters);
+        document.getElementById('listingsFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('listingsStatusFilter').value = 'all';
+            document.getElementById('listingsCategoryFilter').value = 'all';
+            applyListingsFilters();
+        });
+
+        async function loadListings() {
+            const listings = await getMany('listings');
+            soldCountByListingCache = {};
+            transactionsCache.filter(b => (b.bookingStatus || 'active') !== 'cancelled').forEach(b => {
+                soldCountByListingCache[b.listingId] = (soldCountByListingCache[b.listingId] || 0) + 1;
+            });
 
             document.getElementById('listingsTotalStat').textContent = listings.length;
             document.getElementById('listingsActiveStat').textContent =
@@ -2619,13 +2764,14 @@
                 listings.filter(l => l.listingType === 'instrument').length;
             document.getElementById('listingsBandStat').textContent =
                 listings.filter(l => l.listingType === 'band').length;
-            document.getElementById('listingsPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + listings.length + '</span> of ' + listings.length + ' listings';
 
+            listingsCache = listings;
+            applyListingsFilters();
             return listings;
         }
 
-        let listingsCache = await loadListings();
+        let listingsCache = [];
+        await loadListings();
 
         document.getElementById('listingsTbody').addEventListener('click', async function (e) {
             const row = e.target.closest('tr');
@@ -2635,21 +2781,22 @@
             if (!listing) return;
 
             if (e.target.closest('.view-listing-btn')) {
-                alert(
+                const priceUnit = listing.priceUnit === 'show' ? '/show' : (listing.priceUnit === 'event' ? '/event' : '/day');
+                await showAlert(
                     listing.title + '\n' +
                     'Type: ' + listing.listingType + '\n' +
                     'Renter: ' + (listing.ownerName || 'Unknown') + '\n' +
-                    'Price: RM' + listing.price + ' ' + (listing.priceUnit === 'show' ? '/show' : '/day') + '\n' +
+                    'Price: RM' + listing.price + ' ' + priceUnit + '\n' +
                     'Location: ' + (listing.location || '—') + '\n' +
                     'Status: ' + (listing.status || 'available')
                 );
             } else if (e.target.closest('.delete-listing-btn')) {
-                if (confirm('Delete "' + listing.title + '"? This cannot be undone and will remove it from the marketplace immediately.')) {
+                if (await showConfirm('Delete "' + listing.title + '"? This cannot be undone and will remove it from the marketplace immediately.')) {
                     try {
                         await removeDoc('listings', listingId);
-                        listingsCache = await loadListings();
+                        await loadListings();
                     } catch (err) {
-                        alert('Could not delete this listing: ' + (err.message || 'please try again.'));
+                        await showAlert('Could not delete this listing: ' + (err.message || 'please try again.'));
                     }
                 }
             }
@@ -2694,6 +2841,39 @@
             return tr;
         }
 
+        function getFilteredViolations() {
+            const searchTerm = document.querySelector('#view-chatmonitor .table-search input').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('violationsStatusFilter').value;
+            const typeFilter = document.getElementById('violationsTypeFilter').value;
+            return violationsCache.filter(v => {
+                const status = v.status || 'pending';
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (typeFilter !== 'all' && (v.type || 'Other') !== typeFilter) return false;
+                if (searchTerm) {
+                    const haystack = [v.id, v.offenderName, v.recipientName, v.type, v.message, status].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        const violationsPager = createPager({
+            tbodyId: 'violationsTbody', paginationInfoId: 'violationsPaginationInfo',
+            pageNumberBtnsId: 'violationsPageNumberBtns', prevBtnId: 'violationsPrevPageBtn', nextBtnId: 'violationsNextPageBtn',
+            emptyMsgId: 'violationsEmptyMsg', noun: 'violations', renderRow: renderViolationRow
+        });
+
+        function applyViolationsFilters() { violationsPager.setItems(getFilteredViolations(), true); }
+
+        document.querySelector('#view-chatmonitor .table-search input').addEventListener('input', applyViolationsFilters);
+        document.getElementById('violationsStatusFilter').addEventListener('change', applyViolationsFilters);
+        document.getElementById('violationsTypeFilter').addEventListener('change', applyViolationsFilters);
+        document.getElementById('violationsFiltersClearBtn').addEventListener('click', function () {
+            document.getElementById('violationsStatusFilter').value = 'all';
+            document.getElementById('violationsTypeFilter').value = 'all';
+            applyViolationsFilters();
+        });
+
         async function loadViolations() {
             violationsCache = await getMany('violations');
             violationsCache.sort((a, b) => {
@@ -2701,12 +2881,7 @@
                 const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
                 return bt - at;
             });
-            const tbody = document.getElementById('violationsTbody');
-            tbody.innerHTML = '';
-            violationsCache.forEach(v => tbody.appendChild(renderViolationRow(v)));
-            document.getElementById('violationsEmptyMsg').style.display = violationsCache.length ? 'none' : '';
-            document.getElementById('violationsPaginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + violationsCache.length + '</span> of ' + violationsCache.length + ' violations';
+            applyViolationsFilters();
         }
 
         document.getElementById('violationsTbody').addEventListener('click', async function (e) {
@@ -2716,20 +2891,20 @@
             if (!violation) return;
 
             if (e.target.closest('.btn-warning')) {
-                if (!confirm('Send a warning to ' + (violation.offenderName || 'this user') + '?')) return;
+                if (!(await showConfirm('Send a warning to ' + (violation.offenderName || 'this user') + '?'))) return;
                 await updateDocFields('violations', violation.id, { status: 'warning', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
                 await loadViolations();
             } else if (e.target.closest('.icon-action.block')) {
-                if (!confirm('Block ' + (violation.offenderName || 'this user') + '\'s account for this violation?')) return;
+                if (!(await showConfirm('Block ' + (violation.offenderName || 'this user') + '\'s account for this violation?'))) return;
                 try {
                     await updateDocFields('users', violation.offenderId, { status: 'blocked' });
                     await updateDocFields('violations', violation.id, { status: 'suspended', resolvedBy: profile.fullName || profile.username, resolvedAt: new Date().toISOString() });
                     await loadViolations();
                 } catch (err) {
-                    alert('Could not block this user: ' + (err.message || 'please try again.'));
+                    await showAlert('Could not block this user: ' + (err.message || 'please try again.'));
                 }
             } else if (e.target.closest('.btn-details')) {
-                alert(
+                await showAlert(
                     'Violation #' + violation.id.slice(0, 6) + '\n' +
                     'Type: ' + (violation.type || 'Other') + '\n' +
                     'Offender: ' + (violation.offenderName || 'User') + '\n' +

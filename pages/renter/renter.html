@@ -3143,6 +3143,7 @@ header {
         } from '../../firebase/firestore-helpers.js';
         import { arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+        import { showAlert, showConfirm, showPrompt } from '../../shared/ui-dialogs.js';
 
         function escapeHtml(str) {
             const div = document.createElement('div');
@@ -3265,11 +3266,11 @@ header {
             this.value = '';
             if (!file) return;
             if (!file.type.startsWith('image/')) {
-                alert('Please choose an image file.');
+                await showAlert('Please choose an image file.');
                 return;
             }
             if (file.size > MAX_AVATAR_BYTES) {
-                alert('That image is too large. Max size is 5MB.');
+                await showAlert('That image is too large. Max size is 5MB.');
                 return;
             }
             try {
@@ -3282,7 +3283,7 @@ header {
                 document.getElementById('headerAvatarImg').src = url;
                 currentProfile.avatarUrl = url;
             } catch (err) {
-                alert('Could not upload photo. Please try again.');
+                await showAlert('Could not upload photo. Please try again.');
             }
         });
 
@@ -3299,7 +3300,7 @@ header {
             const phone = document.getElementById('renterProfilePhone').value.trim();
             const msgEl = document.getElementById('renterProfileFormMsg');
             if (!fullName || !phone) {
-                alert('Full name and phone number are required.');
+                await showAlert('Full name and phone number are required.');
                 return;
             }
             try {
@@ -3319,7 +3320,7 @@ header {
 
         document.getElementById('logoutLink').addEventListener('click', async function (e) {
             e.preventDefault();
-            if (!confirm('Are you sure you want to log out?')) return;
+            if (!(await showConfirm('Are you sure you want to log out?'))) return;
             await logOut();
             window.location.href = '../user/login.html';
         });
@@ -3390,12 +3391,12 @@ header {
             const icon = btn.querySelector('.material-symbols-outlined').textContent.trim();
 
             if (btn.classList.contains('delete')) {
-                if (confirm('Delete "' + title + '" from your inventory? This cannot be undone.')) {
+                if (await showConfirm('Delete "' + title + '" from your inventory? This cannot be undone.')) {
                     try {
                         await removeDoc('listings', listingId);
                         await loadMyListings();
                     } catch (err) {
-                        alert('Could not delete this listing: ' + (err.message || 'please try again.'));
+                        await showAlert('Could not delete this listing: ' + (err.message || 'please try again.'));
                     }
                 }
             } else if (icon === 'visibility') {
@@ -3597,7 +3598,7 @@ header {
             data.photos = photos;
 
             if (requiredValues.some(v => !v) || !data.price) {
-                alert('Please fill in all the listing details before submitting.');
+                await showAlert('Please fill in all the listing details before submitting.');
                 return;
             }
 
@@ -3606,7 +3607,7 @@ header {
             try {
                 if (editingListingId) {
                     await updateDocFields('listings', editingListingId, data);
-                    alert('Listing updated successfully.');
+                    await showAlert('Listing updated successfully.');
                 } else {
                     data.ownerId = currentUid;
                     data.ownerName = currentProfile.fullName || currentProfile.username;
@@ -3614,13 +3615,13 @@ header {
                     data.rating = 0;
                     data.ratingCount = 0;
                     await createDoc('listings', data);
-                    alert('Listing submitted successfully! Your ' + typeLabel + ' is now live on the marketplace.');
+                    await showAlert('Listing submitted successfully! Your ' + typeLabel + ' is now live on the marketplace.');
                 }
                 resetListingForm();
                 await loadMyListings();
                 window.showRenterPage('inventory');
             } catch (err) {
-                alert('Could not save your listing: ' + (err.message || 'please try again.'));
+                await showAlert('Could not save your listing: ' + (err.message || 'please try again.'));
             } finally {
                 submitBtn.disabled = false;
             }
@@ -3791,7 +3792,7 @@ header {
             const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
             if (!convo) return;
             const other = renterOtherParticipant(convo);
-            if (!confirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.')) return;
+            if (!(await showConfirm('Block ' + other.name + '? You will no longer see messages from them, and they will not be able to message you.'))) return;
             try {
                 await updateDocFields('users', currentUid, { blockedUsers: arrayUnion(other.uid) });
                 renterBlockedUsers.push(other.uid);
@@ -3805,9 +3806,9 @@ header {
                 } else {
                     setRenterChatWindowVisible(false);
                 }
-                alert(other.name + ' has been blocked.');
+                await showAlert(other.name + ' has been blocked.');
             } catch (err) {
-                alert('Could not block this user. Please try again.');
+                await showAlert('Could not block this user. Please try again.');
             }
         });
 
@@ -3816,10 +3817,10 @@ header {
             const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
             if (!convo) return;
             const other = renterOtherParticipant(convo);
-            const reason = prompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
+            const reason = await showPrompt('Please describe the issue with ' + other.name + ' (spam, scam, inappropriate behavior, etc.):');
             if (reason === null) return;
             if (!reason.trim()) {
-                alert('Please enter a reason to submit a report.');
+                await showAlert('Please enter a reason to submit a report.');
                 return;
             }
             try {
@@ -3833,9 +3834,9 @@ header {
                     description: reason.trim(),
                     status: 'pending'
                 });
-                alert('Report submitted. Our team will review this conversation.');
+                await showAlert('Report submitted. Our team will review this conversation.');
             } catch (err) {
-                alert('Could not submit report. Please try again.');
+                await showAlert('Could not submit report. Please try again.');
             }
         });
 
@@ -3846,8 +3847,8 @@ header {
             });
         });
 
-        document.getElementById('attachFileBtn').addEventListener('click', function () {
-            alert('File attachments will open your device file picker.');
+        document.getElementById('attachFileBtn').addEventListener('click', async function () {
+            await showAlert('File attachments will open your device file picker.');
         });
 
         /* ---------- Auto-moderation: flag phone numbers, social media handles, and
@@ -3902,7 +3903,7 @@ header {
                 });
                 await flagRenterViolationIfAny(text);
             } catch (err) {
-                alert('Could not send message. Please try again.');
+                await showAlert('Could not send message. Please try again.');
             }
         }
         document.getElementById('sendMessageBtn').addEventListener('click', sendRenterMessage);
@@ -3914,12 +3915,12 @@ header {
            it does NOT send the renter to checkout (that's the customer's action, in chat.html). */
         document.getElementById('requestPaymentBtn').addEventListener('click', async function () {
             if (!activeRenterConvoId) {
-                alert('Select a conversation first.');
+                await showAlert('Select a conversation first.');
                 return;
             }
             const convo = renterConversationsCache.find(c => c.id === activeRenterConvoId);
             if (convo && (convo.status === 'booked' || convo.status === 'completed' || convo.paymentRequested)) return;
-            if (!confirm('Send a payment request to this customer?')) return;
+            if (!(await showConfirm('Send a payment request to this customer?'))) return;
             const text = '💰 Payment has been requested for this booking. Please proceed to checkout to complete payment.';
             try {
                 await createSubDoc('conversations', activeRenterConvoId, 'messages', {
@@ -3934,9 +3935,9 @@ header {
                 });
                 if (convo) convo.paymentRequested = true;
                 updateRequestPaymentBtnState(convo);
-                alert('Payment request sent. The customer can now make payment from their chat.');
+                await showAlert('Payment request sent. The customer can now make payment from their chat.');
             } catch (err) {
-                alert('Could not send the payment request. Please try again.');
+                await showAlert('Could not send the payment request. Please try again.');
             }
         });
 
@@ -4095,18 +4096,18 @@ header {
             if (!booking) return;
 
             if (e.target.closest('.btn-report-damage')) {
-                const note = prompt('Describe the damage or issue found with this item:');
+                const note = await showPrompt('Describe the damage or issue found with this item:');
                 if (note === null) return;
                 if (!note.trim()) {
-                    alert('Please describe the damage before reporting it.');
+                    await showAlert('Please describe the damage before reporting it.');
                     return;
                 }
-                if (!confirm('Report damage on this booking? This will hold the escrowed payment until the issue is resolved.')) return;
+                if (!(await showConfirm('Report damage on this booking? This will hold the escrowed payment until the issue is resolved.'))) return;
                 try {
                     await updateDocFields('bookings', booking.id, { damageReported: true, damageNote: note.trim() });
                     await loadBookings();
                 } catch (err) {
-                    alert('Could not report damage: ' + (err.message || 'please try again.'));
+                    await showAlert('Could not report damage: ' + (err.message || 'please try again.'));
                 }
             } else if (e.target.closest('.btn-details')) {
                 openBookingDetail(booking);

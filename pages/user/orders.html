@@ -363,6 +363,7 @@ body {
     <script type="module">
         import { requireAuth, renderAuthNav } from '../../firebase/auth-helpers.js';
         import { getMany, getOne, updateDocFields, escapeHtml, where } from '../../firebase/firestore-helpers.js';
+        import { showAlert, showConfirm } from '../../shared/ui-dialogs.js';
 
         renderAuthNav('profileLink');
         const { uid: myUid } = await requireAuth(null, 'login.html');
@@ -420,7 +421,7 @@ body {
                 await updateDocFields('bookings', booking.id, { rating: value });
                 await loadOrders();
             } catch (err) {
-                alert('Could not submit your rating. Please try again.');
+                await showAlert('Could not submit your rating. Please try again.');
             }
         }
 
@@ -470,22 +471,22 @@ body {
             const completeBtn = div.querySelector('.order-complete-btn');
             if (completeBtn) {
                 completeBtn.addEventListener('click', async function () {
-                    if (!confirm('Confirm that you have enjoyed the rental and it is complete? This cannot be undone.')) return;
+                    if (!(await showConfirm('Confirm that you have enjoyed the rental and it is complete? This cannot be undone.'))) return;
                     completeBtn.disabled = true;
                     try {
                         await updateDocFields('bookings', booking.id, { userConfirmedComplete: true });
                         await loadOrders();
                     } catch (err) {
-                        alert('Could not confirm this order: ' + (err.message || 'please try again.'));
+                        await showAlert('Could not confirm this order: ' + (err.message || 'please try again.'));
                         completeBtn.disabled = false;
                     }
                 });
             }
             const starButtons = div.querySelectorAll('.star-picker .star-btn');
             starButtons.forEach(btn => {
-                btn.addEventListener('click', function () {
+                btn.addEventListener('click', async function () {
                     const value = parseInt(this.dataset.value, 10);
-                    if (!confirm('Submit a rating of ' + value + ' star' + (value > 1 ? 's' : '') + ' for ' + (booking.renterName || 'this renter') + '?')) return;
+                    if (!(await showConfirm('Submit a rating of ' + value + ' star' + (value > 1 ? 's' : '') + ' for ' + (booking.renterName || 'this renter') + '?'))) return;
                     starButtons.forEach(b => b.disabled = true);
                     submitRating(booking, value);
                 });
