@@ -130,6 +130,8 @@ body {
 
 .order-meta { font-size: 14px; color: var(--on-surface-variant); }
 .order-dates { font-size: 14px; color: var(--on-surface); font-weight: 600; }
+.order-status-note { font-size: 13px; color: var(--on-surface-variant); font-style: italic; }
+.order-damage-note { font-size: 13px; color: var(--error); font-weight: 600; }
 
 .rating-widget { display: flex; align-items: center; gap: 8px; }
 .rating-widget .rating-label { font-size: 13px; color: var(--on-surface-variant); }
@@ -429,6 +431,16 @@ body {
             div.dataset.status = status;
             div.dataset.bookingId = booking.id;
 
+            const showCompleteBtn = status === 'active' && !booking.userConfirmedComplete;
+            const statusNote = (status === 'active' && booking.userConfirmedComplete)
+                ? '<p class="order-status-note">You confirmed this order is complete. Waiting for admin confirmation to release the payment.</p>'
+                : '';
+            const damageNote = (status === 'active' && booking.damageReported)
+                ? '<p class="order-damage-note">The renter reported an issue with this rental' +
+                    (booking.damageNote ? (': ' + escapeHtml(booking.damageNote)) : '') +
+                    '. Payment release is on hold until this is resolved.</p>'
+                : '';
+
             div.innerHTML =
                 '<div class="order-card-media"><img alt="' + escapeHtml(booking.listingTitle || '') + '" src="' + escapeHtml(booking.listingImage || '../../images/user_profile.jpg') + '" /></div>' +
                 '<div class="order-card-body">' +
@@ -438,12 +450,15 @@ body {
                     '</div>' +
                     '<p class="order-meta">Renter: ' + escapeHtml(booking.renterName || 'Renter') + ' &middot; Order #' + escapeHtml(booking.id.slice(0, 6).toUpperCase()) + '</p>' +
                     '<p class="order-dates">' + dateRangeLabel(booking) + '</p>' +
+                    damageNote +
+                    statusNote +
                     renderRatingSection(booking) +
                     '<div class="order-card-footer">' +
                         '<span class="order-total">RM' + (booking.totalAmount || 0).toFixed(2) + '</span>' +
                         '<div class="order-actions">' +
                             '<button class="btn-outline view-listing-btn" type="button"><span class="material-symbols-outlined" style="font-size:16px;">visibility</span> View Listing</button>' +
                             '<button class="btn-primary-sm chat-btn" type="button"><span class="material-symbols-outlined" style="font-size:16px;">chat</span> Chat with Renter</button>' +
+                            (showCompleteBtn ? '<button class="btn-primary-sm order-complete-btn" type="button"><span class="material-symbols-outlined" style="font-size:16px;">task_alt</span> Order Complete</button>' : '') +
                         '</div>' +
                     '</div>' +
                 '</div>';
@@ -452,6 +467,20 @@ body {
             div.querySelector('.chat-btn').addEventListener('click', () => {
                 window.location.href = 'chat.html' + (booking.conversationId ? ('?convo=' + booking.conversationId) : '');
             });
+            const completeBtn = div.querySelector('.order-complete-btn');
+            if (completeBtn) {
+                completeBtn.addEventListener('click', async function () {
+                    if (!confirm('Confirm that you have enjoyed the rental and it is complete? This cannot be undone.')) return;
+                    completeBtn.disabled = true;
+                    try {
+                        await updateDocFields('bookings', booking.id, { userConfirmedComplete: true });
+                        await loadOrders();
+                    } catch (err) {
+                        alert('Could not confirm this order: ' + (err.message || 'please try again.'));
+                        completeBtn.disabled = false;
+                    }
+                });
+            }
             const starButtons = div.querySelectorAll('.star-picker .star-btn');
             starButtons.forEach(btn => {
                 btn.addEventListener('click', function () {

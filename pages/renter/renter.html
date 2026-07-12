@@ -806,16 +806,21 @@ header {
     transition: all 0.2s;
 }
 
-#page-bookings .btn-complete {
+#page-bookings .btn-report-damage {
     padding: 6px 16px;
-    border: 2px solid green;
+    border: 2px solid var(--error);
     border-radius: var(--radius-full);
-    background: green;
-    color: var(--background);
+    background: none;
+    color: var(--error);
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+#page-bookings .btn-report-damage:hover {
+    background-color: var(--error);
+    color: white;
 }
 
 #page-bookings .pagination {
@@ -3077,7 +3082,7 @@ header {
         // now lives in the module script below, since it needs Firebase access)
 
         // --- Bookings page interactivity ---
-        // (Bookings row actions — Mark as Complete / View Details — now live in the module
+        // (Bookings row actions — Report Damage / View Details — now live in the module
         // script below, wired to real Firestore bookings)
 
         document.getElementById('exportBtn').addEventListener('click', function () {
@@ -3208,7 +3213,10 @@ header {
                 detailRow('Total', 'RM' + booking.totalAmount) +
                 detailRow('Payment Method', escapeHtml(booking.paymentMethod === 'card' ? 'Credit / Debit Card' : (booking.paymentMethod || '—'))) +
                 detailRow('Escrow Status', escapeHtml(booking.escrowStatus === 'released' ? 'Released to you' : 'Held in escrow')) +
-                detailRow('Status', escapeHtml(status.charAt(0).toUpperCase() + status.slice(1)));
+                detailRow('Status', escapeHtml(status.charAt(0).toUpperCase() + status.slice(1))) +
+                detailRow('Customer Confirmed Complete', booking.userConfirmedComplete ? 'Yes' : 'No') +
+                detailRow('Admin Confirmed Complete', booking.adminConfirmedComplete ? 'Yes' : 'No') +
+                detailRow('Damage Reported', booking.damageReported ? ('Yes — ' + escapeHtml(booking.damageNote || '')) : 'No');
 
             openDetailModal('Booking Details', bodyHtml);
         }
@@ -3953,7 +3961,12 @@ header {
             const status = booking.bookingStatus || 'active';
             const statusClass = status === 'completed' ? 'badget-completed' : (status === 'cancelled' ? 'badget-cancelled' : 'badget-confirmed');
             const actionsHtml = status === 'active'
-                ? '<button class="btn-complete" type="button"><span class="material-symbols-outlined">check_circle</span> Mark as Complete</button>'
+                ? '<div class="actions-cell">' +
+                    (booking.damageReported
+                        ? '<span class="badget badget-issued">Damage Reported</span>'
+                        : '<button class="btn-report-damage" type="button">Report Damage</button>') +
+                    '<button class="btn-details" type="button">View Details</button>' +
+                  '</div>'
                 : '<button class="btn-details" type="button">View Details</button>';
 
             tr.innerHTML =
@@ -4081,19 +4094,19 @@ header {
             const booking = bookingsCache.find(b => b.id === row.dataset.bookingId);
             if (!booking) return;
 
-            if (e.target.closest('.btn-complete')) {
-                if (!confirm('Mark this booking as complete? This releases the escrowed payment to you.')) return;
+            if (e.target.closest('.btn-report-damage')) {
+                const note = prompt('Describe the damage or issue found with this item:');
+                if (note === null) return;
+                if (!note.trim()) {
+                    alert('Please describe the damage before reporting it.');
+                    return;
+                }
+                if (!confirm('Report damage on this booking? This will hold the escrowed payment until the issue is resolved.')) return;
                 try {
-                    await updateDocFields('bookings', booking.id, { bookingStatus: 'completed', escrowStatus: 'released' });
-                    if (booking.conversationId) {
-                        await updateDocFields('conversations', booking.conversationId, { status: 'completed' });
-                    }
-                    await Promise.all([loadBookings(), loadRenterConversations()]);
-                    renderInventoryStats();
-                    renderOverviewMetrics();
-                    renderOverviewInquiries();
+                    await updateDocFields('bookings', booking.id, { damageReported: true, damageNote: note.trim() });
+                    await loadBookings();
                 } catch (err) {
-                    alert('Could not update this booking: ' + (err.message || 'please try again.'));
+                    alert('Could not report damage: ' + (err.message || 'please try again.'));
                 }
             } else if (e.target.closest('.btn-details')) {
                 openBookingDetail(booking);

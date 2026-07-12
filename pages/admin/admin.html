@@ -613,6 +613,26 @@
             transform: scale(0.95);
         }
 
+        .btn-complete-order {
+            padding: 6px 16px;
+            border: none;
+            border-radius: var(--radius-full);
+            background-color: green;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-complete-order:hover {
+            opacity: 0.85;
+        }
+
+        .btn-complete-order:active {
+            transform: scale(0.95);
+        }
+
         /* Pagination */
         .pagination {
             padding: 24px;
@@ -2369,7 +2389,7 @@
         wirePersonActions('rentersTbody', () => rentersCache);
         await loadUsersAndRenters();
 
-        /* ---------- Transactions (read-only) ---------- */
+        /* ---------- Transactions ---------- */
         let transactionsCache = [];
 
         function bookingStatusClass(status) {
@@ -2378,12 +2398,30 @@
             return 'badget-active';
         }
 
+        /* Finalizes escrow once both the customer and admin have confirmed the order is
+           complete and the renter hasn't reported any damage. Safe to call repeatedly —
+           it's a no-op unless every condition is met. */
+        async function tryReleaseBooking(booking) {
+            if ((booking.bookingStatus || 'active') !== 'active') return false;
+            if (!(booking.userConfirmedComplete && booking.adminConfirmedComplete && !booking.damageReported)) return false;
+            await updateDocFields('bookings', booking.id, { bookingStatus: 'completed', escrowStatus: 'released' });
+            booking.bookingStatus = 'completed';
+            booking.escrowStatus = 'released';
+            if (booking.conversationId) {
+                await updateDocFields('conversations', booking.conversationId, { status: 'completed' });
+            }
+            return true;
+        }
+
         function renderTransactionRow(booking) {
             const tr = document.createElement('tr');
             tr.dataset.bookingId = booking.id;
             const escrowStatus = booking.escrowStatus || 'held';
             const bookingStatus = booking.bookingStatus || 'active';
             const date = booking.createdAt && booking.createdAt.toDate ? booking.createdAt.toDate().toISOString().slice(0, 10) : '—';
+            const actionsHtml = (bookingStatus === 'active' && !booking.adminConfirmedComplete)
+                ? '<div class="actions-cell"><button class="btn-complete-order" type="button">Complete Order</button><button class="btn-details" type="button">Details</button></div>'
+                : '<button class="btn-details" type="button">Details</button>';
 
             tr.innerHTML =
                 '<td class="font-mono">#' + escapeHtml(booking.id.slice(0, 6)) + '</td>' +
@@ -2394,12 +2432,13 @@
                 '<td class="text-small">' + date + '</td>' +
                 '<td class="text-center"><span class="badget badget-' + escrowStatus + '">' + escapeHtml(escrowStatus) + '</span></td>' +
                 '<td class="text-center"><span class="badget ' + bookingStatusClass(bookingStatus) + '">' + escapeHtml(bookingStatus) + '</span></td>' +
-                '<td class="text-center"><button class="btn-details" type="button">Details</button></td>';
+                '<td class="text-center">' + actionsHtml + '</td>';
             return tr;
         }
 
         async function loadTransactions() {
             transactionsCache = await getMany('bookings');
+            await Promise.all(transactionsCache.map(b => tryReleaseBooking(b)));
             const tbody = document.getElementById('transactionsTbody');
             tbody.innerHTML = '';
             transactionsCache.forEach(b => tbody.appendChild(renderTransactionRow(b)));
@@ -2408,20 +2447,37 @@
                 'Showing <span style="font-weight: 700;">' + transactionsCache.length + '</span> of ' + transactionsCache.length + ' transactions';
         }
 
-        document.getElementById('transactionsTbody').addEventListener('click', function (e) {
-            if (!e.target.closest('.btn-details')) return;
+        document.getElementById('transactionsTbody').addEventListener('click', async function (e) {
             const row = e.target.closest('tr');
+            if (!row) return;
             const booking = transactionsCache.find(b => b.id === row.dataset.bookingId);
             if (!booking) return;
-            alert(
-                'Transaction #' + booking.id.slice(0, 6) + '\n' +
-                'Customer: ' + (booking.customerName || 'Customer') + '\n' +
-                'Renter: ' + (booking.renterName || 'Renter') + '\n' +
-                'Item: ' + (booking.listingTitle || '') + '\n' +
-                'Amount: RM' + booking.totalAmount + '\n' +
-                'Escrow: ' + (booking.escrowStatus || 'held') + '\n' +
-                'Status: ' + (booking.bookingStatus || 'active')
-            );
+
+            if (e.target.closest('.btn-complete-order')) {
+                if (!confirm('Confirm this order as complete? Once the customer has also confirmed, and no damage was reported, the payment will be released to the renter.')) return;
+                try {
+                    await updateDocFields('bookings', booking.id, { adminConfirmedComplete: true });
+                    booking.adminConfirmedComplete = true;
+                    await loadTransactions();
+                    renderOverviewMetrics();
+                    renderOverviewTransactions();
+                } catch (err) {
+                    alert('Could not update this order: ' + (err.message || 'please try again.'));
+                }
+            } else if (e.target.closest('.btn-details')) {
+                alert(
+                    'Transaction #' + booking.id.slice(0, 6) + '\n' +
+                    'Customer: ' + (booking.customerName || 'Customer') + '\n' +
+                    'Renter: ' + (booking.renterName || 'Renter') + '\n' +
+                    'Item: ' + (booking.listingTitle || '') + '\n' +
+                    'Amount: RM' + booking.totalAmount + '\n' +
+                    'Escrow: ' + (booking.escrowStatus || 'held') + '\n' +
+                    'Status: ' + (booking.bookingStatus || 'active') + '\n' +
+                    'Customer Confirmed Complete: ' + (booking.userConfirmedComplete ? 'Yes' : 'No') + '\n' +
+                    'Admin Confirmed Complete: ' + (booking.adminConfirmedComplete ? 'Yes' : 'No') + '\n' +
+                    'Damage Reported: ' + (booking.damageReported ? ('Yes — ' + (booking.damageNote || '')) : 'No')
+                );
+            }
         });
 
         await loadTransactions();
