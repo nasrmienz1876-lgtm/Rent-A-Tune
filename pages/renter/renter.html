@@ -836,6 +836,77 @@ header {
     gap: 8px;
 }
 
+#page-bookings #pageNumberBtns {
+    display: flex;
+    gap: 8px;
+}
+
+#page-bookings .filters-wrap {
+    position: relative;
+}
+
+#page-bookings .btn-filled-light.active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+}
+
+#page-bookings .filters-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 20;
+    width: 220px;
+    background-color: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 16px;
+}
+
+#page-bookings .filters-dropdown.open {
+    display: block;
+}
+
+#page-bookings .filters-dropdown-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+}
+
+#page-bookings .filters-dropdown-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+}
+
+#page-bookings .filters-dropdown-group select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background-color: var(--surface);
+    color: var(--on-surface);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+#page-bookings .filters-clear-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background: none;
+    color: var(--on-surface-variant);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#page-bookings .filters-clear-btn:hover {
+    background-color: var(--surface-container-low);
+}
+
 #page-bookings .page-btn {
     width: 40px;
     height: 40px;
@@ -1770,6 +1841,57 @@ header {
     margin-bottom: 0;
 }
 
+#page-listnew .bundle-gear-row {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+#page-listnew .bundle-gear-row.removable {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+}
+
+#page-listnew .bundle-gear-row .form-group {
+    margin-bottom: 0;
+}
+
+#page-listnew .bundle-gear-remove-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background: none;
+    color: var(--error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#page-listnew .bundle-gear-remove-btn:hover {
+    background-color: var(--error-container);
+}
+
+#page-listnew .btn-add-gear {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px dashed var(--outline);
+    background: none;
+    color: var(--on-surface-variant);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#page-listnew .btn-add-gear:hover {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+}
+
 #page-listnew label {
     font-size: 12px;
     font-weight: 500;
@@ -2036,7 +2158,14 @@ header {
     gap: 16px;
 }
 
+#page-profile .profile-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
 #page-profile .btn-submit {
+    flex: 1;
     width: 100%;
     background-color: var(--secondary-container);
     color: var(--on-secondary-container);
@@ -2051,13 +2180,34 @@ header {
     justify-content: center;
     gap: 10px;
     cursor: pointer;
-    margin-top: 8px;
     transition: all 0.2s;
 }
 
 #page-profile .btn-submit:hover {
     background-color: var(--secondary);
     color: white;
+}
+
+#page-profile .btn-cancel {
+    flex: 1;
+    background-color: var(--surface-container-low);
+    color: var(--on-surface-variant);
+    border: 1px solid var(--outline-variant);
+    padding: 16px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-profile .btn-cancel:hover {
+    background-color: var(--surface-container-high);
 }
 
 #page-profile .form-message {
@@ -2423,10 +2573,32 @@ header {
                 <div class="card">
                     <div class="table-controls">
                         <div class="control-btns">
-                            <button class="btn-filled-light" id="filtersBtn">
-                                <span class="material-symbols-outlined">filter_list</span>
-                                Filters
-                            </button>
+                            <div class="filters-wrap">
+                                <button class="btn-filled-light" id="filtersBtn">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    Filters
+                                </button>
+                                <div class="filters-dropdown" id="filtersDropdown">
+                                    <div class="filters-dropdown-group">
+                                        <label>Status</label>
+                                        <select id="filterStatus">
+                                            <option value="all">All</option>
+                                            <option value="active">Active</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div class="filters-dropdown-group">
+                                        <label>Shipping</label>
+                                        <select id="filterShipping">
+                                            <option value="all">All</option>
+                                            <option value="pickup">Pickup</option>
+                                            <option value="delivery">Delivery</option>
+                                        </select>
+                                    </div>
+                                    <button class="filters-clear-btn" id="filtersClearBtn" type="button">Clear Filters</button>
+                                </div>
+                            </div>
                             <button class="btn-outline" id="exportBtn">
                                 <span class="material-symbols-outlined">file_download</span>
                                 Export
@@ -2463,9 +2635,7 @@ header {
                                 <button class="page-btn" id="prevPageBtn" disabled="">
                                     <span class="material-symbols-outlined">chevron_left</span>
                                 </button>
-                                <button class="page-btn active" data-page="1">1</button>
-                                <button class="page-btn" data-page="2">2</button>
-                                <button class="page-btn" data-page="3">3</button>
+                                <span id="pageNumberBtns"></span>
                                 <button class="page-btn" id="nextPageBtn">
                                     <span class="material-symbols-outlined">chevron_right</span>
                                 </button>
@@ -2724,39 +2894,28 @@ header {
 
                         <div class="section-header" style="margin-top: 24px;">
                             <h3>What's Included</h3>
-                            <p>List up to 3 key highlights included in this bundle (shown on the listing).</p>
+                            <p>List the gear included in this bundle (shown on the listing).</p>
                         </div>
 
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Highlight 1</label>
-                                <input id="bundleFeature1Label" placeholder="e.g. Steinway &amp; Sons Model D Grand" type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label>Highlight 1 Detail</label>
-                                <input id="bundleFeature1Sub" placeholder="e.g. 24-Piece String &amp; Brass Section" type="text" />
-                            </div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Highlight 2</label>
-                                <input id="bundleFeature2Label" placeholder="e.g. 48-Channel Digital Audio Console" type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label>Highlight 2 Detail</label>
-                                <input id="bundleFeature2Sub" placeholder="e.g. Wireless In-Ear Monitoring System" type="text" />
+                        <div id="bundleGearContainer">
+                            <div class="grid-2 bundle-gear-row removable">
+                                <div class="form-group">
+                                    <label>Gear 1</label>
+                                    <input class="bundleGearLabel" placeholder="e.g. Steinway &amp; Sons Model D Grand" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Gear 1 Detail</label>
+                                    <input class="bundleGearSub" placeholder="e.g. 24-Piece String &amp; Brass Section" type="text" />
+                                </div>
+                                <button class="bundle-gear-remove-btn" title="Remove" type="button">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Highlight 3</label>
-                                <input id="bundleFeature3Label" placeholder="e.g. Professional Stage Lighting Rig" type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label>Highlight 3 Detail</label>
-                                <input id="bundleFeature3Sub" placeholder="e.g. On-Site Technical Supervisor" type="text" />
-                            </div>
-                        </div>
+                        <button class="btn-add-gear" id="addGearBtn" type="button">
+                            <span class="material-symbols-outlined">add</span>
+                            Add Gear
+                        </button>
                     </section>
 
                     <section>
@@ -2840,10 +2999,16 @@ header {
                             <input disabled id="renterProfileMemberSince" type="text" />
                         </div>
 
-                        <button class="btn-submit" type="submit">
-                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
-                            Save Changes
-                        </button>
+                        <div class="profile-form-actions">
+                            <button class="btn-cancel" id="renterProfileCancelBtn" title="Discard changes" type="button">
+                                <span class="material-symbols-outlined">close</span>
+                                Cancel
+                            </button>
+                            <button class="btn-submit" type="submit">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                                Save Changes
+                            </button>
+                        </div>
                         <p class="form-message" id="renterProfileFormMsg"></p>
                     </form>
                 </div>
@@ -2915,11 +3080,6 @@ header {
         // (Bookings row actions — Mark as Complete / View Details — now live in the module
         // script below, wired to real Firestore bookings)
 
-        document.getElementById('filtersBtn').addEventListener('click', function () {
-            this.classList.toggle('active');
-            alert('Filter options would appear here.');
-        });
-
         document.getElementById('exportBtn').addEventListener('click', function () {
             // Builds an HTML table and downloads it as .xls — Excel opens HTML-table files
             // natively, so no external spreadsheet library is needed.
@@ -2944,41 +3104,8 @@ header {
             URL.revokeObjectURL(url);
         });
 
-        document.getElementById('bookingSearch').addEventListener('input', function () {
-            const term = this.value.toLowerCase();
-            document.querySelectorAll('#bookingsTbody tr').forEach(row => {
-                row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
-            });
-        });
-
-        const paginationBtns = document.getElementById('paginationBtns');
-        const prevBtn = document.getElementById('prevPageBtn');
-        const nextBtn = document.getElementById('nextPageBtn');
-        const paginationInfo = document.getElementById('paginationInfo');
-        const totalPages = 3, totalItems = 20;
-
-        function setActivePage(page) {
-            paginationBtns.querySelectorAll('.page-btn[data-page]').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.dataset.page) === page);
-            });
-            prevBtn.disabled = page === 1;
-            nextBtn.disabled = page === totalPages;
-            const start = (page - 1) * 5 + 1;
-            const end = Math.min(page * 5, totalItems);
-            paginationInfo.innerHTML = 'Showing <span style="font-weight: 700;">' + start + '-' + end + '</span> of ' + totalItems + ' bookings';
-        }
-
-        paginationBtns.querySelectorAll('.page-btn[data-page]').forEach(btn => {
-            btn.addEventListener('click', () => setActivePage(parseInt(btn.dataset.page)));
-        });
-        prevBtn.addEventListener('click', () => {
-            const current = parseInt(paginationBtns.querySelector('.page-btn.active').dataset.page);
-            if (current > 1) setActivePage(current - 1);
-        });
-        nextBtn.addEventListener('click', () => {
-            const current = parseInt(paginationBtns.querySelector('.page-btn.active').dataset.page);
-            if (current < totalPages) setActivePage(current + 1);
-        });
+        // (Bookings search, filters dropdown, and pagination are wired up in the module
+        // script below, since they operate on the real Firestore bookings cache.)
 
         // --- List New page interactivity ---
         const instrumentRadio = document.getElementById('typeInstrument');
@@ -3151,6 +3278,13 @@ header {
             }
         });
 
+        document.getElementById('renterProfileCancelBtn').addEventListener('click', function () {
+            document.getElementById('renterProfileFullName').value = currentProfile.fullName || '';
+            document.getElementById('renterProfilePhone').value = currentProfile.phone || '';
+            const msgEl = document.getElementById('renterProfileFormMsg');
+            msgEl.style.display = 'none';
+        });
+
         document.getElementById('renterProfileForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const fullName = document.getElementById('renterProfileFullName').value.trim();
@@ -3284,6 +3418,66 @@ header {
         }
         document.getElementById('photoUrlsInput').addEventListener('input', renderPhotoPreviews);
 
+        /* ---------- List New: Bundle "What's Included" gear rows (add as many as needed) ---------- */
+        const bundleGearContainer = document.getElementById('bundleGearContainer');
+
+        function renumberGearRows() {
+            bundleGearContainer.querySelectorAll('.bundle-gear-row').forEach((row, i) => {
+                const labels = row.querySelectorAll('label');
+                labels[0].textContent = 'Gear ' + (i + 1);
+                labels[1].textContent = 'Gear ' + (i + 1) + ' Detail';
+            });
+        }
+
+        function addGearRow(labelValue, subValue) {
+            const row = document.createElement('div');
+            row.className = 'grid-2 bundle-gear-row removable';
+            row.innerHTML =
+                '<div class="form-group">' +
+                '<label>Gear</label>' +
+                '<input class="bundleGearLabel" placeholder="e.g. Wireless Handheld Microphone" type="text" />' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Gear Detail</label>' +
+                '<input class="bundleGearSub" placeholder="e.g. 2 Units Included" type="text" />' +
+                '</div>' +
+                '<button class="bundle-gear-remove-btn" title="Remove" type="button">' +
+                '<span class="material-symbols-outlined">close</span>' +
+                '</button>';
+            row.querySelector('.bundleGearLabel').value = labelValue || '';
+            row.querySelector('.bundleGearSub').value = subValue || '';
+            bundleGearContainer.appendChild(row);
+            renumberGearRows();
+            return row;
+        }
+
+        function renderGearRows(features) {
+            bundleGearContainer.innerHTML = '';
+            if (features && features.length) {
+                features.forEach(f => addGearRow(f.label, f.sub));
+            } else {
+                addGearRow('', '');
+            }
+        }
+
+        document.getElementById('addGearBtn').addEventListener('click', function () {
+            addGearRow('', '');
+        });
+
+        bundleGearContainer.addEventListener('click', function (e) {
+            const btn = e.target.closest('.bundle-gear-remove-btn');
+            if (!btn) return;
+            const rows = bundleGearContainer.querySelectorAll('.bundle-gear-row');
+            const row = btn.closest('.bundle-gear-row');
+            if (rows.length === 1) {
+                row.querySelector('.bundleGearLabel').value = '';
+                row.querySelector('.bundleGearSub').value = '';
+            } else {
+                row.remove();
+                renumberGearRows();
+            }
+        });
+
         function populateListingForm(listing) {
             editingListingId = listing.id;
             const isBand = listing.listingType === 'band';
@@ -3297,13 +3491,7 @@ header {
                 document.getElementById('bundleCondition').value = listing.condition || 'Mint (Stage Ready)';
                 document.getElementById('bundleDescription').value = listing.description || '';
                 document.getElementById('bundleLocation').value = listing.location || '';
-                const features = listing.features || [];
-                document.getElementById('bundleFeature1Label').value = (features[0] && features[0].label) || '';
-                document.getElementById('bundleFeature1Sub').value = (features[0] && features[0].sub) || '';
-                document.getElementById('bundleFeature2Label').value = (features[1] && features[1].label) || '';
-                document.getElementById('bundleFeature2Sub').value = (features[1] && features[1].sub) || '';
-                document.getElementById('bundleFeature3Label').value = (features[2] && features[2].label) || '';
-                document.getElementById('bundleFeature3Sub').value = (features[2] && features[2].sub) || '';
+                renderGearRows(listing.features || []);
             } else if (isBand) {
                 document.getElementById('bandName').value = listing.title || '';
                 document.getElementById('bandCategory').value = listing.category || '';
@@ -3334,6 +3522,7 @@ header {
             document.querySelector('.listing-form').reset();
             window.toggleListingType();
             document.getElementById('photoPreviews').innerHTML = '';
+            renderGearRows([]);
             document.getElementById('submitListingBtn').innerHTML =
                 '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">send</span> Submit Listing';
         }
@@ -3349,11 +3538,11 @@ header {
             let requiredValues;
             let typeLabel;
             if (isBundle) {
-                const features = [
-                    { label: document.getElementById('bundleFeature1Label').value.trim(), sub: document.getElementById('bundleFeature1Sub').value.trim() },
-                    { label: document.getElementById('bundleFeature2Label').value.trim(), sub: document.getElementById('bundleFeature2Sub').value.trim() },
-                    { label: document.getElementById('bundleFeature3Label').value.trim(), sub: document.getElementById('bundleFeature3Sub').value.trim() }
-                ].filter(f => f.label);
+                const gearLabels = Array.from(bundleGearContainer.querySelectorAll('.bundleGearLabel'));
+                const gearSubs = Array.from(bundleGearContainer.querySelectorAll('.bundleGearSub'));
+                const features = gearLabels
+                    .map((el, i) => ({ label: el.value.trim(), sub: gearSubs[i].value.trim() }))
+                    .filter(f => f.label);
                 data = {
                     listingType: 'bundle',
                     title: document.getElementById('bundleName').value.trim(),
@@ -3780,14 +3969,110 @@ header {
             return tr;
         }
 
-        async function loadBookings() {
-            bookingsCache = await getMany('bookings', where('renterId', '==', currentUid));
+        const BOOKINGS_PAGE_SIZE = 5;
+        let bookingsCurrentPage = 1;
+
+        function getFilteredBookings() {
+            const searchTerm = document.getElementById('bookingSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const shippingFilter = document.getElementById('filterShipping').value;
+            return bookingsCache.filter(b => {
+                const status = b.bookingStatus || 'active';
+                if (statusFilter !== 'all' && status !== statusFilter) return false;
+                if (shippingFilter !== 'all' && b.fulfilmentMethod !== shippingFilter) return false;
+                if (searchTerm) {
+                    const haystack = [
+                        b.id, b.customerName, b.listingTitle, status, shippingLabel(b)
+                    ].join(' ').toLowerCase();
+                    if (!haystack.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderBookingsPage() {
+            const filtered = getFilteredBookings();
+            const totalItems = filtered.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / BOOKINGS_PAGE_SIZE));
+            if (bookingsCurrentPage > totalPages) bookingsCurrentPage = totalPages;
+            if (bookingsCurrentPage < 1) bookingsCurrentPage = 1;
+
+            const startIdx = (bookingsCurrentPage - 1) * BOOKINGS_PAGE_SIZE;
+            const pageItems = filtered.slice(startIdx, startIdx + BOOKINGS_PAGE_SIZE);
+
             const tbody = document.getElementById('bookingsTbody');
             tbody.innerHTML = '';
-            bookingsCache.forEach(b => tbody.appendChild(renderBookingRow(b)));
-            document.getElementById('bookingsEmptyMsg').style.display = bookingsCache.length ? 'none' : '';
+            pageItems.forEach(b => tbody.appendChild(renderBookingRow(b)));
+            document.getElementById('bookingsEmptyMsg').style.display = totalItems ? 'none' : '';
+
+            const start = totalItems ? startIdx + 1 : 0;
+            const end = Math.min(startIdx + BOOKINGS_PAGE_SIZE, totalItems);
             document.getElementById('paginationInfo').innerHTML =
-                'Showing <span style="font-weight: 700;">' + bookingsCache.length + '</span> of ' + bookingsCache.length + ' bookings';
+                'Showing <span style="font-weight: 700;">' + start + (end !== start ? '-' + end : '') + '</span> of ' + totalItems + ' bookings';
+
+            const pageNumberBtns = document.getElementById('pageNumberBtns');
+            pageNumberBtns.innerHTML = '';
+            for (let page = 1; page <= totalPages; page++) {
+                const btn = document.createElement('button');
+                btn.className = 'page-btn' + (page === bookingsCurrentPage ? ' active' : '');
+                btn.type = 'button';
+                btn.dataset.page = page;
+                btn.textContent = page;
+                pageNumberBtns.appendChild(btn);
+            }
+            document.getElementById('prevPageBtn').disabled = bookingsCurrentPage === 1;
+            document.getElementById('nextPageBtn').disabled = bookingsCurrentPage === totalPages;
+        }
+
+        document.getElementById('pageNumberBtns').addEventListener('click', function (e) {
+            const btn = e.target.closest('.page-btn[data-page]');
+            if (!btn) return;
+            bookingsCurrentPage = parseInt(btn.dataset.page);
+            renderBookingsPage();
+        });
+        document.getElementById('prevPageBtn').addEventListener('click', function () {
+            bookingsCurrentPage--;
+            renderBookingsPage();
+        });
+        document.getElementById('nextPageBtn').addEventListener('click', function () {
+            bookingsCurrentPage++;
+            renderBookingsPage();
+        });
+
+        document.getElementById('bookingSearch').addEventListener('input', function () {
+            bookingsCurrentPage = 1;
+            renderBookingsPage();
+        });
+
+        const filtersBtn = document.getElementById('filtersBtn');
+        const filtersDropdown = document.getElementById('filtersDropdown');
+        filtersBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            filtersDropdown.classList.toggle('open');
+            filtersBtn.classList.toggle('active', filtersDropdown.classList.contains('open'));
+        });
+        document.addEventListener('click', function (e) {
+            if (!filtersDropdown.classList.contains('open')) return;
+            if (e.target.closest('#filtersDropdown') || e.target.closest('#filtersBtn')) return;
+            filtersDropdown.classList.remove('open');
+            filtersBtn.classList.remove('active');
+        });
+        function applyBookingFilters() {
+            bookingsCurrentPage = 1;
+            renderBookingsPage();
+        }
+        document.getElementById('filterStatus').addEventListener('change', applyBookingFilters);
+        document.getElementById('filterShipping').addEventListener('change', applyBookingFilters);
+        document.getElementById('filtersClearBtn').addEventListener('click', function () {
+            document.getElementById('filterStatus').value = 'all';
+            document.getElementById('filterShipping').value = 'all';
+            applyBookingFilters();
+        });
+
+        async function loadBookings() {
+            bookingsCache = await getMany('bookings', where('renterId', '==', currentUid));
+            bookingsCurrentPage = 1;
+            renderBookingsPage();
         }
 
         document.getElementById('bookingsTbody').addEventListener('click', async function (e) {
